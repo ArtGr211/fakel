@@ -1,11 +1,21 @@
-const hbs = require('handlebars'),
-  fs = require('fs'),
-  template = fs.readFileSync('view/sign-up.hbs', 'utf8');
+const templateUtil = require('../utils/template'),
+  User = require('../model/user.model');
 
 exports.registerUser = (req, res) => {
-  res.send(req.body)
+  const newUser = new User({
+    username: req.body.login,
+    email: req.body.email,
+    password: req.body.password
+  });
+  newUser.save()
+    .then((user) => res.send(
+      templateUtil.renderTemplate('sign-up/success.hbs', { username: user.username })
+    ))
+    .catch(e => res.send(
+      templateUtil.renderTemplate('errors/error.hbs')
+    ))
 }
 
 exports.signUp = (req, res) => {
-  res.send(hbs.compile(template)())
+  res.send(templateUtil.renderTemplate('sign-up/sign-up.hbs'))
 }

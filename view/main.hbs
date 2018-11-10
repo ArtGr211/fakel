@@ -5,4 +5,11 @@
 <p>
   <strong>Message:</strong> <i>{{ message }}</i>
 </p>
-<a href="/sign-up">Sign up link</a>
+<p>
+  {{#if user}}
+    Hello, {{ user.username }}
+  {{else}}
+    <a href="/sign-up">Sign up link</a>
+    <a href="/sign-in">Sign in link</a>
+  {{/if}}
+</p>

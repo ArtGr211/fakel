@@ -1,7 +1,5 @@
-const hbs = require('handlebars'),
-  fs = require('fs'),
-  template = fs.readFileSync('view/main.hbs', 'utf8');
+const templateUtils = require('../utils/template');
 
 exports.mainPage = (req, res) => {
-  res.send(hbs.compile(template)({ message: 'It works!' }))
+  res.send(templateUtils.renderTemplate('main.hbs', { message: 'New message' }))
 };
