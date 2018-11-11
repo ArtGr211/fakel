@@ -27,7 +27,7 @@ UserSchema.pre('save', function (next) {
   })
 })
 
-UserSchema.statics.auth = function(email, password, callback) {
+UserSchema.static('auth', function (email, password, callback) {
   this.findOne({ email: email })
     .exec((err, user) => {
       if (err) {
@@ -44,7 +44,11 @@ UserSchema.statics.auth = function(email, password, callback) {
         return callback();
       })
     })
-}
+})
+
+UserSchema.static('findBySession', function(req) {
+  return this.findById(req.session.userId);
+})
 
 const User = mongoose.model('User', UserSchema);
 

@@ -16,7 +16,7 @@ exports.login = (req, res) => {
         res.send(templateUtil.renderTemplate('errors/error.hbs'))
       } else if (user) {
         req.session.userId = user._id;
-        res.send(templateUtil.renderTemplate('main.hbs', { user: user }))
+        res.redirect('/')
       }
     }
   )
