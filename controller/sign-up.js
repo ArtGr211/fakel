@@ -12,10 +12,21 @@ exports.registerUser = (req, res) => {
       res.redirect('/sign-in')
     )
     .catch(e => res.send(
-      templateUtil.renderTemplate('errors/error')
+      templateUtil.renderTemplate(
+        'errors/error', {
+          pageTitle: 'Error',
+          user: req.user
+        }
+      )
     ))
 }
 
 exports.signUp = (req, res) => {
-  res.send(templateUtil.renderTemplate('sign-up/sign-up'))
+  res.send(
+    templateUtil.renderTemplate(
+      'sign-up/sign-up', {
+        pageTitle: 'Sign up',
+        user: req.user
+      })
+  )
 }

@@ -3,7 +3,11 @@ const templateUtil = require('../utils/template'),
 
 exports.form = (req, res) => {
   res.send(
-    templateUtil.renderTemplate('sign-in')
+    templateUtil.renderTemplate(
+      'sign-in', {
+        pageTitle: 'Sign in',
+        user: req.user
+      })
   )
 }
 
@@ -13,7 +17,14 @@ exports.login = (req, res) => {
     req.body.password,
     (err, user) => {
       if (err) {
-        res.send(templateUtil.renderTemplate('errors/error'))
+        res.send(
+          templateUtil.renderTemplate(
+            'errors/error', {
+              pageTitle: 'Error',
+              user: req.user
+            }
+          )
+        )
       } else if (user) {
         req.session.userId = user._id;
         res.redirect('/')

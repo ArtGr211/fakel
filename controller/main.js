@@ -1,12 +1,9 @@
-const templateUtils = require('../utils/template'),
-  User = require('../model/user.model');
+const templateUtils = require('../utils/template');
 
 exports.mainPage = (req, res) => {
-  User.findBySession(req)
-    .then((user) => {
-      res.send(templateUtils.renderTemplate('main', {
-        message: 'New message',
-        user: user
-      }))
-    })
+  res.send(templateUtils.renderTemplate('main', {
+    message: 'New message',
+    user: req.user,
+    pageTitle: 'Main page'
+  }))
 };

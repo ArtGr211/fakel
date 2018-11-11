@@ -1,3 +1,17 @@
+const templateUtils = require('../utils/template');
+
 exports.view = (req, res) => {
-  res.send('profile');
+  if (req.user) {
+    res.send(
+      templateUtils.renderTemplate(
+        'profile/profile', {
+          user: req.user,
+          pageTitle: 'Profile',
+          user: req.user
+        }
+      )
+    )
+  } else {
+    res.sendStatus(401);
+  }
 }
