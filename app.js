@@ -36,15 +36,10 @@ mongoose.connect(config.db.url, {
 
 require('./view/_layout/layout')();
 
-const routes = [
-  'main',
-  'sign-up',
-  'sign-in'
-];
-
-routes.forEach(route => {
-  require(`./routes/${route}`)(app)
-});
+app.use('/', require('./routes/main'));
+app.use('/sign-up', require('./routes/sign-up'));
+app.use('/sign-in', require('./routes/sign-in'));
+app.use('/profile', require('./routes/profile'));
 
 app.listen(3000, function () {
   console.log('App is running and listening on port 3000')

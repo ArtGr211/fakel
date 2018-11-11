@@ -1,8 +1,8 @@
-const route = '/sign-in',
+const express = require('express'),
+  router = express.Router(),
   controller = require('../controller/sign-in');
 
-module.exports = (app) => {
-  app.get(route, controller.form);
+router.get('', controller.form);
+router.post('', controller.login);
 
-  app.post(route, controller.login);
-}
+module.exports = router;

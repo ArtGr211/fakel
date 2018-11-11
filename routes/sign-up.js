@@ -1,8 +1,9 @@
-const route = '/sign-up',
+const express = require('express'),
+  router = express.Router(),
   controller = require('../controller/sign-up');
 
-module.exports = (app) => {
-  app.get(route, controller.signUp);
+router.get('', controller.signUp);
 
-  app.post(route, controller.registerUser);
-}
+router.post('', controller.registerUser);
+
+module.exports = router;

@@ -1,6 +1,7 @@
-const route = '',
-controller = require('../controller/main');
+const express = require('express'),
+  router = express.Router(),
+  controller = require('../controller/main');
 
-module.exports = (app) => {
-  app.get(route, controller.mainPage)
-}
+router.get('', controller.mainPage);
+
+module.exports = router;
