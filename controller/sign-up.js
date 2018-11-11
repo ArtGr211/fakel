@@ -9,13 +9,13 @@ exports.registerUser = (req, res) => {
   });
   newUser.save()
     .then((user) => res.send(
-      templateUtil.renderTemplate('sign-up/success.hbs', { username: user.username })
+      templateUtil.renderTemplate('sign-up/success', { username: user.username })
     ))
     .catch(e => res.send(
-      templateUtil.renderTemplate('errors/error.hbs')
+      templateUtil.renderTemplate('errors/error')
     ))
 }
 
 exports.signUp = (req, res) => {
-  res.send(templateUtil.renderTemplate('sign-up/sign-up.hbs'))
+  res.send(templateUtil.renderTemplate('sign-up/sign-up'))
 }

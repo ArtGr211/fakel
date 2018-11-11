@@ -3,7 +3,7 @@ const templateUtil = require('../utils/template'),
 
 exports.form = (req, res) => {
   res.send(
-    templateUtil.renderTemplate('sign-in.hbs')
+    templateUtil.renderTemplate('sign-in')
   )
 }
 
@@ -13,7 +13,7 @@ exports.login = (req, res) => {
     req.body.password,
     (err, user) => {
       if (err) {
-        res.send(templateUtil.renderTemplate('errors/error.hbs'))
+        res.send(templateUtil.renderTemplate('errors/error'))
       } else if (user) {
         req.session.userId = user._id;
         res.redirect('/')

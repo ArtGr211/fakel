@@ -3,7 +3,7 @@ const hbs = require('handlebars'),
 
 module.exports = {
   loadTemplate(path) {
-    return fs.readFileSync(`view/${path}`, 'utf8');
+    return fs.readFileSync(`view/${path}.hbs`, 'utf8');
   },
   renderTemplate(path, data) {
     return hbs.compile(this.loadTemplate(path))(data);

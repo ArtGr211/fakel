@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Fakel :: {{pageTitle}}</title>
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+
+<body>
+  <div class="wrapper">
+    <main class="maincontent">
+      {{> sidebar}}
+      <div class="content">
+        {{> @partial-block}}
+      </div>
+    </main>
+    {{> footer}}
+  </div>
+  <script src="/assets/test.js"></script>
+</body>
+
+</html>

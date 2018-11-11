@@ -1,0 +1,44 @@
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: lightgrey;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+  min-height: 100%;
+  width: auto;
+  margin: 0 auto;
+  background: rgba(0, 0, 0, .5);
+}
+
+.maincontent {
+  flex-grow: 1;
+  display: flex;
+  align-items: stretch;
+}
+
+.sidebar {
+  flex-basis: 300px;
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+
+.content {
+  background: white;
+  flex-grow: 1;
+  flex-shrink: 1;
+}

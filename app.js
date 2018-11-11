@@ -6,7 +6,9 @@ const express = require('express'),
   config = require('./config/dev.config'),
   app = express();
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(session({
@@ -17,7 +19,9 @@ app.use(session({
   cookie: {
     express: 60000
   }
-}))
+}));
+
+app.use('/assets', express.static(__dirname + '/assets'));
 
 mongoose.connect(config.db.url, {
   useNewUrlParser: true
@@ -29,6 +33,8 @@ mongoose.connect(config.db.url, {
     process.exit();
   }
 )
+
+require('./view/_layout/layout')();
 
 const routes = [
   'main',

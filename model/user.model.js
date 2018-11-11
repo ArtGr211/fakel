@@ -17,6 +17,11 @@ const mongoose = require('mongoose'),
       type: String,
       required: true,
       trim: true
+    },
+    role: {
+      type: String,
+      required: true,
+      default: 'user'
     }
   })
 UserSchema.pre('save', function (next) {
