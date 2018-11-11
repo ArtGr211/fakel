@@ -8,9 +8,9 @@ exports.registerUser = (req, res) => {
     password: req.body.password
   });
   newUser.save()
-    .then((user) => res.send(
-      templateUtil.renderTemplate('sign-up/success', { username: user.username })
-    ))
+    .then((user) =>
+      res.redirect('/sign-in')
+    )
     .catch(e => res.send(
       templateUtil.renderTemplate('errors/error')
     ))
