@@ -8,6 +8,9 @@ router.use('', require('../middlewares/roles')([
   'administrator',
   'blocked'
 ]));
+
 router.get('', controller.view);
+
+router.post('', controller.update);
 
 module.exports = router;
