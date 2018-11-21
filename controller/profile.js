@@ -7,8 +7,7 @@ exports.view = (req, res) => {
     templateUtils.renderTemplate(
       'profile/profile', {
         user: req.user,
-        pageTitle: 'Profile',
-        user: req.user
+        pageTitle: 'Profile'
       }
     )
   )
