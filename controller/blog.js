@@ -6,7 +6,12 @@ exports.getList = (req, res) => {
     .find()
     .populate('author')
     .then(
-      (articles => res.send(articles))
+      (articles => res.send(
+        templateUtils.renderTemplate('blog/list', {
+          user: req.user,
+          articles: articles
+        })
+      ))
     )
 }
 
