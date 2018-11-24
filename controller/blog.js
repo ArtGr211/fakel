@@ -9,14 +9,31 @@ exports.getList = (req, res) => {
       (articles => res.send(
         templateUtils.renderTemplate('blog/list', {
           user: req.user,
-          articles: articles
+          articles: articles.map(
+            article => {
+              if (article.text.length > 100) {
+                article.text = article.text.slice(0, 100) + '...';
+              }
+              return article;
+            }
+          )
         })
       ))
     )
 }
 
 exports.getItem = (req, res) => {
-  res.send('item');
+  Article
+    .findById(req.params.id)
+    .populate('author')
+    .then(
+      article => res.send(
+        templateUtils.renderTemplate('blog/article', {
+          user: req.user,
+          article: article
+        })
+      )
+    )
 }
 
 exports.createForm = (req, res) => {
