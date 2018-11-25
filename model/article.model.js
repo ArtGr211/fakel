@@ -15,6 +15,8 @@ const mongoose = require('mongoose'),
       ref: 'User',
       required: true
     }
+  }, {
+    timestamps: true
   })
 
 const Article = mongoose.model('Article', ArticleSchema);

@@ -1,5 +1,12 @@
-const templateUtils = require('../utils/template'),
+const
+  moment = require('moment'),
+  templateUtils = require('../utils/template'),
   Article = require('../model/article.model');
+
+function articlePrettyDate(article) {
+  article.createdAtStr = moment(article.createdAt).format('DD.MM.YYYY HH:mm');
+  return article;
+}
 
 exports.getList = (req, res) => {
   Article
@@ -9,14 +16,16 @@ exports.getList = (req, res) => {
       (articles => res.send(
         templateUtils.renderTemplate('blog/list', {
           user: req.user,
+          pageTitle: 'Blog',
           articles: articles.map(
-            article => {
-              if (article.text.length > 100) {
-                article.text = article.text.slice(0, 100) + '...';
+              article => {
+                if (article.text.length > 100) {
+                  article.text = article.text.slice(0, 100) + '...';
+                }
+                return article;
               }
-              return article;
-            }
-          )
+            )
+            .map(articlePrettyDate)
         })
       ))
     )
@@ -26,10 +35,12 @@ exports.getItem = (req, res) => {
   Article
     .findById(req.params.id)
     .populate('author')
+    .then(articlePrettyDate)
     .then(
       article => res.send(
         templateUtils.renderTemplate('blog/article', {
           user: req.user,
+          pageTitle: article.title,
           article: article
         })
       )

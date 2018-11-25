@@ -3,10 +3,15 @@
   {{#each articles}}
   <li>
     <h2>
-      <a href="{{this.id}}">
+      <a href="/blog/{{this.id}}">
         {{this.title}}
       </a>
     </h2>
+    <div>
+      <small>
+        {{this.createdAtStr}}
+      </small>
+    </div>
     <div>
       <em>
         {{this.text}}

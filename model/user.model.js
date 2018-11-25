@@ -23,6 +23,8 @@ const mongoose = require('mongoose'),
       required: true,
       default: 'user'
     }
+  }, {
+    timestamps: true
   })
 UserSchema.pre('save', function (next) {
   bcrypt.hash(this.password, 10, (err, hash) => {
@@ -33,7 +35,9 @@ UserSchema.pre('save', function (next) {
 })
 
 UserSchema.static('auth', function (email, password, callback) {
-  this.findOne({ email: email })
+  this.findOne({
+      email: email
+    })
     .exec((err, user) => {
       if (err) {
         return callback(err);
@@ -51,7 +55,7 @@ UserSchema.static('auth', function (email, password, callback) {
     })
 })
 
-UserSchema.static('findBySession', function(req) {
+UserSchema.static('findBySession', function (req) {
   return this.findById(req.session.userId);
 })
 
