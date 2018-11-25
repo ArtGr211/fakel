@@ -13,11 +13,13 @@ router.get('/create', controller.createForm);
 
 router.post('/create', controller.createItem);
 
+router.get('/:id/delete', controller.deleteItem);
+
+router.post('/:id/comment', controller.addComment);
+
 router.get('/:id', controller.getItem);
 
 router.post('/:id', controller.updateItem);
-
-router.get('/:id/delete', controller.deleteItem);
 
 router.get('/', controller.getList);
 

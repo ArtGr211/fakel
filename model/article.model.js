@@ -1,4 +1,5 @@
 const mongoose = require('mongoose'),
+  CommentSchema = require('./comment.model'),
   ArticleSchema = new mongoose.Schema({
     title: {
       type: String,
@@ -14,7 +15,8 @@ const mongoose = require('mongoose'),
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true
-    }
+    },
+    comments: [CommentSchema]
   }, {
     timestamps: true
   })

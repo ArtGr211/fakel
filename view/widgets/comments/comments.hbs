@@ -1,0 +1,12 @@
+<ul>
+  {{#each comments}}
+    <li>
+      <div>
+        {{this.author.username}}
+      </div>
+      <div>
+        {{this.text}}
+      </div>
+    </li>
+  {{/each}}
+</ul>

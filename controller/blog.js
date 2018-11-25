@@ -35,13 +35,21 @@ exports.getItem = (req, res) => {
   Article
     .findById(req.params.id)
     .populate('author')
+    .populate('comments')
     .then(articlePrettyDate)
+    .then(article => {
+      // console.log(article)
+      return article;
+    })
     .then(
       article => res.send(
         templateUtils.renderTemplate('blog/article', {
           user: req.user,
           pageTitle: article.title,
-          article: article
+          article: article,
+          commentsForm: {
+            url: `/blog/${article.id}/comment`
+          }
         })
       )
     )
@@ -73,3 +81,17 @@ exports.updateItem = (req, res) => {
 exports.deleteItem = (req, res) => {
   res.send('delete');
 }
+
+exports.addComment = (req, res) => {
+  Article.findById(req.params.id)
+    .then(
+      article => {
+        article.comments.push({
+          text: req.body.text
+        })
+        article.save();
+        console.log(article.comments)
+        res.redirect(`/blog/${req.params.id}`)
+      }
+    )
+} 

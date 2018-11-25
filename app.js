@@ -34,9 +34,8 @@ mongoose.connect(config.db.url, {
   }
 )
 
-
-
 require('./view/_layout/layout')();
+require('./view/widgets/comments/comments')();
 app.use(require('./middlewares/user'));
 app.use('/', require('./routes/main'));
 app.use('/sign-up', require('./routes/sign-up'));

@@ -7,4 +7,8 @@
 {{article.text}}
 <hr>
 Author: {{article.author.username}}
+<hr>
+{{>commentForm}}
+<hr>
+{{>commentsList comments=article.comments}}
 {{/layout}}
