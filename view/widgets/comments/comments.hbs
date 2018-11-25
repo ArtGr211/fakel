@@ -2,7 +2,13 @@
   {{#each comments}}
     <li>
       <div>
-        {{this.author.username}}
+        {{#if this.author}}
+          {{this.author.username}}
+        {{else if this.authorName}}
+          {{this.authorName}}
+        {{else}}
+          Guest
+        {{/if}}
       </div>
       <div>
         {{this.text}}

@@ -5,6 +5,10 @@ const mongoose = require('mongoose'),
       required: true,
       trim: true
     },
+    authorName: {
+      type: String,
+      trim: true
+    },
     author: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'

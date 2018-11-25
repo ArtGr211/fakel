@@ -35,12 +35,8 @@ exports.getItem = (req, res) => {
   Article
     .findById(req.params.id)
     .populate('author')
-    .populate('comments')
+    .populate('comments.author')
     .then(articlePrettyDate)
-    .then(article => {
-      // console.log(article)
-      return article;
-    })
     .then(
       article => res.send(
         templateUtils.renderTemplate('blog/article', {
@@ -86,12 +82,19 @@ exports.addComment = (req, res) => {
   Article.findById(req.params.id)
     .then(
       article => {
-        article.comments.push({
+        const comment = {
           text: req.body.text
-        })
+        }
+
+        if (req.user) {
+          comment.author = req.user._id;
+        } else {
+          comment.authorName = req.body.authorName;
+        }
+
+        article.comments.push(comment);
         article.save();
-        console.log(article.comments)
         res.redirect(`/blog/${req.params.id}`)
       }
     )
-} 
+}
