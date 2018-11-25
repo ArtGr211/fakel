@@ -1,6 +1,7 @@
 const
   moment = require('moment'),
   templateUtils = require('../utils/template'),
+  helpers = require('../utils/helpers'),
   Article = require('../model/article.model');
 
 function articlePrettyDate(article) {
@@ -45,7 +46,12 @@ exports.getItem = (req, res) => {
           article: article,
           commentsForm: {
             url: `/blog/${article.id}/comment`
-          }
+          },
+          allowComments: helpers
+            .checkAccessByRole(
+              req.user,
+              ['blog', 'allowComments']
+            )
         })
       )
     )

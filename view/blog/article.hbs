@@ -8,7 +8,10 @@
 <hr>
 Author: {{article.author.username}}
 <hr>
-{{>commentForm}}
-<hr>
+{{allowComments}}
+{{#if allowComments}}
+  {{>commentForm}}
+  <hr>
+{{/if}}
 {{>commentsList comments=article.comments}}
 {{/layout}}

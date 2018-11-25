@@ -1,5 +1,5 @@
 const User = require('../model/user.model'),
-  roles = require('../utils/roles');
+  roles = require('../config/roles');
 
 module.exports = (req, res, next) => {
   if (req.session && req.session.userId) {
