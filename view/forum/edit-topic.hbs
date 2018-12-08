@@ -1,0 +1,25 @@
+{{#>layout}}
+<form action="/forum{{forum.key}}/{{formUrl}}" method="post">
+  <div>
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" required>
+  </div>
+  <div>
+    <label for="description">Description</label>
+    <input type="text" id="description" name="description">
+  </div>
+  <div>
+    <label for="message">Message</label>
+    <textarea name="message" id="message" cols="30" rows="10" required></textarea>
+  </div>
+  <div>
+    <input type="checkbox" name="pinned" id="pinned">
+    <label for="pinned">Pinned</label>
+  </div>
+  <div>
+    <input type="checkbox" name="important" id="important">
+    <label for="important">Important</label>
+  </div>
+  <button>Submit</button>
+</form>
+{{/layout}}

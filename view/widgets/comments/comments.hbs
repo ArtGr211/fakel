@@ -1,18 +1,21 @@
 <ul>
   {{#each comments}}
-    <li>
-      <div>
-        {{#if this.author}}
-          {{this.author.username}}
-        {{else if this.authorName}}
-          {{this.authorName}}
-        {{else}}
-          Guest
-        {{/if}}
-      </div>
-      <div>
-        {{this.text}}
-      </div>
-    </li>
+  <li>
+    <div>
+      {{#if this.author}}
+      {{this.author.username}}
+      {{else if this.authorName}}
+      {{this.authorName}}
+      {{else}}
+      Guest
+      {{/if}}
+    </div>
+    <div>
+      {{this.createdAt}}
+    </div>
+    <div>
+      {{this.text}}
+    </div>
+  </li>
   {{/each}}
 </ul>

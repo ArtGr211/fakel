@@ -1,0 +1,24 @@
+{{#>layout}}
+<h1>{{topic.title}}</h1>
+<div>
+  <em>{{topic.description}}</em>
+</div>
+<ul>
+  {{#each topic.messages}}
+  <li>
+    {{this.text}}
+    <hr>
+    Author:
+    {{#if this.author}}
+    {{this.author.username}}
+    {{else if this.authorName}}
+    {{this.authorName}}
+    {{else}}
+    Guest
+    {{/if}}
+    | {{this.createdAt}}
+  </li>
+  {{/each}}
+</ul>
+{{>forumMessageForm}}
+{{/layout}}

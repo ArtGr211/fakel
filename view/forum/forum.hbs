@@ -1,0 +1,27 @@
+{{#>layout}}
+<h1>{{forum.title}}</h1>
+<em>
+  {{forum.description}}
+</em>
+<div>
+  <a href="/forum/{{forum.key}}/create">Create topic</a>
+</div>
+<ul>
+  {{#each forum.topics}}
+  <li>
+    <div>
+      <a href="/forum/{{../forum.key}}/{{this.id}}">
+        <strong>
+          {{this.title}}
+        </strong>
+      </a>
+    </div>
+    <div>
+      <em>
+        {{this.description}}
+      </em>
+    </div>
+  </li>
+  {{/each}}
+</ul>
+{{/layout}}

@@ -36,12 +36,14 @@ mongoose.connect(config.db.url, {
 
 require('./view/_layout/layout')();
 require('./view/widgets/comments/comments')();
+require('./view/forum/forum')();
 app.use(require('./middlewares/user'));
 app.use('/', require('./routes/main'));
 app.use('/sign-up', require('./routes/sign-up'));
 app.use('/sign-in', require('./routes/sign-in'));
 app.use('/profile', require('./routes/profile'));
 app.use('/blog', require('./routes/blog'));
+app.use('/forum', require('./routes/forum'));
 
 app.listen(3000, function () {
   console.log('App is running and listening on port 3000')

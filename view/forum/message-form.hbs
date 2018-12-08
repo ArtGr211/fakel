@@ -1,0 +1,13 @@
+<form action="{{forumMessageForm.url}}" method="POST">
+  {{#unless user}}
+  <div>
+    <label for="authorName">Your name:</label>
+    <input type="text" name="authorName" id="authorName">
+  </div>
+  {{/unless}}
+  <div>
+    <label for="text">Message text</label>
+    <textarea name="text" id="text" cols="30" rows="10"></textarea>
+    <button>Submit</button>
+  </div>
+</form>
