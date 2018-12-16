@@ -1,4 +1,4 @@
-<form action="{{forumMessageForm.url}}" method="POST">
+<form action="{{formConfig.url}}" method="POST">
   {{#unless user}}
   <div>
     <label for="authorName">Your name:</label>
@@ -7,7 +7,7 @@
   {{/unless}}
   <div>
     <label for="text">Message text</label>
-    <textarea name="text" id="text" cols="30" rows="10"></textarea>
+    <textarea name="text" id="text" cols="30" rows="10" required>{{formConfig.text}}</textarea>
     <button>Submit</button>
   </div>
 </form>

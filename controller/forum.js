@@ -51,7 +51,8 @@ exports.topicPage = (req, res) => {
     })
     .then(
       topic => {
-        const editTopicAccess = helpers.authorEditAccess(topic, req.user, ['forum', 'editAllTopics']),
+        const
+          editTopicAccess = helpers.authorEditAccess(topic, req.user, ['forum', 'editAllTopics']),
           messages = topic.messages.map(
             message => {
               const editMessageAccess = helpers.authorEditAccess(message, req.user, ['forum', 'editAllMessages']);
@@ -120,7 +121,23 @@ exports.editTopicPage = (req, res) => {
 }
 
 exports.editMessagePage = (req, res) => {
-
+  ForumMessage
+    .findById(req.params.messageId)
+    .then(message => {
+      const editMessageAccess = helpers.authorEditAccess(message, req.user, ['forum', 'editAllMessages']);
+      if (editMessageAccess) {
+        res.send(templateUtils.renderTemplate('forum/edit-message', {
+          user: req.user,
+          pageTitle: 'Edit message',
+          editMessageForm: {
+            url: `/forum/${req.params.forum}/${req.params.topicId}/${req.params.messageId}/edit`,
+            text: message.text
+          }
+        }))
+      } else {
+        res.sendStatus(403);
+      }
+    })
 }
 
 exports.createForum = (req, res) => {
@@ -229,7 +246,19 @@ exports.createMessage = (req, res) => {
 }
 
 exports.updateMessage = (req, res) => {
-
+  ForumMessage
+    .findById(req.params.messageId)
+    .then(message => {
+      const access = helpers.authorEditAccess(message, req.user, ['forum', 'editAllMessages']);
+      if (access) {
+        message.set(req.body);
+        message.save().then(
+          () => res.redirect(`/forum/${req.params.forum}/${req.params.topicId}`)
+        );
+      } else {
+        res.sendStatus(403);
+      }
+    })
 }
 
 exports.deleteMessage = (req, res) => {
