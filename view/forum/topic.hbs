@@ -3,6 +3,11 @@
 <div>
   <em>{{topic.description}}</em>
 </div>
+{{#if editTopicUrl}}
+<div>
+  <a href="{{editTopicUrl}}">Edit topic</a>
+</div>
+{{/if}}
 <ul>
   {{#each topic.messages}}
   <li>

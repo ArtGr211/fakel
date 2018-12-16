@@ -2,7 +2,13 @@ const
   Forum = require('../model/forum/forum.model'),
   ForumTopic = require('../model/forum/forum-topic.model'),
   ForumMessage = require('../model/forum/forum-message.model'),
+  helpers = require('../utils/helpers'),
   templateUtils = require('../utils/template');
+
+function editTopicAccess(topic, user) {
+  return (user && topic.author.equals(user._id)) ||
+    helpers.checkAccessByRole(user, ['forum', 'editAllTopics']);
+}
 
 exports.forumsListPage = (req, res) => {
   Forum
@@ -50,6 +56,7 @@ exports.topicPage = (req, res) => {
     })
     .then(
       topic => {
+        const editAccess = editTopicAccess(topic, req.user);
         res.send(
           templateUtils.renderTemplate('forum/topic', {
             user: req.user,
@@ -57,7 +64,8 @@ exports.topicPage = (req, res) => {
             pageTitle: topic.title,
             forumMessageForm: {
               url: `/forum/${req.params.forum}/${req.params.topicId}`
-            }
+            },
+            editTopicUrl: editAccess ? `/forum/${req.params.forum}/${req.params.topicId}/edit` : null
           })
         )
       }
@@ -79,8 +87,24 @@ exports.editForumPage = (req, res) => {
 }
 
 exports.editTopicPage = (req, res) => {
-  if (req.params.topic) {
-    // send data to edit
+  if (req.params.topicId) {
+    ForumTopic
+      .findById(req.params.topicId)
+      .then(topic => {
+        const editAccess = editTopicAccess(topic, req.user);
+        if (!editAccess) {
+          res.sendStatus(403);
+        } else {
+          res.send(
+            templateUtils.renderTemplate('forum/edit-topic', {
+              user: req.user,
+              pageTitle: `Edit topic ${topic.title}`,
+              formUrl: `${req.params.forum}/${req.params.topicId}/edit`,
+              formValue: topic
+            })
+          )
+        }
+      })
   } else {
     res.send(
       templateUtils.renderTemplate('forum/edit-topic', {
@@ -154,7 +178,20 @@ exports.createTopic = (req, res) => {
 }
 
 exports.updateTopic = (req, res) => {
-
+  ForumTopic.findById(req.params.topicId)
+    .then(
+      topic => {
+        const access = editTopicAccess(topic, req.user);
+        if (access) {
+          topic.set(req.body);
+          topic
+            .save()
+            .then(() => res.redirect(`/forum/${req.params.forum}/${req.params.topicId}`))
+        } else {
+          res.sendStatus(403);
+        }
+      }
+    )
 }
 
 exports.deleteTopic = (req, res) => {

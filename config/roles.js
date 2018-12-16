@@ -18,7 +18,9 @@ module.exports = {
       editMessages: true,
       deleteMessage: true,
       editAllMessages: true,
-      deleteAllMessages: true
+      deleteAllMessages: true,
+      editAllTopics: true,
+      deleteAllTopics: true
     }
   },
   moderator: {
@@ -40,7 +42,9 @@ module.exports = {
       editMessages: true,
       deleteMessage: true,
       editAllMessages: true,
-      deleteAllMessages: true
+      deleteAllMessages: true,
+      editAllTopics: true,
+      deleteAllTopics: true
     }
   },
   user: {
@@ -62,7 +66,9 @@ module.exports = {
       editMessages: true,
       deleteMessage: true,
       editAllMessages: false,
-      deleteAllMessages: false
+      deleteAllMessages: false,
+      editAllTopics: false,
+      deleteAllTopics: false
     }
   },
   blocked: {
@@ -84,7 +90,9 @@ module.exports = {
       editMessages: false,
       deleteMessage: false,
       editAllMessages: false,
-      deleteAllMessages: false
+      deleteAllMessages: false,
+      editAllTopics: false,
+      deleteAllTopics: false
     }
   },
   guest: {
@@ -106,7 +114,9 @@ module.exports = {
       editMessages: false,
       deleteMessage: false,
       editAllMessages: false,
-      deleteAllMessages: false
+      deleteAllMessages: false,
+      editAllTopics: false,
+      deleteAllTopics: false
     }
   }
 }

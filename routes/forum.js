@@ -17,9 +17,19 @@ router.use('/:forum/create', middlewareRoles([
   'user'
 ]));
 
+router.use('/:forum/:topicId/edit', middlewareRoles([
+  'administrator',
+  'moderator',
+  'user'
+]));
+
 router.get('/:forum/create', controller.editTopicPage);
 
 router.post('/:forum/create', controller.createTopic);
+
+router.get('/:forum/:topicId/edit', controller.editTopicPage);
+
+router.post('/:forum/:topicId/edit', controller.updateTopic);
 
 router.get('/:forum/:topicId', controller.topicPage);
 

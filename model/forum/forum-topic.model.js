@@ -1,11 +1,12 @@
 const mongoose = require('mongoose'),
+  helpers = require('../../utils/helpers'),
   ForumTopicSchema = new mongoose.Schema({
     title: {
       type: String,
       trim: true,
       required: true
     },
-    desciprion: {
+    descriprion: {
       type: String,
       trim: true
     },
@@ -15,11 +16,13 @@ const mongoose = require('mongoose'),
     }],
     pinned: {
       type: Boolean,
-      default: false
+      default: false,
+      set: helpers.checkBoxToBoolean
     },
     important: {
       type: Boolean,
-      default: false
+      default: false,
+      set: helpers.checkBoxToBoolean
     },
     author: {
       type: mongoose.Schema.Types.ObjectId,

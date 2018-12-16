@@ -17,3 +17,8 @@ exports.checkAccessByRole = function (user, fields) {
   fields.forEach(f => field = field ? field[f] : null);
   return field ? true : false;
 }
+
+exports.checkBoxToBoolean = function (checkbox) {
+  if (typeof checkbox === 'boolean') return checkbox;
+  return checkbox === 'on' ? true : false;
+}
