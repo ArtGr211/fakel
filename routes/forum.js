@@ -35,6 +35,10 @@ router.get('/:forum/:topicId', controller.topicPage);
 
 router.post('/:forum/:topicId', controller.createMessage);
 
+router.get('/:forum/:topicId/:messageId/edit', controller.editMessagePage);
+
+router.post('/:forum/:topicId/:messageId/edit', controller.updateMessage);
+
 router.get('/', controller.forumsListPage);
 
 module.exports = router;

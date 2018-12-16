@@ -5,11 +5,6 @@ const
   helpers = require('../utils/helpers'),
   templateUtils = require('../utils/template');
 
-function editTopicAccess(topic, user) {
-  return (user && topic.author.equals(user._id)) ||
-    helpers.checkAccessByRole(user, ['forum', 'editAllTopics']);
-}
-
 exports.forumsListPage = (req, res) => {
   Forum
     .find()
@@ -56,16 +51,24 @@ exports.topicPage = (req, res) => {
     })
     .then(
       topic => {
-        const editAccess = editTopicAccess(topic, req.user);
+        const editTopicAccess = helpers.authorEditAccess(topic, req.user, ['forum', 'editAllTopics']),
+          messages = topic.messages.map(
+            message => {
+              const editMessageAccess = helpers.authorEditAccess(message, req.user, ['forum', 'editAllMessages']);
+              message.editUrl = editMessageAccess ? `/${req.params.forum}/${req.params.topicId}/${message._id}/edit` : null
+              return message;
+            }
+          );
         res.send(
           templateUtils.renderTemplate('forum/topic', {
             user: req.user,
-            topic: topic,
             pageTitle: topic.title,
+            topic: topic,
+            messages: messages,
             forumMessageForm: {
               url: `/forum/${req.params.forum}/${req.params.topicId}`
             },
-            editTopicUrl: editAccess ? `/forum/${req.params.forum}/${req.params.topicId}/edit` : null
+            editTopicUrl: editTopicAccess ? `/forum/${req.params.forum}/${req.params.topicId}/edit` : null
           })
         )
       }
@@ -91,7 +94,7 @@ exports.editTopicPage = (req, res) => {
     ForumTopic
       .findById(req.params.topicId)
       .then(topic => {
-        const editAccess = editTopicAccess(topic, req.user);
+        const editAccess = helpers.authorEditAccess(topic, req.user, ['forum', 'editAllTopics']);
         if (!editAccess) {
           res.sendStatus(403);
         } else {
@@ -181,7 +184,7 @@ exports.updateTopic = (req, res) => {
   ForumTopic.findById(req.params.topicId)
     .then(
       topic => {
-        const access = editTopicAccess(topic, req.user);
+        const access = helpers.authorEditAccess(topic, req.user, ['forum', 'editAllTopics']);
         if (access) {
           topic.set(req.body);
           topic

@@ -9,19 +9,26 @@
 </div>
 {{/if}}
 <ul>
-  {{#each topic.messages}}
+  {{#each messages}}
   <li>
     {{this.text}}
-    <hr>
-    Author:
-    {{#if this.author}}
-    {{this.author.username}}
-    {{else if this.authorName}}
-    {{this.authorName}}
-    {{else}}
-    Guest
-    {{/if}}
-    | {{this.createdAt}}
+    <div>
+      <small>
+        Author:
+        {{#if this.author}}
+        {{this.author.username}}
+        {{else if this.authorName}}
+        {{this.authorName}}
+        {{else}}
+        Guest
+        {{/if}}
+        | {{this.createdAt}}
+        {{#if this.editUrl}}
+        | <a href="/forum{{this.editUrl}}">Edit</a>
+        {{/if}}
+      </small>
+      <hr>
+    </div>
   </li>
   {{/each}}
 </ul>

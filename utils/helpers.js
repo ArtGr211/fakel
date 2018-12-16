@@ -1,6 +1,6 @@
 const roles = require('../config/roles');
 
-exports.removeEmpty = function (obj) {
+const removeEmpty = function (obj) {
   const newObj = {};
   for (let key in obj) {
     const val = obj[key];
@@ -11,14 +11,28 @@ exports.removeEmpty = function (obj) {
   return newObj;
 }
 
-exports.checkAccessByRole = function (user, fields) {
+const checkAccessByRole = function (user, fields) {
   let role = roles[user ? user.role : 'guest'],
     field = role;
   fields.forEach(f => field = field ? field[f] : null);
   return field ? true : false;
 }
 
-exports.checkBoxToBoolean = function (checkbox) {
+const checkBoxToBoolean = function (checkbox) {
   if (typeof checkbox === 'boolean') return checkbox;
   return checkbox === 'on' ? true : false;
 }
+
+const authorEditAccess = function (data, user, query) {
+  return (
+      user &&
+      data.author &&
+      data.author.equals(user._id)
+    ) ||
+    checkAccessByRole(user, query);
+}
+
+exports.removeEmpty = removeEmpty;
+exports.checkAccessByRole = checkAccessByRole;
+exports.checkBoxToBoolean = checkBoxToBoolean;
+exports.authorEditAccess = authorEditAccess;
