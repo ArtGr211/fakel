@@ -5,7 +5,9 @@
 </div>
 {{#if editTopicUrl}}
 <div>
-  <a href="{{editTopicUrl}}">Edit topic</a>
+  <a href="/forum/{{editTopicUrl}}">Edit topic</a>
+  |
+  <a href="/forum/{{deleteTopicUrl}}">Delete topic</a>
 </div>
 {{/if}}
 <ul>
@@ -24,7 +26,10 @@
         {{/if}}
         | {{this.createdAt}}
         {{#if this.editUrl}}
-        | <a href="/forum{{this.editUrl}}">Edit</a>
+        | <a href="/forum/{{this.editUrl}}">Edit</a>
+        {{/if}}
+        {{#if this.deleteUrl}}
+        | <a href="/forum/{{this.deleteUrl}}">Delete</a>
         {{/if}}
       </small>
       <hr>

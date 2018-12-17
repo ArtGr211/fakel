@@ -55,8 +55,11 @@ exports.topicPage = (req, res) => {
           editTopicAccess = helpers.authorEditAccess(topic, req.user, ['forum', 'editAllTopics']),
           messages = topic.messages.map(
             message => {
-              const editMessageAccess = helpers.authorEditAccess(message, req.user, ['forum', 'editAllMessages']);
+              const
+                editMessageAccess = helpers.authorEditAccess(message, req.user, ['forum', 'editAllMessages']),
+                deleteMessageAccess = helpers.authorEditAccess(message, req.user, ['forum', 'deleteAllMessages']);
               message.editUrl = editMessageAccess ? `/${req.params.forum}/${req.params.topicId}/${message._id}/edit` : null
+              message.deleteUrl = deleteMessageAccess ? `/${req.params.forum}/${req.params.topicId}/${message._id}/delete` : null;
               return message;
             }
           );
@@ -67,9 +70,10 @@ exports.topicPage = (req, res) => {
             topic: topic,
             messages: messages,
             forumMessageForm: {
-              url: `/forum/${req.params.forum}/${req.params.topicId}`
+              url: `${req.params.forum}/${req.params.topicId}`
             },
-            editTopicUrl: editTopicAccess ? `/forum/${req.params.forum}/${req.params.topicId}/edit` : null
+            editTopicUrl: editTopicAccess ? `${req.params.forum}/${req.params.topicId}/edit` : null,
+            deleteTopicUrl: editTopicAccess ? `${req.params.forum}/${req.params.topicId}/delete` : null
           })
         )
       }
@@ -77,17 +81,13 @@ exports.topicPage = (req, res) => {
 }
 
 exports.editForumPage = (req, res) => {
-  if (req.params.forum) {
-    // send data to edit
-  } else {
-    res.send(
-      templateUtils.renderTemplate('forum/edit-forum', {
-        user: req.user,
-        pageTitle: 'Create forum',
-        formUrl: 'create'
-      })
-    )
-  }
+  res.send(
+    templateUtils.renderTemplate('forum/edit-forum', {
+      user: req.user,
+      pageTitle: 'Create forum',
+      formUrl: 'create'
+    })
+  )
 }
 
 exports.editTopicPage = (req, res) => {
@@ -95,7 +95,9 @@ exports.editTopicPage = (req, res) => {
     ForumTopic
       .findById(req.params.topicId)
       .then(topic => {
-        const editAccess = helpers.authorEditAccess(topic, req.user, ['forum', 'editAllTopics']);
+        const
+          editAccess = helpers.authorEditAccess(topic, req.user, ['forum', 'editAllTopics']),
+          deleteAccess = helpers.authorEditAccess(topic, req.user, ['forum', 'deleteAllTopics']);
         if (!editAccess) {
           res.sendStatus(403);
         } else {
@@ -104,7 +106,8 @@ exports.editTopicPage = (req, res) => {
               user: req.user,
               pageTitle: `Edit topic ${topic.title}`,
               formUrl: `${req.params.forum}/${req.params.topicId}/edit`,
-              formValue: topic
+              formValue: topic,
+              deleteTopicUrl: deleteAccess ? `${req.params.forum}/${req.params.topicId}/delete` : null
             })
           )
         }
@@ -130,7 +133,7 @@ exports.editMessagePage = (req, res) => {
           user: req.user,
           pageTitle: 'Edit message',
           editMessageForm: {
-            url: `/forum/${req.params.forum}/${req.params.topicId}/${req.params.messageId}/edit`,
+            url: `${req.params.forum}/${req.params.topicId}/${req.params.messageId}/edit`,
             text: message.text
           }
         }))
@@ -150,14 +153,6 @@ exports.createForum = (req, res) => {
     .then(forum => {
       res.redirect(`/forum/${forum.key}`);
     })
-}
-
-exports.updateForum = (req, res) => {
-
-}
-
-exports.deleteForum = (req, res) => {
-
 }
 
 exports.createTopic = (req, res) => {
@@ -215,7 +210,19 @@ exports.updateTopic = (req, res) => {
 }
 
 exports.deleteTopic = (req, res) => {
-
+  ForumTopic.findById(req.params.topicId)
+    .then(
+      topic => {
+        const access = helpers.authorEditAccess(topic, req.user, ['forum', 'deleteAllTopics']);
+        if (access) {
+          topic
+            .remove()
+            .then(() => res.redirect(`/forum/${req.params.forum}`))
+        } else {
+          res.sendStatus(403);
+        }
+      }
+    )
 }
 
 exports.createMessage = (req, res) => {
@@ -262,5 +269,20 @@ exports.updateMessage = (req, res) => {
 }
 
 exports.deleteMessage = (req, res) => {
-
+  ForumMessage
+    .findById(req.params.messageId)
+    .then(
+      message => {
+        const access = helpers.authorEditAccess(message, req.user, ['forum', 'deleteAllMessages']);
+        if (access) {
+          message
+            .remove()
+            .then(
+              () => res.redirect(`/forum/${req.params.forum}/${req.params.topicId}`)
+            )
+        } else {
+          res.sendStatus(403);
+        }
+      }
+    )
 }

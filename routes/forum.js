@@ -23,6 +23,12 @@ router.use('/:forum/:topicId/edit', middlewareRoles([
   'user'
 ]));
 
+router.use('/:forum/:topicId/delete', middlewareRoles([
+  'administrator',
+  'moderator',
+  'user'
+]))
+
 router.get('/:forum/create', controller.editTopicPage);
 
 router.post('/:forum/create', controller.createTopic);
@@ -38,6 +44,10 @@ router.post('/:forum/:topicId', controller.createMessage);
 router.get('/:forum/:topicId/:messageId/edit', controller.editMessagePage);
 
 router.post('/:forum/:topicId/:messageId/edit', controller.updateMessage);
+
+router.use('/:forum/:topicId/:messageId/delete', controller.deleteMessage);
+
+router.use('/:forum/:topicId/delete', controller.deleteTopic);
 
 router.get('/', controller.forumsListPage);
 

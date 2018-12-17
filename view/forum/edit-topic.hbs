@@ -1,5 +1,10 @@
 {{#>layout}}
-<form action="/forum{{forum.key}}/{{formUrl}}" method="post">
+{{#if deleteTopicUrl}}
+<div>
+  <a href="/forum/{{deleteTopicUrl}}">Delete topic</a>
+</div>
+{{/if}}
+<form action="/forum/{{forum.key}}/{{formUrl}}" method="post">
   <div>
     <label for="title">Title:</label>
     <input type="text" id="title" name="title" value="{{formValue.title}}" required>
