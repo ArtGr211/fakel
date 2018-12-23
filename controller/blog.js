@@ -9,7 +9,7 @@ function articlePrettyDate(article) {
   return article;
 }
 
-exports.getList = (req, res) => {
+exports.articlesListPage = (req, res) => {
   Article
     .find()
     .populate('author')
@@ -32,7 +32,7 @@ exports.getList = (req, res) => {
     )
 }
 
-exports.getItem = (req, res) => {
+exports.articlePage = (req, res) => {
   Article
     .findById(req.params.id)
     .populate('author')
@@ -57,7 +57,7 @@ exports.getItem = (req, res) => {
     )
 }
 
-exports.createForm = (req, res) => {
+exports.createArticlePage = (req, res) => {
   res.send(
     templateUtils.renderTemplate('blog/create', {
       user: req.user,
@@ -66,7 +66,7 @@ exports.createForm = (req, res) => {
   )
 }
 
-exports.createItem = (req, res) => {
+exports.createArticle = (req, res) => {
   const newArticle = new Article({
     title: req.body.title,
     text: req.body.text,
@@ -76,11 +76,11 @@ exports.createItem = (req, res) => {
     .then(() => res.redirect('/blog'));
 }
 
-exports.updateItem = (req, res) => {
+exports.updateArticle = (req, res) => {
   res.send('update');
 }
 
-exports.deleteItem = (req, res) => {
+exports.deleteArticle = (req, res) => {
   res.send('delete');
 }
 

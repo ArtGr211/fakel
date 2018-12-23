@@ -9,18 +9,18 @@ router.use('/create', middlewareRoles([
   'administrator'
 ]))
 
-router.get('/create', controller.createForm);
+router.get('/create', controller.createArticlePage);
 
-router.post('/create', controller.createItem);
+router.post('/create', controller.createArticle);
 
-router.get('/:id/delete', controller.deleteItem);
+router.get('/:id/delete', controller.deleteArticle);
 
 router.post('/:id/comment', controller.addComment);
 
-router.get('/:id', controller.getItem);
+router.get('/:id', controller.articlePage);
 
-router.post('/:id', controller.updateItem);
+router.post('/:id', controller.updateArticle);
 
-router.get('/', controller.getList);
+router.get('/', controller.articlesListPage);
 
 module.exports = router;

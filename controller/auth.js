@@ -7,7 +7,9 @@ exports.registrationPage = (req, res) => {
       'auth/registration', {
         pageTitle: 'Sign up',
         user: req.user,
-        formUrl: '/auth/registration'
+        loginForm: {
+          url: '/auth/registration'
+        }
       })
   )
 }
@@ -18,7 +20,9 @@ exports.loginPage = (req, res) => {
       'auth/login', {
         pageTitle: 'Sign in',
         user: req.user,
-        formUrl: '/auth/login'
+        registrationForm: {
+          url: '/auth/login'
+        }
       })
   )
 }

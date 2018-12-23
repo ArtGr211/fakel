@@ -105,8 +105,10 @@ exports.editTopicPage = (req, res) => {
             templateUtils.renderTemplate('forum/edit-topic', {
               user: req.user,
               pageTitle: `Edit topic ${topic.title}`,
-              formUrl: `${req.params.forum}/${req.params.topicId}/edit`,
-              formValue: topic,
+              editForm: {
+                url: `${req.params.forum}/${req.params.topicId}/edit`,
+                value: topic
+              },
               deleteTopicUrl: deleteAccess ? `${req.params.forum}/${req.params.topicId}/delete` : null
             })
           )
@@ -117,7 +119,9 @@ exports.editTopicPage = (req, res) => {
       templateUtils.renderTemplate('forum/edit-topic', {
         user: req.user,
         pageTitle: 'Create topic',
-        formUrl: req.params.forum + '/create'
+        form: {
+          url: req.params.forum + '/create'
+        }
       })
     )
   }
@@ -132,7 +136,7 @@ exports.editMessagePage = (req, res) => {
         res.send(templateUtils.renderTemplate('forum/edit-message', {
           user: req.user,
           pageTitle: 'Edit message',
-          editMessageForm: {
+          editForm: {
             url: `${req.params.forum}/${req.params.topicId}/${req.params.messageId}/edit`,
             text: message.text
           }

@@ -2,7 +2,7 @@ const templateUtils = require('../utils/template'),
   helpers = require('../utils/helpers'),
   User = require('../model/user.model');
 
-exports.view = (req, res) => {
+exports.profilePage = (req, res) => {
   res.send(
     templateUtils.renderTemplate(
       'profile/profile', {

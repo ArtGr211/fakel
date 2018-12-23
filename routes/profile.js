@@ -9,7 +9,7 @@ router.use('', require('../middlewares/roles')([
   'blocked'
 ]));
 
-router.get('', controller.view);
+router.get('', controller.profilePage);
 
 router.post('', controller.update);
 
