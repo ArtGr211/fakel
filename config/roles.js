@@ -8,19 +8,27 @@ module.exports = {
       deleteAllComments: true
     },
     forum: {
-      createForums: true,
-      editForums: true,
-      deleteForums: true,
-      createTopics: true,
-      editTopics: true,
-      deleteTopics: true,
-      createMessages: true,
-      editMessages: true,
-      deleteMessage: true,
-      editAllMessages: true,
-      deleteAllMessages: true,
-      editAllTopics: true,
-      deleteAllTopics: true
+      forums: {
+        create: true,
+        editOwn: true,
+        deleteOwn: true,
+        editAll: true,
+        deleteAll: true
+      },
+      topics: {
+        create: true,
+        editOwn: true,
+        deleteOwn: true,
+        editAll: true,
+        deleteAll: true
+      },
+      messages: {
+        create: true,
+        editOwn: true,
+        deleteOwn: true,
+        editAll: true,
+        deleteAll: true
+      }
     }
   },
   moderator: {
@@ -32,19 +40,27 @@ module.exports = {
       deleteAllComments: true
     },
     forum: {
-      createForums: false,
-      editForums: false,
-      deleteForums: false,
-      createTopics: true,
-      editTopics: true,
-      deleteTopics: true,
-      createMessages: true,
-      editMessages: true,
-      deleteMessage: true,
-      editAllMessages: true,
-      deleteAllMessages: true,
-      editAllTopics: true,
-      deleteAllTopics: true
+      forums: {
+        create: false,
+        editOwn: false,
+        deleteOwn: false,
+        editAll: false,
+        deleteAll: false
+      },
+      topics: {
+        create: true,
+        editOwn: true,
+        deleteOwn: true,
+        editAll: true,
+        deleteAll: true
+      },
+      messages: {
+        create: true,
+        editOwn: true,
+        deleteOwn: true,
+        editAll: true,
+        deleteAll: true
+      }
     }
   },
   user: {
@@ -56,19 +72,27 @@ module.exports = {
       deleteAllComments: false
     },
     forum: {
-      createForums: false,
-      editForums: false,
-      deleteForums: false,
-      createTopics: true,
-      editTopics: true,
-      deleteTopics: true,
-      createMessages: true,
-      editMessages: true,
-      deleteMessage: true,
-      editAllMessages: false,
-      deleteAllMessages: false,
-      editAllTopics: false,
-      deleteAllTopics: false
+      forums: {
+        create: false,
+        editOwn: false,
+        deleteOwn: false,
+        editAll: false,
+        deleteAll: false
+      },
+      topics: {
+        create: true,
+        editOwn: true,
+        deleteOwn: true,
+        editAll: false,
+        deleteAll: false
+      },
+      messages: {
+        create: true,
+        editOwn: true,
+        deleteOwn: true,
+        editAll: false,
+        deleteAll: false
+      }
     }
   },
   blocked: {
@@ -80,19 +104,27 @@ module.exports = {
       deleteAllComments: false
     },
     forum: {
-      createForums: false,
-      editForums: false,
-      deleteForums: false,
-      createTopics: false,
-      editTopics: false,
-      deleteTopics: false,
-      createMessages: false,
-      editMessages: false,
-      deleteMessage: false,
-      editAllMessages: false,
-      deleteAllMessages: false,
-      editAllTopics: false,
-      deleteAllTopics: false
+      forums: {
+        create: false,
+        editOwn: false,
+        deleteOwn: false,
+        editAll: false,
+        deleteAll: false
+      },
+      topics: {
+        create: false,
+        editOwn: false,
+        deleteOwn: false,
+        editAll: false,
+        deleteAll: false
+      },
+      messages: {
+        create: false,
+        editOwn: false,
+        deleteOwn: false,
+        editAll: false,
+        deleteAll: false
+      }
     }
   },
   guest: {
@@ -104,19 +136,27 @@ module.exports = {
       deleteAllComments: false
     },
     forum: {
-      createForums: false,
-      editForums: false,
-      deleteForums: false,
-      createTopics: false,
-      editTopics: false,
-      deleteTopics: false,
-      createMessages: true,
-      editMessages: false,
-      deleteMessage: false,
-      editAllMessages: false,
-      deleteAllMessages: false,
-      editAllTopics: false,
-      deleteAllTopics: false
+      forums: {
+        create: false,
+        editOwn: false,
+        deleteOwn: false,
+        editAll: false,
+        deleteAll: false
+      },
+      topics: {
+        create: false,
+        editOwn: false,
+        deleteOwn: false,
+        editAll: false,
+        deleteAll: false
+      },
+      messages: {
+        create: true,
+        editOwn: false,
+        deleteOwn: false,
+        editAll: false,
+        deleteAll: false
+      }
     }
   }
 }

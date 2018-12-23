@@ -23,16 +23,27 @@ const checkBoxToBoolean = function (checkbox) {
   return checkbox === 'on' ? true : false;
 }
 
-const authorEditAccess = function (data, user, query) {
-  return (
-      user &&
-      data.author &&
-      data.author.equals(user._id)
-    ) ||
-    checkAccessByRole(user, query);
+const authorAccess = function (data, user, query, accessType) {
+  let accessQueryOwn = [].concat(query),
+    accessQueryAll = [].concat(query);
+  switch (accessType) {
+    case 'edit':
+      accessQueryOwn.push('editOwn');
+      accessQueryAll.push('editAll');
+      break;
+    case 'delete':
+      accessQueryOwn.push('deleteOwn');
+      accessQueryAll.push('deleteAll');
+  }
+
+  const
+    own = checkAccessByRole(user, accessQueryOwn),
+    all = checkAccessByRole(user, accessQueryAll);
+
+  return all ? all : own && data.author && data.author.equals(user._id);
 }
 
 exports.removeEmpty = removeEmpty;
 exports.checkAccessByRole = checkAccessByRole;
 exports.checkBoxToBoolean = checkBoxToBoolean;
-exports.authorEditAccess = authorEditAccess;
+exports.authorAccess = authorAccess;

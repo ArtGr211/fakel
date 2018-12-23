@@ -52,12 +52,12 @@ exports.topicPage = (req, res) => {
     .then(
       topic => {
         const
-          editTopicAccess = helpers.authorEditAccess(topic, req.user, ['forum', 'editAllTopics']),
+          editTopicAccess = helpers.authorAccess(topic, req.user, ['forum', 'topics'], 'edit'),
           messages = topic.messages.map(
             message => {
               const
-                editMessageAccess = helpers.authorEditAccess(message, req.user, ['forum', 'editAllMessages']),
-                deleteMessageAccess = helpers.authorEditAccess(message, req.user, ['forum', 'deleteAllMessages']);
+                editMessageAccess = helpers.authorAccess(message, req.user, ['forum', 'messages'], 'edit'),
+                deleteMessageAccess = helpers.authorAccess(message, req.user, ['forum', 'messages'], 'delete');
               message.editUrl = editMessageAccess ? `/${req.params.forum}/${req.params.topicId}/${message._id}/edit` : null
               message.deleteUrl = deleteMessageAccess ? `/${req.params.forum}/${req.params.topicId}/${message._id}/delete` : null;
               return message;
@@ -96,8 +96,8 @@ exports.editTopicPage = (req, res) => {
       .findById(req.params.topicId)
       .then(topic => {
         const
-          editAccess = helpers.authorEditAccess(topic, req.user, ['forum', 'editAllTopics']),
-          deleteAccess = helpers.authorEditAccess(topic, req.user, ['forum', 'deleteAllTopics']);
+          editAccess = helpers.authorAccess(topic, req.user, ['forum', 'topics'], 'edit'),
+          deleteAccess = helpers.authorAccess(topic, req.user, ['forum', 'topics'], 'delete');
         if (!editAccess) {
           res.sendStatus(403);
         } else {
@@ -127,7 +127,7 @@ exports.editMessagePage = (req, res) => {
   ForumMessage
     .findById(req.params.messageId)
     .then(message => {
-      const editMessageAccess = helpers.authorEditAccess(message, req.user, ['forum', 'editAllMessages']);
+      const editMessageAccess = helpers.authorAccess(message, req.user, ['forum', 'messages'], 'edit');
       if (editMessageAccess) {
         res.send(templateUtils.renderTemplate('forum/edit-message', {
           user: req.user,
@@ -196,7 +196,7 @@ exports.updateTopic = (req, res) => {
   ForumTopic.findById(req.params.topicId)
     .then(
       topic => {
-        const access = helpers.authorEditAccess(topic, req.user, ['forum', 'editAllTopics']);
+        const access = helpers.authorAccess(topic, req.user, ['forum', 'topics'], 'edit');
         if (access) {
           topic.set(req.body);
           topic
@@ -213,7 +213,7 @@ exports.deleteTopic = (req, res) => {
   ForumTopic.findById(req.params.topicId)
     .then(
       topic => {
-        const access = helpers.authorEditAccess(topic, req.user, ['forum', 'deleteAllTopics']);
+        const access = helpers.authorAccess(topic, req.user, ['forum', 'topics'], 'delete');
         if (access) {
           topic
             .remove()
@@ -256,7 +256,7 @@ exports.updateMessage = (req, res) => {
   ForumMessage
     .findById(req.params.messageId)
     .then(message => {
-      const access = helpers.authorEditAccess(message, req.user, ['forum', 'editAllMessages']);
+      const access = helpers.authorAccess(message, req.user, ['forum', 'messages'], 'edit');
       if (access) {
         message.set(req.body);
         message.save().then(
@@ -273,7 +273,7 @@ exports.deleteMessage = (req, res) => {
     .findById(req.params.messageId)
     .then(
       message => {
-        const access = helpers.authorEditAccess(message, req.user, ['forum', 'deleteAllMessages']);
+        const access = helpers.authorAccess(message, req.user, ['forum', 'messages'], 'delete');
         if (access) {
           message
             .remove()
