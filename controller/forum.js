@@ -19,7 +19,6 @@ exports.forumsListPage = (req, res) => {
         )
       }
     )
-
 }
 
 exports.forumPage = (req, res) => {
@@ -91,41 +90,41 @@ exports.editForumPage = (req, res) => {
   )
 }
 
+exports.createTopicPage = (req, res) => {
+  res.send(
+    templateUtils.renderTemplate('forum/edit-topic', {
+      user: req.user,
+      pageTitle: 'Create topic',
+      form: {
+        url: req.params.forum + '/create'
+      }
+    })
+  )
+}
+
 exports.editTopicPage = (req, res) => {
-  if (req.params.topicId) {
-    ForumTopic
-      .findById(req.params.topicId)
-      .then(topic => {
-        const
-          editAccess = helpers.authorAccess(topic, req.user, ['forum', 'topics'], 'edit'),
-          deleteAccess = helpers.authorAccess(topic, req.user, ['forum', 'topics'], 'delete');
-        if (!editAccess) {
-          res.sendStatus(403);
-        } else {
-          res.send(
-            templateUtils.renderTemplate('forum/edit-topic', {
-              user: req.user,
-              pageTitle: `Edit topic ${topic.title}`,
-              editForm: {
-                url: `${req.params.forum}/${req.params.topicId}/edit`,
-                value: topic
-              },
-              deleteTopicUrl: deleteAccess ? `${req.params.forum}/${req.params.topicId}/delete` : null
-            })
-          )
-        }
-      })
-  } else {
-    res.send(
-      templateUtils.renderTemplate('forum/edit-topic', {
-        user: req.user,
-        pageTitle: 'Create topic',
-        form: {
-          url: req.params.forum + '/create'
-        }
-      })
-    )
-  }
+  ForumTopic
+    .findById(req.params.topicId)
+    .then(topic => {
+      const
+        editAccess = helpers.authorAccess(topic, req.user, ['forum', 'topics'], 'edit'),
+        deleteAccess = helpers.authorAccess(topic, req.user, ['forum', 'topics'], 'delete');
+      if (!editAccess) {
+        res.sendStatus(403);
+      } else {
+        res.send(
+          templateUtils.renderTemplate('forum/edit-topic', {
+            user: req.user,
+            pageTitle: `Edit topic ${topic.title}`,
+            editForm: {
+              url: `${req.params.forum}/${req.params.topicId}/edit`,
+              value: topic
+            },
+            deleteTopicUrl: deleteAccess ? `${req.params.forum}/${req.params.topicId}/delete` : null
+          })
+        )
+      }
+    })
 }
 
 exports.editMessagePage = (req, res) => {

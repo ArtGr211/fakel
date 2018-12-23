@@ -29,7 +29,7 @@ router.use('/:forum/:topicId/delete', middlewareRoles([
   'user'
 ]))
 
-router.get('/:forum/create', controller.editTopicPage);
+router.get('/:forum/create', controller.createTopicPage);
 
 router.post('/:forum/create', controller.createTopic);
 

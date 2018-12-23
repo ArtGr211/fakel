@@ -1,6 +1,14 @@
 {{#>layout}}
 <h1>{{article.title}}</h1>
 <div>
+  {{#if access.edit}}
+  <a href="/blog/{{article._id}}/edit">Edit</a>
+  {{/if}}
+  {{#if access.delete}}
+  <a href="/blog/{{article._id}}/delete">Delete</a>
+  {{/if}}
+</div>
+<div>
   <em>{{article.createdAtStr}}</em>
 </div>
 <hr>
@@ -8,10 +16,9 @@
 <hr>
 Author: {{article.author.username}}
 <hr>
-{{allowComments}}
-{{#if allowComments}}
-  {{>commentForm}}
-  <hr>
+{{#if access.comments}}
+{{>commentForm}}
+<hr>
 {{/if}}
 {{>commentsList comments=article.comments}}
 {{/layout}}

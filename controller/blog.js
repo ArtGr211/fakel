@@ -34,7 +34,7 @@ exports.articlesListPage = (req, res) => {
 
 exports.articlePage = (req, res) => {
   Article
-    .findById(req.params.id)
+    .findById(req.params.articleId)
     .populate('author')
     .populate('comments.author')
     .then(articlePrettyDate)
@@ -47,11 +47,15 @@ exports.articlePage = (req, res) => {
           commentsForm: {
             url: `/blog/${article.id}/comment`
           },
-          allowComments: helpers
-            .checkAccessByRole(
-              req.user,
-              ['blog', 'allowComments']
-            )
+          access: {
+            comments: helpers
+              .checkAccessByRole(
+                req.user,
+                ['blog', 'comments', 'create']
+              ),
+            edit: helpers.authorAccess(article, req.user, ['blog', 'articles'], 'edit'),
+            delete: helpers.authorAccess(article, req.user, ['blog', 'articles'], 'delete'),
+          }
         })
       )
     )
@@ -59,11 +63,36 @@ exports.articlePage = (req, res) => {
 
 exports.createArticlePage = (req, res) => {
   res.send(
-    templateUtils.renderTemplate('blog/create', {
+    templateUtils.renderTemplate('blog/edit', {
       user: req.user,
-      pageTitle: 'Create article'
+      pageTitle: 'Create article',
+      editForm: {
+        url: '/blog/create'
+      }
     })
   )
+}
+
+exports.editArticlePage = (req, res) => {
+  Article.findById(req.params.articleId)
+    .populate('author')
+    .then(article => {
+      const access = helpers.authorAccess(article, req.user, ['blog', 'articles'], 'edit');
+      if (access) {
+        res.send(
+          templateUtils.renderTemplate('blog/edit', {
+            user: req.user,
+            pageTitle: 'Create article',
+            editForm: {
+              url: `/blog/${article._id}/edit`,
+              value: article
+            }
+          })
+        )
+      } else {
+        res.send(403);
+      }
+    })
 }
 
 exports.createArticle = (req, res) => {
@@ -77,15 +106,42 @@ exports.createArticle = (req, res) => {
 }
 
 exports.updateArticle = (req, res) => {
-  res.send('update');
+  Article
+    .findById(req.params.articleId)
+    .then(
+      article => {
+        const access = helpers.authorAccess(article, req.user, ['blog', 'articles'], 'edit');
+        if (access) {
+          article.set(req.body);
+          article
+            .save()
+            .then(() => res.redirect(`/blog/${req.params.articleId}/`))
+        } else {
+          res.sendStatus(403);
+        }
+      }
+    )
 }
 
 exports.deleteArticle = (req, res) => {
-  res.send('delete');
+  Article
+    .findById(req.params.articleId)
+    .then(
+      article => {
+        const access = helpers.authorAccess(article, req.user, ['blog', 'articles'], 'delete');
+        if (access) {
+          article
+            .remove()
+            .then(() => res.redirect('/blog/'))
+        } else {
+          res.sendStatus(403);
+        }
+      }
+    )
 }
 
 exports.addComment = (req, res) => {
-  Article.findById(req.params.id)
+  Article.findById(req.params.articleId)
     .then(
       article => {
         const comment = {
@@ -100,7 +156,7 @@ exports.addComment = (req, res) => {
 
         article.comments.push(comment);
         article.save();
-        res.redirect(`/blog/${req.params.id}`)
+        res.redirect(`/blog/${req.params.articleId}`)
       }
     )
 }

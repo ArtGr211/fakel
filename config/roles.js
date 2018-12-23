@@ -1,20 +1,22 @@
 module.exports = {
   administrator: {
     blog: {
-      allowComments: true,
-      editComments: true,
-      editAllComments: true,
-      deleteComments: true,
-      deleteAllComments: true
-    },
-    forum: {
-      forums: {
+      comments: {
         create: true,
         editOwn: true,
         deleteOwn: true,
         editAll: true,
         deleteAll: true
       },
+      articles: {
+        create: true,
+        editOwn: true,
+        deleteOwn: true,
+        editAll: true,
+        deleteAll: true
+      }
+    },
+    forum: {
       topics: {
         create: true,
         editOwn: true,
@@ -33,20 +35,22 @@ module.exports = {
   },
   moderator: {
     blog: {
-      allowComments: true,
-      editComments: true,
-      editAllComments: true,
-      deleteComments: true,
-      deleteAllComments: true
+      comments: {
+        create: true,
+        editOwn: true,
+        deleteOwn: true,
+        editAll: true,
+        deleteAll: true
+      },
+      articles: {
+        create: true,
+        editOwn: true,
+        deleteOwn: true,
+        editAll: true,
+        deleteAll: true
+      }
     },
     forum: {
-      forums: {
-        create: false,
-        editOwn: false,
-        deleteOwn: false,
-        editAll: false,
-        deleteAll: false
-      },
       topics: {
         create: true,
         editOwn: true,
@@ -65,20 +69,22 @@ module.exports = {
   },
   user: {
     blog: {
-      allowComments: true,
-      editComments: true,
-      editAllComments: false,
-      deleteComments: true,
-      deleteAllComments: false
-    },
-    forum: {
-      forums: {
-        create: false,
-        editOwn: false,
-        deleteOwn: false,
+      comments: {
+        create: true,
+        editOwn: true,
+        deleteOwn: true,
         editAll: false,
         deleteAll: false
       },
+      articles: {
+        create: true,
+        editOwn: true,
+        deleteOwn: true,
+        editAll: false,
+        deleteAll: false
+      }
+    },
+    forum: {
       topics: {
         create: true,
         editOwn: true,
@@ -97,20 +103,22 @@ module.exports = {
   },
   blocked: {
     blog: {
-      allowComments: false,
-      editComments: false,
-      editAllComments: false,
-      deleteComments: false,
-      deleteAllComments: false
-    },
-    forum: {
-      forums: {
+      comments: {
         create: false,
         editOwn: false,
-        deleteOwn: false,
+        deleteOwn: true,
         editAll: false,
         deleteAll: false
       },
+      articles: {
+        create: false,
+        editOwn: false,
+        deleteOwn: true,
+        editAll: false,
+        deleteAll: false
+      }
+    },
+    forum: {
       topics: {
         create: false,
         editOwn: false,
@@ -129,20 +137,22 @@ module.exports = {
   },
   guest: {
     blog: {
-      allowComments: true,
-      editComments: false,
-      editAllComments: false,
-      deleteComments: false,
-      deleteAllComments: false
-    },
-    forum: {
-      forums: {
-        create: false,
+      comments: {
+        create: true,
         editOwn: false,
         deleteOwn: false,
         editAll: false,
         deleteAll: false
       },
+      articles: {
+        create: false,
+        editOwn: false,
+        deleteOwn: false,
+        editAll: false,
+        deleteAll: false
+      }
+    },
+    forum: {
       topics: {
         create: false,
         editOwn: false,

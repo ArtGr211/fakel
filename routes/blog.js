@@ -9,17 +9,31 @@ router.use('/create', middlewareRoles([
   'administrator'
 ]))
 
+router.use('/:articleId/edit', middlewareRoles([
+  'moderator',
+  'user',
+  'administrator'
+]))
+
+router.use('/:articleId/delete', middlewareRoles([
+  'moderator',
+  'user',
+  'administrator'
+]))
+
 router.get('/create', controller.createArticlePage);
 
 router.post('/create', controller.createArticle);
 
-router.get('/:id/delete', controller.deleteArticle);
+router.get('/:articleId/delete', controller.deleteArticle);
 
-router.post('/:id/comment', controller.addComment);
+router.post('/:articleId/comment', controller.addComment);
 
-router.get('/:id', controller.articlePage);
+router.get('/:articleId', controller.articlePage);
 
-router.post('/:id', controller.updateArticle);
+router.get('/:articleId/edit', controller.editArticlePage);
+
+router.post('/:articleId/edit', controller.updateArticle);
 
 router.get('/', controller.articlesListPage);
 
