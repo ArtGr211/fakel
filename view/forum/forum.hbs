@@ -3,9 +3,11 @@
 <em>
   {{forum.description}}
 </em>
+{{#if createTopicAccess}}
 <div>
   <a href="/forum/{{forum.key}}/create">Create topic</a>
 </div>
+{{/if}}
 <ul>
   {{#each forum.topics}}
   <li>

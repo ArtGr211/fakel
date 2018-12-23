@@ -34,7 +34,8 @@ exports.forumPage = (req, res) => {
           templateUtils.renderTemplate('forum/forum', {
             user: req.user,
             pageTitle: forum.title,
-            forum: forum
+            forum: forum,
+            createTopicAccess: helpers.checkAccessByRole(req.user, ['forum', 'topics', 'create'])
           })
         )
       }
