@@ -2,7 +2,8 @@ const
   moment = require('moment'),
   templateUtils = require('../utils/template'),
   helpers = require('../utils/helpers'),
-  Article = require('../model/article.model');
+  Article = require('../model/article.model'),
+  Comment = require('../model/comment.model');
 
 function articlePrettyDate(article) {
   article.createdAtStr = moment(article.createdAt).format('DD.MM.YYYY HH:mm');
@@ -35,8 +36,16 @@ exports.articlesListPage = (req, res) => {
 exports.articlePage = (req, res) => {
   Article
     .findById(req.params.articleId)
-    .populate('author')
-    .populate('comments.author')
+    .populate([{
+        path: 'author'
+      },
+      {
+        path: 'comments',
+        populate: {
+          path: 'author'
+        }
+      }
+    ])
     .then(articlePrettyDate)
     .then(
       article => res.send(
@@ -154,9 +163,15 @@ exports.addComment = (req, res) => {
           comment.authorName = req.body.authorName;
         }
 
-        article.comments.push(comment);
-        article.save();
-        res.redirect(`/blog/${req.params.articleId}`)
+        const newComment = new Comment(comment);
+
+        newComment
+          .save()
+          .then(comment => {
+            article.comments.push(comment.id);
+            return article.save();
+          })
+          .then(() => res.redirect(`/blog/${req.params.articleId}`))
       }
     )
 }

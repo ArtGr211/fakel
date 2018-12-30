@@ -17,4 +17,6 @@ const mongoose = require('mongoose'),
     timestamps: true
   });
 
-module.exports = CommentSchema;
+const Comment = mongoose.model('Comment', CommentSchema);
+
+module.exports = Comment;
