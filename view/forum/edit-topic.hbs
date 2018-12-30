@@ -4,27 +4,27 @@
   <a href="/forum/{{deleteTopicUrl}}">Delete topic</a>
 </div>
 {{/if}}
-<form action="/forum/{{forum.key}}/{{form.url}}" method="post">
+<form action="/forum/{{forum.key}}/{{editForm.url}}" method="post">
   <div>
     <label for="title">Title:</label>
-    <input type="text" id="title" name="title" value="{{form.value.title}}" required>
+    <input type="text" id="title" name="title" value="{{editForm.value.title}}" required>
   </div>
   <div>
     <label for="description">Description</label>
-    <input type="text" id="description" name="description" value="{{form.value.description}}">
+    <input type="text" id="description" name="description" value="{{editForm.value.description}}">
   </div>
-  {{#unless form.value}}
+  {{#unless editForm.value}}
   <div>
     <label for="message">Message</label>
     <textarea name="message" id="message" cols="30" rows="10" required></textarea>
   </div>
   {{/unless}}
   <div>
-    <input type="checkbox" name="pinned" id="pinned"  {{#if form.value.pinned}} checked{{/if}}>
+    <input type="checkbox" name="pinned" id="pinned"  {{#if editForm.value.pinned}} checked{{/if}}>
     <label for="pinned">Pinned</label>
   </div>
   <div>
-    <input type="checkbox" name="important" id="important" {{#if form.value.important}} checked{{/if}}>
+    <input type="checkbox" name="important" id="important" {{#if editForm.value.important}} checked{{/if}}>
     <label for="important">Important</label>
   </div>
   <button>Submit</button>
