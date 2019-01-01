@@ -1,4 +1,5 @@
 const
+  siteConfig = require('../config/site'),
   Forum = require('../model/forum/forum.model'),
   ForumTopic = require('../model/forum/forum-topic.model'),
   ForumMessage = require('../model/forum/forum-message.model'),
@@ -22,19 +23,41 @@ exports.forumsListPage = (req, res) => {
 }
 
 exports.forumPage = (req, res) => {
-  Forum
-    .findOne({
-      key: req.params.forum
-    })
-    .populate('topics')
+  const page = req.query.page ? +req.query.page : 1;
+
+  Promise.all([
+      Forum.findOne({
+        key: req.params.forum
+      }).then(forum => forum.topics.length),
+      Forum
+      .findOne({
+        key: req.params.forum
+      })
+      .populate({
+        path: 'topics',
+        options: {
+          skip: (page - 1) * siteConfig.forum.topicsPerPage,
+          limit: siteConfig.forum.topicsPerPage
+        }
+      })
+    ])
     .then(
-      forum => {
+      data => {
+        const
+          count = data[0],
+          forum = data[1];
         res.send(
           templateUtils.renderTemplate('forum/forum', {
             user: req.user,
             pageTitle: forum.title,
             forum: forum,
-            createTopicAccess: helpers.checkAccessByRole(req.user, ['forum', 'topics', 'create'])
+            createTopicAccess: helpers.checkAccessByRole(req.user, ['forum', 'topics', 'create']),
+            pagination: helpers.pagination({
+              current: page,
+              show: 2,
+              link: `/forum/${req.params.forum}?page=`,
+              total: Math.floor(count / siteConfig.forum.topicsPerPage)
+            })
           })
         )
       }
@@ -42,16 +65,28 @@ exports.forumPage = (req, res) => {
 }
 
 exports.topicPage = (req, res) => {
-  ForumTopic.findById(req.params.topicId)
-    .populate({
-      path: 'messages',
-      populate: {
-        path: 'author'
-      }
-    })
+  const page = req.query.page ? +req.query.page : 1;
+
+  Promise.all([
+      ForumTopic.findById(req.params.topicId)
+      .then(topic => topic.messages.length),
+      ForumTopic.findById(req.params.topicId)
+      .populate({
+        path: 'messages',
+        options: {
+          skip: (page - 1) * siteConfig.forum.topicsPerPage,
+          limit: siteConfig.forum.topicsPerPage
+        },
+        populate: {
+          path: 'author'
+        }
+      })
+    ])
     .then(
-      topic => {
+      data => {
         const
+          count = data[0],
+          topic = data[1],
           editTopicAccess = helpers.authorAccess(topic, req.user, ['forum', 'topics'], 'edit'),
           messages = topic.messages.map(
             message => {
@@ -73,7 +108,13 @@ exports.topicPage = (req, res) => {
               url: `${req.params.forum}/${req.params.topicId}`
             },
             editTopicUrl: editTopicAccess ? `${req.params.forum}/${req.params.topicId}/edit` : null,
-            deleteTopicUrl: editTopicAccess ? `${req.params.forum}/${req.params.topicId}/delete` : null
+            deleteTopicUrl: editTopicAccess ? `${req.params.forum}/${req.params.topicId}/delete` : null,
+            pagination: helpers.pagination({
+              current: page,
+              show: 2,
+              link: `/forum/${req.params.forum}/${req.params.topicId}?page=`,
+              total: Math.floor(count / siteConfig.forum.topicsPerPage)
+            })
           })
         )
       }
@@ -95,7 +136,7 @@ exports.createTopicPage = (req, res) => {
     templateUtils.renderTemplate('forum/edit-topic', {
       user: req.user,
       pageTitle: 'Create topic',
-      form: {
+      editForm: {
         url: req.params.forum + '/create'
       }
     })
