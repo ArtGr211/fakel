@@ -3,7 +3,8 @@ const
   templateUtils = require('../utils/template'),
   helpers = require('../utils/helpers'),
   Article = require('../model/article.model'),
-  Comment = require('../model/comment.model');
+  Comment = require('../model/comment.model'),
+  siteConfig = require('../config/site');
 
 function articlePrettyDate(article) {
   article.createdAtStr = moment(article.createdAt).format('DD.MM.YYYY HH:mm');
@@ -11,25 +12,44 @@ function articlePrettyDate(article) {
 }
 
 exports.articlesListPage = (req, res) => {
-  Article
-    .find()
-    .populate('author')
+  const page = req.query.page ? +req.query.page : 1;
+
+  Promise.all([
+      Article
+      .find()
+      .skip((page - 1) * siteConfig.blog.articlesPerPage)
+      .limit(siteConfig.blog.articlesPerPage)
+      .populate('author'),
+      Article.countDocuments()
+    ])
     .then(
-      (articles => res.send(
-        templateUtils.renderTemplate('blog/list', {
-          user: req.user,
-          pageTitle: 'Blog',
-          articles: articles.map(
-              article => {
-                if (article.text.length > 100) {
-                  article.text = article.text.slice(0, 100) + '...';
+      (data => {
+        const
+          articles = data[0],
+          count = data[1],
+          pagination = helpers.pagination({
+            current: page,
+            show: 2,
+            link: '/blog?page=',
+            total: Math.floor(count / siteConfig.blog.articlesPerPage)
+          });
+        res.send(
+          templateUtils.renderTemplate('blog/list', {
+            user: req.user,
+            pageTitle: 'Blog',
+            articles: articles.map(
+                article => {
+                  if (article.text.length > 100) {
+                    article.text = article.text.slice(0, 100) + '...';
+                  }
+                  return article;
                 }
-                return article;
-              }
-            )
-            .map(articlePrettyDate)
-        })
-      ))
+              )
+              .map(articlePrettyDate),
+            pagination: pagination
+          })
+        )
+      })
     )
 }
 

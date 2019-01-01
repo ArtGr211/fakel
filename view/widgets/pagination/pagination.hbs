@@ -1,0 +1,33 @@
+<hr>
+pagination
+<ul>
+  {{#if pagination.first}}
+  <li>
+    <a href="{{pagination.first.link}}">First</a>
+  </li>
+  <li>
+    ...
+  </li>
+  {{/if}}
+  {{#each pagination.before}}
+  <li>
+    <a href="{{this.link}}">{{this.index}}</a>
+  </li>
+  {{/each}}
+  <li>
+    {{pagination.current}}
+  </li>
+  {{#each pagination.after}}
+  <li>
+    <a href="{{this.link}}">{{this.index}}</a>
+  </li>
+  {{/each}}
+  {{#if pagination.last}}
+  <li>
+    ...
+  </li>
+  <li>
+    <a href="{{pagination.last.link}}">Last</a>
+  </li>
+  {{/if}}
+</ul>

@@ -60,7 +60,7 @@ const pagination = function (options) {
     }
   }
 
-  if (to < options.total) {
+  if (to <= options.total) {
     pagination.last = {
       index: options.total,
       link: options.link + (options.total)

@@ -36,6 +36,7 @@ mongoose.connect(config.db.url, {
 
 require('./view/_layout/layout')();
 require('./view/widgets/comments/comments')();
+require('./view/widgets/pagination/pagination')();
 require('./view/forum/forum')();
 app.use(require('./middlewares/user'));
 app.use('/', require('./routes/main'));
