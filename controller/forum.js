@@ -37,7 +37,8 @@ exports.forumPage = (req, res) => {
         path: 'topics',
         options: {
           skip: (page - 1) * siteConfig.forum.topicsPerPage,
-          limit: siteConfig.forum.topicsPerPage
+          limit: siteConfig.forum.topicsPerPage,
+          sort: '-createdAt'
         }
       })
     ])
@@ -75,7 +76,8 @@ exports.topicPage = (req, res) => {
         path: 'messages',
         options: {
           skip: (page - 1) * siteConfig.forum.topicsPerPage,
-          limit: siteConfig.forum.topicsPerPage
+          limit: siteConfig.forum.topicsPerPage,
+          sort: '-createdAt'
         },
         populate: {
           path: 'author'
