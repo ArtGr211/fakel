@@ -69,25 +69,37 @@ exports.articlePage = (req, res) => {
     ])
     .then(articlePrettyDate)
     .then(
-      article => res.send(
-        templateUtils.renderTemplate('blog/article', {
-          user: req.user,
-          pageTitle: article.title,
-          article: article,
-          commentsForm: {
-            url: `/blog/${article.id}/comment`
-          },
-          access: {
-            comments: helpers
-              .checkAccessByRole(
-                req.user,
-                ['blog', 'comments', 'create']
-              ),
-            edit: helpers.authorAccess(article, req.user, ['blog', 'articles'], 'edit'),
-            delete: helpers.authorAccess(article, req.user, ['blog', 'articles'], 'delete'),
+      article => {
+        article.comments.forEach(
+          comment => {
+            comment.access = {
+              edit: helpers.authorAccess(comment, req.user, ['blog', 'comments'], 'edit'),
+              delete: helpers.authorAccess(comment, req.user, ['blog', 'comments'], 'delete')
+            }
           }
-        })
-      )
+        )
+        res.send(
+          templateUtils.renderTemplate('blog/article', {
+            user: req.user,
+            pageTitle: article.title,
+            article: article,
+            commentsForm: {
+              url: `/blog/${article.id}/comments`
+            },
+            access: {
+              comments: helpers
+                .checkAccessByRole(
+                  req.user,
+                  ['blog', 'comments', 'create']
+                ),
+              edit: helpers.authorAccess(article, req.user, ['blog', 'articles'], 'edit'),
+              delete: helpers.authorAccess(article, req.user, ['blog', 'articles'], 'delete'),
+            },
+            commentsEditUrl: `/blog/${article.id}/comments`,
+            commentsDeleteUrl: `/blog/${article.id}/comments`
+          })
+        )
+      }
     )
 }
 
@@ -195,4 +207,29 @@ exports.addComment = (req, res) => {
           .then(() => res.redirect(`/blog/${req.params.articleId}`))
       }
     )
+}
+
+exports.deleteComment = (req, res) => {
+  Comment
+    .findById(req.params.commentId)
+    .then(comment => {
+      const access = helpers.authorAccess(
+        comment,
+        req.user,
+        ['blog', 'comments'],
+        'delete'
+      )
+
+      if (access) {
+        comment
+          .remove()
+          .then(() => res.redirect(`/blog/${req.params.articleId}`))
+      } else {
+        res.sendStatus(403);
+      }
+    })
+}
+
+exports.updateComment = (req, res) => {
+
 }

@@ -21,13 +21,19 @@ router.use('/:articleId/delete', middlewareRoles([
   'administrator'
 ]))
 
+router.use('/:articleId/comments/:commentId/delete', middlewareRoles([
+  'moderator',
+  'user',
+  'administrator'
+]))
+
 router.get('/create', controller.createArticlePage);
 
 router.post('/create', controller.createArticle);
 
 router.get('/:articleId/delete', controller.deleteArticle);
 
-router.post('/:articleId/comment', controller.addComment);
+router.post('/:articleId/comments', controller.addComment);
 
 router.get('/:articleId', controller.articlePage);
 
@@ -36,5 +42,7 @@ router.get('/:articleId/edit', controller.editArticlePage);
 router.post('/:articleId/edit', controller.updateArticle);
 
 router.get('/', controller.articlesListPage);
+
+router.use('/:articleId/comments/:commentId/delete', controller.deleteComment);
 
 module.exports = router;

@@ -20,5 +20,9 @@ Author: {{article.author.username}}
 {{>commentForm}}
 <hr>
 {{/if}}
-{{>commentsList comments=article.comments}}
+{{>commentsList
+  comments=article.comments
+  editUrl=commentsEditUrl
+  deleteUrl=commentsDeleteUrl
+}}
 {{/layout}}

@@ -16,6 +16,12 @@
     <div>
       {{this.text}}
     </div>
+    {{#if this.access.edit}}
+    <a href="{{../editUrl}}/{{this.id}}/edit">Edit</a>
+    {{/if}}
+    {{#if this.access.delete}}
+    <a href="{{../deleteUrl}}/{{this.id}}/delete">Delete</a>
+    {{/if}}
   </li>
   {{/each}}
 </ul>
