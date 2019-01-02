@@ -23,6 +23,12 @@ const mongoose = require('mongoose'),
     timestamps: true
   })
 
+ArticleSchema.pre('remove', function () {
+  this.comments.forEach(commentId => {
+    this.model('Comment').findByIdAndRemove(commentId).exec();
+  })
+})
+
 const Article = mongoose.model('Article', ArticleSchema);
 
 module.exports = Article;

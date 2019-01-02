@@ -45,13 +45,13 @@ const authorAccess = function (data, user, query, accessType) {
 
 const pagination = function (options) {
   const pagination = {
-    current: options.current,
+    current: +options.current,
     before: [],
     after: []
   }
 
   const from = options.current - options.show;
-  const to = options.current + options.show + 1;
+  const to = +options.current + options.show + 1;
 
   if (from > 1) {
     pagination.first = {
@@ -67,20 +67,19 @@ const pagination = function (options) {
     }
   }
 
-  for (let i = from >= 1 ? from : 1; i < options.current; i++) {
+  for (let i = from >= 1 ? from : 1; i < +options.current; i++) {
     pagination.before.push({
       index: i,
       link: options.link + i
     })
   }
 
-  for (let i = options.current + 1; i < to && i <= options.total; i++) {
+  for (let i = +options.current + 1; i < to && i <= +options.total; i++) {
     pagination.after.push({
       index: i,
       link: options.link + i
     })
   }
-
   return pagination;
 }
 

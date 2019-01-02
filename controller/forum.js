@@ -37,8 +37,7 @@ exports.forumPage = (req, res) => {
         path: 'topics',
         options: {
           skip: (page - 1) * siteConfig.forum.topicsPerPage,
-          limit: siteConfig.forum.topicsPerPage,
-          sort: '-createdAt'
+          limit: siteConfig.forum.topicsPerPage
         }
       })
     ])
@@ -66,61 +65,64 @@ exports.forumPage = (req, res) => {
 }
 
 exports.topicPage = (req, res) => {
-  const page = req.query.page ? +req.query.page : 1;
-
-  Promise.all([
-      ForumTopic.findById(req.params.topicId)
-      .then(topic => topic.messages.length),
-      ForumTopic.findById(req.params.topicId)
-      .populate({
-        path: 'messages',
-        options: {
-          skip: (page - 1) * siteConfig.forum.topicsPerPage,
-          limit: siteConfig.forum.topicsPerPage,
-          sort: '-createdAt'
-        },
-        populate: {
-          path: 'author'
-        }
-      })
-    ])
-    .then(
-      data => {
-        const
-          count = data[0],
-          topic = data[1],
-          editTopicAccess = helpers.authorAccess(topic, req.user, ['forum', 'topics'], 'edit'),
-          messages = topic.messages.map(
-            message => {
-              const
-                editMessageAccess = helpers.authorAccess(message, req.user, ['forum', 'messages'], 'edit'),
-                deleteMessageAccess = helpers.authorAccess(message, req.user, ['forum', 'messages'], 'delete');
-              message.editUrl = editMessageAccess ? `/${req.params.forum}/${req.params.topicId}/${message._id}/edit` : null
-              message.deleteUrl = deleteMessageAccess ? `/${req.params.forum}/${req.params.topicId}/${message._id}/delete` : null;
-              return message;
-            }
-          );
-        res.send(
-          templateUtils.renderTemplate('forum/topic', {
-            user: req.user,
-            pageTitle: topic.title,
-            topic: topic,
-            messages: messages,
-            forumMessageForm: {
-              url: `${req.params.forum}/${req.params.topicId}`
-            },
-            editTopicUrl: editTopicAccess ? `${req.params.forum}/${req.params.topicId}/edit` : null,
-            deleteTopicUrl: editTopicAccess ? `${req.params.forum}/${req.params.topicId}/delete` : null,
-            pagination: helpers.pagination({
-              current: page,
-              show: 2,
-              link: `/forum/${req.params.forum}/${req.params.topicId}?page=`,
-              total: Math.floor(count / siteConfig.forum.topicsPerPage)
-            })
-          })
-        )
+  ForumTopic
+    .findById(req.params.topicId)
+    .then(topic => {
+      const total = Math.floor(topic.messages.length / siteConfig.forum.topicsPerPage);
+      return {
+        total: total,
+        current: req.query.page ? req.query.page : total
       }
-    )
+    })
+    .then(pagesData => {
+      return ForumTopic.findById(req.params.topicId)
+        .populate({
+          path: 'messages',
+          options: {
+            skip: ((pagesData.current > 0 ? pagesData.current : 1) - 1) * siteConfig.forum.topicsPerPage,
+            limit: siteConfig.forum.topicsPerPage,
+            sort: '-createdAt'
+          },
+          populate: {
+            path: 'author'
+          }
+        })
+        .then(
+          topic => {
+            const
+              editTopicAccess = helpers.authorAccess(topic, req.user, ['forum', 'topics'], 'edit'),
+              messages = topic.messages.map(
+                message => {
+                  const
+                    editMessageAccess = helpers.authorAccess(message, req.user, ['forum', 'messages'], 'edit'),
+                    deleteMessageAccess = helpers.authorAccess(message, req.user, ['forum', 'messages'], 'delete');
+                  message.editUrl = editMessageAccess ? `/${req.params.forum}/${req.params.topicId}/${message._id}/edit` : null
+                  message.deleteUrl = deleteMessageAccess ? `/${req.params.forum}/${req.params.topicId}/${message._id}/delete` : null;
+                  return message;
+                }
+              );
+            res.send(
+              templateUtils.renderTemplate('forum/topic', {
+                user: req.user,
+                pageTitle: topic.title,
+                topic: topic,
+                messages: messages,
+                forumMessageForm: {
+                  url: `${req.params.forum}/${req.params.topicId}`
+                },
+                editTopicUrl: editTopicAccess ? `${req.params.forum}/${req.params.topicId}/edit` : null,
+                deleteTopicUrl: editTopicAccess ? `${req.params.forum}/${req.params.topicId}/delete` : null,
+                pagination: helpers.pagination({
+                  current: pagesData.current,
+                  show: 2,
+                  link: `/forum/${req.params.forum}/${req.params.topicId}?page=`,
+                  total: pagesData.total
+                })
+              })
+            )
+          }
+        )
+    })
 }
 
 exports.editForumPage = (req, res) => {
