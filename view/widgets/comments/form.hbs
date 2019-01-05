@@ -1,11 +1,11 @@
-<form action="{{commentsForm.url}}" method="POST">
-  {{#unless user}}
+<form action="{{commentForm.url}}" method="POST">
+  {{#if commentForm.authorField}}
+    <div>
+      <input type="text" name="authorName" value="{{commentForm.value.authorName}}">
+    </div>
+  {{/if}}
   <div>
-    <input type="text" name="authorName">
-  </div>
-  {{/unless}}
-  <div>
-    <textarea name="text" id="text" cols="30" rows="10"></textarea>
+    <textarea name="text" id="text" cols="30" rows="10">{{commentForm.value.text}}</textarea>
   </div>
   <button>Send</button>
 </form>

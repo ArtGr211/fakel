@@ -1,28 +1,31 @@
 {{#>layout}}
-<h1>{{article.title}}</h1>
-<div>
-  {{#if access.edit}}
-  <a href="/blog/{{article._id}}/edit">Edit</a>
+  <h1>{{article.title}}</h1>
+  <div>
+    {{#if access.edit}}
+      <a href="/blog/{{article._id}}/edit">Edit</a>
+    {{/if}}
+    {{#if access.delete}}
+      <a href="/blog/{{article._id}}/delete">Delete</a>
+    {{/if}}
+  </div>
+  <div>
+    <em>{{article.createdAtStr}}</em>
+  </div>
+  <hr>
+  {{article.text}}
+  <hr>
+  Author: {{article.author.username}}
+  <hr>
+  {{#if editComment}}
+    {{>commentForm commentForm=commentForm}}
+  {{else}}
+    {{#if access.comments}}
+      {{>commentForm commentForm=commentForm}}
+    {{/if}}
+    {{>commentsList
+      comments=article.comments
+      editUrl=commentsEditUrl
+      deleteUrl=commentsDeleteUrl
+    }}
   {{/if}}
-  {{#if access.delete}}
-  <a href="/blog/{{article._id}}/delete">Delete</a>
-  {{/if}}
-</div>
-<div>
-  <em>{{article.createdAtStr}}</em>
-</div>
-<hr>
-{{article.text}}
-<hr>
-Author: {{article.author.username}}
-<hr>
-{{#if access.comments}}
-{{>commentForm}}
-<hr>
-{{/if}}
-{{>commentsList
-  comments=article.comments
-  editUrl=commentsEditUrl
-  deleteUrl=commentsDeleteUrl
-}}
 {{/layout}}

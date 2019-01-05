@@ -3,11 +3,11 @@
   <li>
     <div>
       {{#if this.author}}
-      {{this.author.username}}
+        {{this.author.username}}
       {{else if this.authorName}}
-      {{this.authorName}}
+        {{this.authorName}}
       {{else}}
-      Guest
+        Guest
       {{/if}}
     </div>
     <div>
@@ -17,10 +17,10 @@
       {{this.text}}
     </div>
     {{#if this.access.edit}}
-    <a href="{{../editUrl}}/{{this.id}}/edit">Edit</a>
+      <a href="{{../editUrl}}/{{this.id}}/edit">Edit</a>
     {{/if}}
     {{#if this.access.delete}}
-    <a href="{{../deleteUrl}}/{{this.id}}/delete">Delete</a>
+      <a href="{{../deleteUrl}}/{{this.id}}/delete">Delete</a>
     {{/if}}
   </li>
   {{/each}}

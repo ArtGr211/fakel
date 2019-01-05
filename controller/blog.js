@@ -6,11 +6,6 @@ const
   Comment = require('../model/comment.model'),
   siteConfig = require('../config/site');
 
-function articlePrettyDate(article) {
-  article.createdAtStr = moment(article.createdAt).format('DD.MM.YYYY HH:mm');
-  return article;
-}
-
 exports.articlesListPage = (req, res) => {
   const page = req.query.page ? +req.query.page : 1;
 
@@ -39,14 +34,13 @@ exports.articlesListPage = (req, res) => {
             user: req.user,
             pageTitle: 'Blog',
             articles: articles.map(
-                article => {
-                  if (article.text.length > 100) {
-                    article.text = article.text.slice(0, 100) + '...';
-                  }
-                  return article;
+              article => {
+                if (article.text.length > 100) {
+                  article.text = article.text.slice(0, 100) + '...';
                 }
-              )
-              .map(articlePrettyDate),
+                return article;
+              }
+            ),
             pagination: pagination
           })
         )
@@ -67,7 +61,6 @@ exports.articlePage = (req, res) => {
         }
       }
     ])
-    .then(articlePrettyDate)
     .then(
       article => {
         article.comments.forEach(
@@ -84,7 +77,8 @@ exports.articlePage = (req, res) => {
             pageTitle: article.title,
             article: article,
             commentsForm: {
-              url: `/blog/${article.id}/comments`
+              url: `/blog/${article.id}/comments`,
+              authorField: req.user ? true : false
             },
             access: {
               comments: helpers
@@ -135,6 +129,48 @@ exports.editArticlePage = (req, res) => {
         res.send(403);
       }
     })
+}
+
+exports.editCommentPage = (req, res) => {
+  Promise.all([
+      Article
+      .findById(req.params.articleId)
+      .populate([{
+        path: 'author'
+      }]),
+      Comment.findById(req.params.commentId)
+    ])
+    .then(
+      data => {
+        const
+          article = data[0],
+          comment = data[1];
+
+        const access = helpers.authorAccess(
+          comment,
+          req.user,
+          ['blog', 'comments'],
+          'edit'
+        );
+        if (access) {
+          res.send(
+            templateUtils.renderTemplate('blog/article', {
+              user: req.user,
+              pageTitle: article.title,
+              article: article,
+              commentForm: {
+                url: `/blog/${article.id}/comments/${req.params.commentId}/edit`,
+                value: comment,
+                authorField: comment.authorName ? true : false
+              },
+              editComment: true
+            })
+          )
+        } else {
+          res.sendStatus(403);
+        }
+      }
+    )
 }
 
 exports.createArticle = (req, res) => {
@@ -233,5 +269,23 @@ exports.deleteComment = (req, res) => {
 }
 
 exports.updateComment = (req, res) => {
+  Comment
+    .findById(req.params.commentId)
+    .then(comment => {
+      const access = helpers.authorAccess(
+        comment,
+        req.user,
+        ['blog', 'comments'],
+        'edit'
+      );
 
+      if (access) {
+        comment.set(req.body);
+        comment
+          .save()
+          .then(res.redirect(`/blog/${req.params.articleId}`))
+      } else {
+        res.sendStatus(403);
+      }
+    })
 }

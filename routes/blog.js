@@ -45,4 +45,8 @@ router.get('/', controller.articlesListPage);
 
 router.use('/:articleId/comments/:commentId/delete', controller.deleteComment);
 
+router.get('/:articleId/comments/:commentId/edit', controller.editCommentPage);
+
+router.post('/:articleId/comments/:commentId/edit', controller.updateComment);
+
 module.exports = router;
