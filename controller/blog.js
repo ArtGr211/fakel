@@ -187,7 +187,9 @@ exports.addComment = (req, res) => {
     .then(
       article => {
         const comment = {
-          text: req.body.text
+          text: req.body.text,
+          subject: article.id,
+          subjectModel: 'Article'
         }
 
         if (req.user) {

@@ -12,10 +12,29 @@ const mongoose = require('mongoose'),
     author: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'
+    },
+    subject: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      refPath: 'subjectModel'
+    },
+    subjectModel: {
+      type: String,
+      required: true,
+      enum: ['Article']
     }
   }, {
     timestamps: true
   });
+
+CommentSchema.pre('remove', function () {
+  this.model(this.subjectModel)
+    .findById(this.subject)
+    .then(subject => {
+      subject.comments = subject.comments.filter(id => id != this.id);
+      return subject.save();  
+    })
+})
 
 const Comment = mongoose.model('Comment', CommentSchema);
 
