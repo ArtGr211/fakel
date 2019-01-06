@@ -27,6 +27,12 @@ router.use('/:articleId/comments/:commentId/delete', middlewareRoles([
   'administrator'
 ]))
 
+router.use('/:articleId/comments/:commentId/edit', middlewareRoles([
+  'moderator',
+  'user',
+  'administrator'
+]))
+
 router.get('/create', controller.createArticlePage);
 
 router.post('/create', controller.createArticle);

@@ -12,29 +12,7 @@
 {{/if}}
 <ul>
   {{#each messages}}
-  <li>
-    {{this.text}}
-    <div>
-      <small>
-        Author:
-        {{#if this.author}}
-        {{this.author.username}}
-        {{else if this.authorName}}
-        {{this.authorName}}
-        {{else}}
-        Guest
-        {{/if}}
-        | {{this.createdAt}}
-        {{#if this.editUrl}}
-        | <a href="/forum/{{this.editUrl}}">Edit</a>
-        {{/if}}
-        {{#if this.deleteUrl}}
-        | <a href="/forum/{{this.deleteUrl}}">Delete</a>
-        {{/if}}
-      </small>
-      <hr>
-    </div>
-  </li>
+    {{>forumMessage message=this}}
   {{/each}}
 </ul>
 {{>pagination pagination=pagination}}

@@ -1,0 +1,62 @@
+<li>
+  <table>
+    <tr>
+      <td>
+        {{#if message.author.avatarUrl}}
+          <div>
+            <img src="{{message.author.avatarUrl}}" alt="{{message.author.username}}">
+          </div>
+        {{/if}}
+        <div>
+          <strong>
+            {{#if message.author}}
+              {{message.author.username}}
+            {{else if message.authorName}}
+              {{message.authorName}}
+            {{else}}
+              Guest
+            {{/if}}
+          </strong>
+        </div>
+        <div>
+          {{#if message.author}}
+            {{message.author.status}}
+          {{/if}}
+        </div>
+      </td>
+      <td>
+        <div>
+          <small>
+            {{message.createdAt}}
+          </small>
+        </div>
+        {{message.text}}
+      </td>
+    </tr>
+    <tr>
+      <td>
+      </td>
+      <td>
+        {{#if message.author.forumSignature}}
+          <hr>
+          <small>
+            {{message.author.forumSignature}}
+          </small>
+        {{/if}}
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+      </td>
+      <td>
+        {{#if message.editUrl}}
+          <a href="/forum/{{message.editUrl}}">Edit</a>
+        {{/if}}
+        {{#if message.deleteUrl}}
+          <a href="/forum/{{message.deleteUrl}}">Delete</a>
+        {{/if}}
+      </td>
+    </tr>
+  </table>
+</li>

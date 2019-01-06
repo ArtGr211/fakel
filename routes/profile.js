@@ -9,8 +9,18 @@ router.use('', require('../middlewares/roles')([
   'blocked'
 ]));
 
+router.use('/edit', require('../middlewares/roles')([
+  'user',
+  'moderator',
+  'administrator',
+  'blocked'
+]));
+
+router.post('/edit', controller.update);
+
+router.get('/edit', controller.profileEditPage);
+
 router.get('', controller.profilePage);
 
-router.post('', controller.update);
 
 module.exports = router;

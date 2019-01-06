@@ -1,0 +1,57 @@
+{{#>layout}}
+  <form action="/profile/edit" method="POST">
+    <table>
+      <tbody>
+        <tr>
+          <td colspan="2">
+            Avatar URL:
+          </td>
+          <td>
+            <input type="url" name="avatarUrl" id="avatarUrl">
+          </td>
+        </tr>
+        <tr>
+          <td>Username:</td>
+          <td>
+            <input type="text" name="username" value="{{user.username}}">
+          </td>
+        </tr>
+        <tr>
+          <td>Email:</td>
+          <td>
+            <input type="email" name="email" id="email" value="{{user.email}}">
+          </td>
+        </tr>
+        <tr>
+          <td>Status:</td>
+          <td>
+            <input type="text" name="status" value="{{user.status}}">
+          </td>
+        </tr>
+        <tr>
+          <td>Birthdate:</td>
+          <td>
+            <input type="date" name="birthdate" id="birthdate" value="{{user.birthdate}}">
+          </td>
+        </tr>
+        <tr>
+          <td>Forum signature:</td>
+          <td>
+            <textarea name="forumSignature" id="forumSignature" cols="30" rows="10" value={{user.forumSignature}}></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td>Biography:</td>
+          <td>
+            <textarea name="bio" id="bio" cols="30" rows="10">{{user.bio}}</textarea>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <button>Submit</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+{{/layout}}

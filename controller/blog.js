@@ -1,6 +1,4 @@
 const
-  moment = require('moment'),
-  templateUtils = require('../utils/template'),
   helpers = require('../utils/helpers'),
   Article = require('../model/article.model'),
   Comment = require('../model/comment.model'),

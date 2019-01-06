@@ -2,6 +2,11 @@
 <table>
   <tbody>
     <tr>
+      <td colspan="2">
+        <img src="{{user.avatarUrl}}" alt="">
+      </td>
+    </tr>
+    <tr>
       <td>Username:</td>
       <td>{{user.username}}</td>
     </tr>
@@ -13,18 +18,25 @@
       <td>Role:</td>
       <td>{{user.role}}</td>
     </tr>
+    <tr>
+      <td>Status:</td>
+      <td>{{user.status}}</td>
+    </tr>
+    <tr>
+      <td>Birthdate:</td>
+      <td>{{user.birthdate}}</td>
+    </tr>
+    <tr>
+      <td>Forum signature:</td>
+      <td>{{user.forumSignature}}</td>
+    </tr>
+    <tr>
+      <td>Biography:</td>
+      <td>
+        {{user.bio}}
+      </td>
+    </tr>
   </tbody>
 </table>
-<hr>
-<form action="/profile" method="POST">
-  <div>
-    <label for="username">Username:</label>
-    <input type="text" name="username"/>
-  </div>
-  <div>
-    <label for="email">Email:</label>
-    <input type="email" name="email" id="email">
-  </div>
-  <button>Submit</button>
-</form>
+<a href="/profile/edit">Edit</a>
 {{/layout}}

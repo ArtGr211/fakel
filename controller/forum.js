@@ -3,8 +3,7 @@ const
   Forum = require('../model/forum/forum.model'),
   ForumTopic = require('../model/forum/forum-topic.model'),
   ForumMessage = require('../model/forum/forum-message.model'),
-  helpers = require('../utils/helpers'),
-  templateUtils = require('../utils/template');
+  helpers = require('../utils/helpers');
 
 exports.forumsListPage = (req, res) => {
   Forum
@@ -79,7 +78,7 @@ exports.topicPage = (req, res) => {
           options: {
             skip: ((pagesData.current > 0 ? pagesData.current : 1) - 1) * siteConfig.forum.topicsPerPage,
             limit: siteConfig.forum.topicsPerPage,
-            sort: '-createdAt'
+            sort: 'createdAt'
           },
           populate: {
             path: 'author'
@@ -119,15 +118,6 @@ exports.topicPage = (req, res) => {
               })
           }
         )
-    })
-}
-
-exports.editForumPage = (req, res) => {
-  res.render(
-    'forum/edit-forum.hbs', {
-      user: req.user,
-      pageTitle: 'Create forum',
-      formUrl: 'create'
     })
 }
 
