@@ -1,4 +1,4 @@
-const hbs = require('handlebars'),
+const hbs = require('hbs'),
   templateUtil = require('../../utils/template');
 
 module.exports = function() {

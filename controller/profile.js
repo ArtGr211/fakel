@@ -3,13 +3,11 @@ const templateUtils = require('../utils/template'),
   User = require('../model/user.model');
 
 exports.profilePage = (req, res) => {
-  res.send(
-    templateUtils.renderTemplate(
-      'profile/profile', {
-        user: req.user,
-        pageTitle: 'Profile'
-      }
-    )
+  res.render(
+    'profile/profile.hbs', {
+      user: req.user,
+      pageTitle: 'Profile'
+    }
   )
 }
 

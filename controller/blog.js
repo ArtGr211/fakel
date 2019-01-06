@@ -29,8 +29,8 @@ exports.articlesListPage = (req, res) => {
             link: '/blog?page=',
             total: Math.floor(count / siteConfig.blog.articlesPerPage)
           });
-        res.send(
-          templateUtils.renderTemplate('blog/list', {
+        res.render(
+          'blog/list.hbs', {
             user: req.user,
             pageTitle: 'Blog',
             articles: articles.map(
@@ -43,7 +43,6 @@ exports.articlesListPage = (req, res) => {
             ),
             pagination: pagination
           })
-        )
       })
     )
 }
@@ -71,8 +70,8 @@ exports.articlePage = (req, res) => {
             }
           }
         )
-        res.send(
-          templateUtils.renderTemplate('blog/article', {
+        res.render(
+          'blog/article.hbs', {
             user: req.user,
             pageTitle: article.title,
             article: article,
@@ -92,21 +91,19 @@ exports.articlePage = (req, res) => {
             commentsEditUrl: `/blog/${article.id}/comments`,
             commentsDeleteUrl: `/blog/${article.id}/comments`
           })
-        )
       }
     )
 }
 
 exports.createArticlePage = (req, res) => {
-  res.send(
-    templateUtils.renderTemplate('blog/edit', {
+  res.render(
+    'blog/edit.hbs', {
       user: req.user,
       pageTitle: 'Create article',
       editForm: {
         url: '/blog/create'
       }
     })
-  )
 }
 
 exports.editArticlePage = (req, res) => {
@@ -115,8 +112,8 @@ exports.editArticlePage = (req, res) => {
     .then(article => {
       const access = helpers.authorAccess(article, req.user, ['blog', 'articles'], 'edit');
       if (access) {
-        res.send(
-          templateUtils.renderTemplate('blog/edit', {
+        res.render(
+          'blog/edit.hbs', {
             user: req.user,
             pageTitle: 'Create article',
             editForm: {
@@ -124,7 +121,6 @@ exports.editArticlePage = (req, res) => {
               value: article
             }
           })
-        )
       } else {
         res.send(403);
       }
@@ -153,8 +149,8 @@ exports.editCommentPage = (req, res) => {
           'edit'
         );
         if (access) {
-          res.send(
-            templateUtils.renderTemplate('blog/article', {
+          res.render(
+            'blog/article', {
               user: req.user,
               pageTitle: article.title,
               article: article,
@@ -165,7 +161,6 @@ exports.editCommentPage = (req, res) => {
               },
               editComment: true
             })
-          )
         } else {
           res.sendStatus(403);
         }

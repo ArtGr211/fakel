@@ -22,6 +22,8 @@ app.use(session({
 }));
 
 app.use('/assets', express.static(__dirname + '/assets'));
+app.set('view engine', 'hbs');
+app.set('views', __dirname + '/view/');
 
 mongoose.connect(config.db.url, {
   useNewUrlParser: true

@@ -11,13 +11,12 @@ exports.forumsListPage = (req, res) => {
     .find()
     .then(
       forums => {
-        res.send(
-          templateUtils.renderTemplate('forum/forums', {
+        res.render(
+          'forum/forums.hbs', {
             user: req.user,
             pageTitle: 'Forum',
             forums: forums
           })
-        )
       }
     )
 }
@@ -46,8 +45,8 @@ exports.forumPage = (req, res) => {
         const
           count = data[0],
           forum = data[1];
-        res.send(
-          templateUtils.renderTemplate('forum/forum', {
+        res.render(
+          'forum/forum.hbs', {
             user: req.user,
             pageTitle: forum.title,
             forum: forum,
@@ -59,7 +58,6 @@ exports.forumPage = (req, res) => {
               total: Math.floor(count / siteConfig.forum.topicsPerPage)
             })
           })
-        )
       }
     )
 }
@@ -101,8 +99,8 @@ exports.topicPage = (req, res) => {
                   return message;
                 }
               );
-            res.send(
-              templateUtils.renderTemplate('forum/topic', {
+            res.render(
+              'forum/topic.hbs', {
                 user: req.user,
                 pageTitle: topic.title,
                 topic: topic,
@@ -119,32 +117,29 @@ exports.topicPage = (req, res) => {
                   total: pagesData.total
                 })
               })
-            )
           }
         )
     })
 }
 
 exports.editForumPage = (req, res) => {
-  res.send(
-    templateUtils.renderTemplate('forum/edit-forum', {
+  res.render(
+    'forum/edit-forum.hbs', {
       user: req.user,
       pageTitle: 'Create forum',
       formUrl: 'create'
     })
-  )
 }
 
 exports.createTopicPage = (req, res) => {
-  res.send(
-    templateUtils.renderTemplate('forum/edit-topic', {
+  res.render(
+    'forum/edit-topic.hbs', {
       user: req.user,
       pageTitle: 'Create topic',
       editForm: {
         url: req.params.forum + '/create'
       }
     })
-  )
 }
 
 exports.editTopicPage = (req, res) => {
@@ -157,8 +152,8 @@ exports.editTopicPage = (req, res) => {
       if (!editAccess) {
         res.sendStatus(403);
       } else {
-        res.send(
-          templateUtils.renderTemplate('forum/edit-topic', {
+        res.render(
+          'forum/edit-topic.hbs', {
             user: req.user,
             pageTitle: `Edit topic ${topic.title}`,
             editForm: {
@@ -167,7 +162,6 @@ exports.editTopicPage = (req, res) => {
             },
             deleteTopicUrl: deleteAccess ? `${req.params.forum}/${req.params.topicId}/delete` : null
           })
-        )
       }
     })
 }
@@ -178,14 +172,14 @@ exports.editMessagePage = (req, res) => {
     .then(message => {
       const editMessageAccess = helpers.authorAccess(message, req.user, ['forum', 'messages'], 'edit');
       if (editMessageAccess) {
-        res.send(templateUtils.renderTemplate('forum/edit-message', {
+        res.render('forum/edit-message.hbs', {
           user: req.user,
           pageTitle: 'Edit message',
           editForm: {
             url: `${req.params.forum}/${req.params.topicId}/${req.params.messageId}/edit`,
             text: message.text
           }
-        }))
+        })
       } else {
         res.sendStatus(403);
       }
