@@ -208,7 +208,8 @@ exports.createTopic = (req, res) => {
                 pinned: req.body.pinned ? true : false,
                 important: req.body.important ? true : false,
                 author: req.user.id,
-                messages: [message.id]
+                messages: [message.id],
+                forum: forum.id
               });
               return newTopic.save()
             }
@@ -263,7 +264,8 @@ exports.createMessage = (req, res) => {
     .then(
       topic => {
         const newMessageBody = {
-          text: req.body.text
+          text: req.body.text,
+          topic: topic.id
         };
 
         if (req.user) {

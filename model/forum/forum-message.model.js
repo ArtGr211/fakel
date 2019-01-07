@@ -9,12 +9,26 @@ const mongoose = require('mongoose'),
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'
     },
+    topic: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'ForumTopic'
+    },
     authorName: {
       type: String
     }
   }, {
     timestamps: true
   });
+
+ForumMessageSchema.pre('remove', function () {
+  this
+    .model('ForumTopic')
+    .findById(this.topic)
+    .then(topic => {
+      topic.messages = topic.messages.filter(id => id != this.id);
+      return topic.save();
+    })
+})
 
 const ForumMessage = mongoose.model('ForumMessage', ForumMessageSchema);
 

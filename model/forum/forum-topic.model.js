@@ -10,6 +10,11 @@ const mongoose = require('mongoose'),
       type: String,
       trim: true
     },
+    forum: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Forum',
+      required: true
+    },
     messages: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'ForumMessage'
@@ -32,6 +37,21 @@ const mongoose = require('mongoose'),
   }, {
     timestamps: true
   });
+
+ForumTopicSchema.pre('remove', function () {
+  this.model('Forum')
+    .findById(this.forum)
+    .then(forum => {
+      forum.topics = forum.topics.filter(id => id != this.id);
+      return forum.save();
+    })
+  this.messages.forEach(messageId => {
+    this
+      .model('ForumMessage')
+      .findByIdAndRemove(messageId)
+      .exec()
+  })
+})
 
 const ForumTopic = mongoose.model('ForumTopic', ForumTopicSchema);
 module.exports = ForumTopic;
