@@ -53,8 +53,9 @@ exports.forumPage = (req, res) => {
             pagination: helpers.pagination({
               current: page,
               show: 2,
+              perPage: siteConfig.forum.topicsPerPage,
               link: `/forum/${req.params.forum}?page=`,
-              total: Math.floor(count / siteConfig.forum.topicsPerPage)
+              total: count
             })
           })
       }
@@ -65,10 +66,10 @@ exports.topicPage = (req, res) => {
   ForumTopic
     .findById(req.params.topicId)
     .then(topic => {
-      const total = Math.floor(topic.messages.length / siteConfig.forum.topicsPerPage);
+      const totalPages = Math.ceil(topic.messages.length / siteConfig.forum.messagesPerPage);
       return {
-        total: total,
-        current: req.query.page ? req.query.page : total
+        totalItems: topic.messages.length,
+        current: req.query.page ? req.query.page : totalPages
       }
     })
     .then(pagesData => {
@@ -112,8 +113,9 @@ exports.topicPage = (req, res) => {
                 pagination: helpers.pagination({
                   current: pagesData.current,
                   show: 2,
+                  perPage: siteConfig.forum.messagesPerPage,
                   link: `/forum/${req.params.forum}/${req.params.topicId}?page=`,
-                  total: pagesData.total
+                  total: pagesData.totalItems
                 })
               })
           }

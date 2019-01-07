@@ -24,8 +24,9 @@ exports.articlesListPage = (req, res) => {
           pagination = helpers.pagination({
             current: page,
             show: 2,
+            perPage: siteConfig.blog.articlesPerPage,
             link: '/blog?page=',
-            total: Math.floor(count / siteConfig.blog.articlesPerPage)
+            total: count
           });
         res.render(
           'blog/list.hbs', {
