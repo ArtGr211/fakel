@@ -22,8 +22,6 @@ exports.profileEditPage = (req, res) => {
 
 exports.update = (req, res) => {
   delete req.body.role;
-  // if (req.body.birthDate) req.body.birthDate = new Date(req.body.birthDate);
-  // console.log(req.body.birthDate)
   User.findByIdAndUpdate(
       req.user._id, {
         $set: helpers.removeEmpty(req.body)
