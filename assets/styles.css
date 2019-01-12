@@ -12,7 +12,40 @@ body {
 body {
   margin: 0;
   padding: 0;
-  background: lightgrey;
+  background-image: url(https://img00.deviantart.net/8047/i/2018/222/4/c/tree_sunset_background_stock_by_astoko-dcjrw2r.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: 'Arsenal', sans-serif;
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+p {
+  margin: 0 0 1em;
+}
+
+a {
+  color: #ff4500;
+  font-weight: bold;
+  text-decoration: none;
+  transition: 200ms;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: red;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Cuprum', sans-serif;
+  color: #ff4500;
+  margin: 0;
+  line-height: 1;
 }
 
 .wrapper {
@@ -41,4 +74,163 @@ body {
   background: white;
   flex-grow: 1;
   flex-shrink: 1;
+  padding: 18px;
+  text-align: justify;
+}
+
+input,
+textarea {
+  border-radius: 0;
+  border: 1px solid lightgrey;
+  display: block;
+  width: 100%;
+  font-size: 16px;
+  font-family: 'Arsenal', sans-serif;
+  padding: 10px;
+  color: #777;
+}
+
+input:focus {
+  color: black;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .07);
+}
+
+label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+  color: #222;
+}
+
+button,
+.button {
+  background: #ff4500;
+  border: none;
+  padding: 8px;
+  width: 100%;
+  max-width: 180px;
+  cursor: pointer;
+  color: white;
+  font-weight: bold;
+  display: inline-block;
+  font-size: 16px;
+  text-align: center;
+}
+
+.button:hover,
+.button:focus,
+.button:active {
+  text-decoration: none;
+  color: white;
+}
+
+button:hover,
+.button:hover {
+  box-shadow: 0 2px 2px 0 rgba(255, 0, 0, .3);
+}
+
+.button-flat {
+  background: none;
+  color: #ff4500;
+  width: auto;
+}
+
+.button-flat:hover {
+  box-shadow: none;
+  background: #ff4500;
+}
+
+.button-grey {
+  background: #777;
+}
+
+.button-grey:hover {
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .07);
+}
+
+.button-flat.button-grey {
+  color: #777;
+  background: none;
+}
+
+.button-flat.button-grey:hover {
+  background: #777;
+  color: white;
+}
+
+.author {
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  background: #f5f5f5;
+  margin-left: -18px;
+  margin-right: -18px;
+}
+
+.author__avatar {
+  flex: 0 0 100px;
+  margin-right: 10px;
+}
+
+.author__avatar-img {
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+  margin: 0 auto;
+}
+
+.author__description {
+  flex: 1 1 auto;
+}
+
+.author__name {
+  font-weight: bold;
+}
+
+.article-controls {
+  margin-left: -18px;
+  margin-right: -18px;
+  padding: 0 18px;
+  background: #f5f5f5;
+}
+
+.article__meta {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: #555;
+  font-size: 16px;
+}
+
+.article__meta-item {
+  display: inline-block;
+}
+
+.article__meta-icon {
+  color: #aaa;
+}
+
+
+*.mb-sm {
+  margin-bottom: 5px;
+}
+
+*.mb-md {
+  margin-bottom: 10px;
+}
+
+*.mb-lg {
+  margin-bottom: 20px;
+}
+
+*.mr-sm {
+  margin-right: 5px;
+}
+
+*.mr-md {
+  margin-right: 10px;
+}
+
+*.mr-lg {
+  margin-right: 20px;
 }

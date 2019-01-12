@@ -1,21 +1,49 @@
 {{#>layout}}
-  <h1>{{article.title}}</h1>
-  <div>
+  <div class="article">
+    <h1 class="article__title mb-md">{{article.title}}</h1>
+    <ul class="article__meta mb-lg">
+      <li class="article__meta-item mr-md">
+        <i class="fas fa-user article__meta-icon"></i>
+        {{article.author.username}}
+      </li>
+      <li class="article__meta-item">
+        <i class="fas fa-calendar-day article__meta-icon"></i>
+        {{article.createdAt}}
+      </li>
+    </ul>
+    <div class="article__text mb-lg">
+      {{{article.text}}}
+    </div>
+  </div>
+  <div class="author mb-lg">
+    {{#if article.author.avatarUrl}}
+      <div class="author__avatar">
+        <img src="{{article.author.avatarUrl}}" alt="{{article.author.username}}" class="author__avatar-img">
+      </div>
+    {{/if}}
+    <div class="author__description">
+      <div class="author__name">
+        Автор: {{article.author.username}}
+      </div>
+      <div class="author__bio">
+        {{{article.author.bio}}}
+      </div>
+    </div>
+  </div>
+  <div class="article-controls mb-lg">
     {{#if access.edit}}
-      <a href="/blog/{{article._id}}/edit">Edit</a>
+      <a href="/blog/{{article.id}}/edit" class="button button-flat button-grey">
+        <i class="fas fa-pencil-alt"></i>
+        Редактировать
+      </a>
     {{/if}}
     {{#if access.delete}}
-      <a href="/blog/{{article._id}}/delete">Delete</a>
+      <a href="/blog/{{article.id}}/delete" class="button button-flat button-grey">
+        <i class="far fa-trash-alt"></i>
+        Удалить
+      </a>
     {{/if}}
   </div>
-  <div>
-    <em>{{article.createdAtStr}}</em>
-  </div>
-  <hr>
-  {{article.text}}
-  <hr>
-  Author: {{article.author.username}}
-  <hr>
   {{#if editComment}}
     {{>commentForm commentForm=commentForm}}
   {{else}}
