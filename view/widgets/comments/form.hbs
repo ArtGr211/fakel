@@ -1,11 +1,28 @@
-<form action="{{commentForm.url}}" method="POST">
-  {{#if commentForm.authorField}}
-    <div>
-      <input type="text" name="authorName" value="{{commentForm.value.authorName}}">
-    </div>
-  {{/if}}
-  <div>
-    <textarea name="text" id="text" cols="30" rows="10">{{commentForm.value.text}}</textarea>
+<form action="{{commentForm.url}}" method="POST" class="comments-form">
+  <div class="comments-form__title title mb-md">
+    {{commentForm.title}}
   </div>
-  <button>Send</button>
+  {{#if commentForm.authorField}}
+    <label for="authorName" class="mb-sm">Ваше имя</label>
+    <input
+      type="text"
+      class="mb-lg"
+      name="authorName"
+      value="{{commentForm.value.authorName}}"
+      placeholder="Гость"
+      required
+    >
+  {{/if}}
+  <label for="text" class="mb-sm">Комментарий:</label>
+  <textarea
+    name="text"
+    id="text"
+    rows="10"
+    class="mb-lg"
+    required
+  >{{commentForm.value.text}}</textarea>
+  <button>
+    <i class="far fa-comment-alt"></i>
+    Отправить
+  </button>
 </form>

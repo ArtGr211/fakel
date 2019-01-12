@@ -74,9 +74,10 @@ exports.articlePage = (req, res) => {
             user: req.user,
             pageTitle: article.title,
             article: article,
-            commentsForm: {
+            commentForm: {
               url: `/blog/${article.id}/comments`,
-              authorField: req.user ? true : false
+              authorField: req.user ? false : true,
+              title: 'Добавить комментарий'
             },
             access: {
               comments: helpers
@@ -156,7 +157,8 @@ exports.editCommentPage = (req, res) => {
               commentForm: {
                 url: `/blog/${article.id}/comments/${req.params.commentId}/edit`,
                 value: comment,
-                authorField: comment.authorName ? true : false
+                authorField: comment.authorName ? true : false,
+                title: 'Редактировать комментарий'
               },
               editComment: true
             })

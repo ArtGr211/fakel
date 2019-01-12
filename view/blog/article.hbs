@@ -47,13 +47,13 @@
   {{#if editComment}}
     {{>commentForm commentForm=commentForm}}
   {{else}}
-    {{#if access.comments}}
-      {{>commentForm commentForm=commentForm}}
-    {{/if}}
     {{>commentsList
       comments=article.comments
       editUrl=commentsEditUrl
       deleteUrl=commentsDeleteUrl
     }}
+    {{#if access.comments}}
+      {{>commentForm commentForm=commentForm}}
+    {{/if}}
   {{/if}}
 {{/layout}}

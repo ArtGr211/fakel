@@ -1,27 +1,52 @@
-<ul>
+<ul class="comments">
   {{#each comments}}
-  <li>
-    <div>
-      {{#if this.author}}
-        {{this.author.username}}
-      {{else if this.authorName}}
-        {{this.authorName}}
-      {{else}}
-        Guest
-      {{/if}}
+  <li class="comments__item">
+    <div class="comments__meta">
+      <div class="comments__author">
+        <div class="comments__avatar">
+          {{#if this.author.avatarUrl}}
+            <img
+              class="comments__avatar-img"
+              src="{{this.author.avatarUrl}}"
+              alt="{{this.author.username}}"
+            />
+          {{else}}
+            <i class="fas fa-user comments__no-avatar"></i>
+          {{/if}}
+        </div>
+        <div class="comments__username">
+          {{#if this.author}}
+            {{this.author.username}}
+          {{else if this.authorName}}
+            {{this.authorName}}
+          {{else}}
+            Гость
+          {{/if}}
+        </div>
+      </div>
+      <div class="comments__created-at">
+        {{this.createdAt}}
+      </div>
     </div>
-    <div>
-      {{this.createdAt}}
+    <div class="comments__main">
+      <div class="comments__text">
+        {{this.text}}
+      </div>
+      <div class="comments__controls">
+        {{#if this.access.edit}}
+          <a class="link-grey text-sm mr-md" href="{{../editUrl}}/{{this.id}}/edit">
+            <i class="fas fa-pencil-alt"></i>
+            Редактировать
+          </a>
+        {{/if}}
+        {{#if this.access.delete}}
+          <a class="link-grey text-sm" href="{{../deleteUrl}}/{{this.id}}/delete">
+            <i class="far fa-trash-alt"></i>
+            Удалить
+          </a>
+        {{/if}}
+      </div>
     </div>
-    <div>
-      {{this.text}}
-    </div>
-    {{#if this.access.edit}}
-      <a href="{{../editUrl}}/{{this.id}}/edit">Edit</a>
-    {{/if}}
-    {{#if this.access.delete}}
-      <a href="{{../deleteUrl}}/{{this.id}}/delete">Delete</a>
-    {{/if}}
   </li>
   {{/each}}
 </ul>
