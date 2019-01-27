@@ -1,5 +1,8 @@
 {{#>layout}}
-<table>
+<h1 class="mb-lg">
+  Профиль
+</h1>
+<table class="profile-table mb-md">
   <tbody>
     <tr>
       <td colspan="2">
@@ -15,28 +18,31 @@
       <td>{{user.email}}</td>
     </tr>
     <tr>
-      <td>Role:</td>
+      <td>Роль:</td>
       <td>{{user.role}}</td>
     </tr>
     <tr>
-      <td>Status:</td>
+      <td>Статус:</td>
       <td>{{user.status}}</td>
     </tr>
     <tr>
-      <td>Birthdate:</td>
+      <td>Дата рождения:</td>
       <td>{{user.birthdate}}</td>
     </tr>
     <tr>
-      <td>Forum signature:</td>
-      <td>{{user.forumSignature}}</td>
+      <td>Подпись для форума:</td>
+      <td>{{{user.forumSignature}}}</td>
     </tr>
     <tr>
-      <td>Biography:</td>
+      <td>О себе:</td>
       <td>
-        {{user.bio}}
+        {{{user.bio}}}
       </td>
     </tr>
   </tbody>
 </table>
-<a href="/profile/edit">Edit</a>
+<a class="button button-flat" href="/profile/edit">
+  <i class="fas fa-pencil-alt"></i>
+  Редактировать
+</a>
 {{/layout}}

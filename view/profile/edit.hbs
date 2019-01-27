@@ -1,13 +1,16 @@
 {{#>layout}}
+  <h1 class="mb-lg">
+    Редактирование профиля
+  </h1>
   <form action="/profile/edit" method="POST">
-    <table>
+    <table class="profile-table">
       <tbody>
         <tr>
-          <td colspan="2">
-            Avatar URL:
+          <td>
+            URL Аватара:
           </td>
           <td>
-            <input type="url" name="avatarUrl" id="avatarUrl">
+            <input type="url" name="avatarUrl" id="avatarUrl" value="{{user.avatarUrl}}">
           </td>
         </tr>
         <tr>
@@ -23,35 +26,38 @@
           </td>
         </tr>
         <tr>
-          <td>Status:</td>
+          <td>Статус:</td>
           <td>
             <input type="text" name="status" value="{{user.status}}">
           </td>
         </tr>
         <tr>
-          <td>Birthdate:</td>
+          <td>Дата рождения:</td>
           <td>
             <input type="date" name="birthdate" id="birthdate" value="{{user.birthdate}}">
           </td>
         </tr>
         <tr>
-          <td>Forum signature:</td>
+          <td>Подпись для форума:</td>
           <td>
-            <textarea name="forumSignature" id="forumSignature" cols="30" rows="10" value={{user.forumSignature}}></textarea>
+            <textarea name="forumSignature" id="forumSignature" cols="30" rows="10">{{user.forumSignature}}</textarea>
           </td>
         </tr>
         <tr>
-          <td>Biography:</td>
+          <td>О себе:</td>
           <td>
             <textarea name="bio" id="bio" cols="30" rows="10">{{user.bio}}</textarea>
           </td>
         </tr>
-        <tr>
-          <td colspan="2">
-            <button>Submit</button>
-          </td>
-        </tr>
       </tbody>
     </table>
+    <button>
+      <i class="fas fa-check"></i>
+      Обновить
+    </button>
+    <a href="javascript:history.back()" class="button">
+      <i class="fas fa-angle-double-left"></i>
+      Назад
+    </a>
   </form>
 {{/layout}}
