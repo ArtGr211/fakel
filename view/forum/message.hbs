@@ -1,62 +1,53 @@
-<li>
-  <table>
-    <tr>
-      <td>
-        {{#if message.author.avatarUrl}}
-          <div>
-            <img src="{{message.author.avatarUrl}}" alt="{{message.author.username}}">
-          </div>
-        {{/if}}
-        <div>
-          <strong>
-            {{#if message.author}}
-              {{message.author.username}}
-            {{else if message.authorName}}
-              {{message.authorName}}
-            {{else}}
-              Guest
-            {{/if}}
-          </strong>
-        </div>
-        <div>
-          {{#if message.author}}
-            {{message.author.status}}
-          {{/if}}
-        </div>
-      </td>
-      <td>
-        <div>
-          <small>
-            {{message.createdAt}}
-          </small>
-        </div>
-        {{message.text}}
-      </td>
-    </tr>
-    <tr>
-      <td>
-      </td>
-      <td>
-        {{#if message.author.forumSignature}}
-          <hr>
-          <small>
-            {{message.author.forumSignature}}
-          </small>
-        {{/if}}
-      </td>
-    </tr>
-    <tr>
-      <td>
-
-      </td>
-      <td>
-        {{#if message.editUrl}}
-          <a href="/forum/{{message.editUrl}}">Edit</a>
-        {{/if}}
-        {{#if message.deleteUrl}}
-          <a href="/forum/{{message.deleteUrl}}">Delete</a>
-        {{/if}}
-      </td>
-    </tr>
-  </table>
+<li class="forum-messages__message">
+  <div class="forum-messages__author">
+    <div class="forum-messages__avatar">
+      {{#if message.author.avatarUrl}}
+        <img class="forum-messages__avatar-img" src="{{message.author.avatarUrl}}" alt="{{message.author.username}}">
+      {{else}}
+        <i class="fas fa-user no-avatar"></i>
+      {{/if}}
+    </div>
+    <div class="forum-messages__username">
+      {{#if message.author}}
+        {{message.author.username}}
+      {{else if message.authorName}}
+        {{message.authorName}}
+      {{else}}
+        Гость
+      {{/if}}
+    </div>
+    {{#if message.author}}
+      <div class="forum-messages__user-role">
+        {{message.author.role}}
+      </div>
+      <div class="forum-messages__user-status">
+        {{message.author.status}}
+      </div>
+    {{/if}}
+  </div>
+  <div class="forum-messages__body">
+    <div class="forum-messages__date">
+      {{message.createdAt}}
+    </div>
+    <div class="forum-messages__text">
+      {{{message.text}}}
+    </div>
+    {{#if message.author.forumSignature}}
+      <div class="forum-messages__signature">
+        {{{message.author.forumSignature}}}
+      </div>
+    {{/if}}
+    {{#if this.showControls}}
+      <div class="forum-messages__controls text-sm text-right">
+        <a class="link-grey mr-md" href="/forum/{{message.editUrl}}">
+          <i class="fas fa-pencil-alt"></i>
+          Редактировать
+        </a>
+        <a class="link-grey" href="/forum/{{message.deleteUrl}}">
+          <i class="far fa-trash-alt"></i>
+          Удалить
+        </a>
+      </div>
+    {{/if}}
+  </div>
 </li>

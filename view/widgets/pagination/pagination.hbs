@@ -1,33 +1,47 @@
 {{#if pagination.show}}
-<ul>
-  {{#if pagination.first}}
-  <li>
-    <a href="{{pagination.first.link}}">First</a>
-  </li>
-  <li>
-    ...
-  </li>
-  {{/if}}
-  {{#each pagination.before}}
-  <li>
-    <a href="{{this.link}}">{{this.index}}</a>
-  </li>
-  {{/each}}
-  <li>
-    {{pagination.current}}
-  </li>
-  {{#each pagination.after}}
-  <li>
-    <a href="{{this.link}}">{{this.index}}</a>
-  </li>
-  {{/each}}
-  {{#if pagination.last}}
-  <li>
-    ...
-  </li>
-  <li>
-    <a href="{{pagination.last.link}}">Last</a>
-  </li>
-  {{/if}}
-</ul>
+  <ul class="pagination">
+    {{#if pagination.first}}
+    <li class="pagination__item">
+      <a class="pagination__page pagination__page_link" href="{{pagination.first.link}}">
+        {{pagination.first.index}}
+      </a>
+    </li>
+    <li class="pagination__item">
+      <span class="pagination__page">
+        ...
+      </span>
+    </li>
+    {{/if}}
+    {{#each pagination.before}}
+    <li class="pagination__item">
+      <a class="pagination__page pagination__page_link" href="{{this.link}}">
+        {{this.index}}
+      </a>
+    </li>
+    {{/each}}
+    <li class="pagination__item">
+      <span class="pagination__page">
+        {{pagination.current}}
+      </span>
+    </li>
+    {{#each pagination.after}}
+    <li class="pagination__item">
+      <a class="pagination__page pagination__page_link" href="{{this.link}}">
+        {{this.index}}
+      </a>
+    </li>
+    {{/each}}
+    {{#if pagination.last}}
+    <li class="pagination__item">
+      <span class="pagination__page">
+        ...
+      </span>
+    </li>
+    <li class="pagination__item">
+      <a class="pagination__page pagination__page_link" href="{{pagination.last.link}}">
+        {{pagination.last.index}}
+      </a>
+    </li>
+    {{/if}}
+  </ul>
 {{/if}}

@@ -1,19 +1,13 @@
 {{#>layout}}
-<h1>forum</h1>
-<ul>
+<h1 class="mb-lg">Форум</h1>
+<ul class="forums-list">
   {{#each forums}}
-  <li>
-    <div>
-      <a href="/forum/{{this.key}}">
-        <strong>
-          {{this.title}}
-        </strong>
-      </a>
-    </div>
-    <div>
-      <em>
-        {{this.description}}
-      </em>
+  <li class="forums-list__item mb-md">
+    <a href="/forum/{{this.key}}" class="forums-list__title mb-s,">
+      {{this.title}}
+    </a>
+    <div class="forums-list__description">
+      {{this.description}}
     </div>
   </li>
   {{/each}}

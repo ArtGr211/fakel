@@ -89,13 +89,15 @@ exports.topicPage = (req, res) => {
           topic => {
             const
               editTopicAccess = helpers.authorAccess(topic, req.user, ['forum', 'topics'], 'edit'),
+              deleteTopicAccess = helpers.authorAccess(topic, req.user, ['forum', 'topics'], 'delete'),
               messages = topic.messages.map(
                 message => {
                   const
                     editMessageAccess = helpers.authorAccess(message, req.user, ['forum', 'messages'], 'edit'),
                     deleteMessageAccess = helpers.authorAccess(message, req.user, ['forum', 'messages'], 'delete');
-                  message.editUrl = editMessageAccess ? `/${req.params.forum}/${req.params.topicId}/${message._id}/edit` : null
+                  message.editUrl = editMessageAccess ? `${req.params.forum}/${req.params.topicId}/${message._id}/edit` : null
                   message.deleteUrl = deleteMessageAccess ? `/${req.params.forum}/${req.params.topicId}/${message._id}/delete` : null;
+                  message.showControls = editMessageAccess || deleteMessageAccess;
                   return message;
                 }
               );
@@ -108,8 +110,9 @@ exports.topicPage = (req, res) => {
                 forumMessageForm: {
                   url: `${req.params.forum}/${req.params.topicId}`
                 },
+                topicControls: editTopicAccess || deleteTopicAccess,
                 editTopicUrl: editTopicAccess ? `${req.params.forum}/${req.params.topicId}/edit` : null,
-                deleteTopicUrl: editTopicAccess ? `${req.params.forum}/${req.params.topicId}/delete` : null,
+                deleteTopicUrl: deleteTopicAccess ? `${req.params.forum}/${req.params.topicId}/delete` : null,
                 pagination: helpers.pagination({
                   current: pagesData.current,
                   show: 2,

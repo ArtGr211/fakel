@@ -4,6 +4,7 @@ const express = require('express'),
   session = require('express-session'),
   mongoose = require('mongoose'),
   config = require('./config/dev.config'),
+  path = require('path'),
   app = express();
 
 app.use(bodyParser.urlencoded({
@@ -21,7 +22,11 @@ app.use(session({
   }
 }));
 
-app.use('/assets', express.static(__dirname + '/assets'));
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
+
+app.use('/libs/normalize.css', express.static(path.join(__dirname, 'node_modules', 'normalize.css')));
+app.use('/libs/jquery', express.static(path.join(__dirname, 'node_modules', 'jquery', 'dist')));
+
 app.set('view engine', 'hbs');
 app.set('views', __dirname + '/view/');
 

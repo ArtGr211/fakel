@@ -6,7 +6,7 @@ const mongoose = require('mongoose'),
       trim: true,
       required: true
     },
-    descriprion: {
+    description: {
       type: String,
       trim: true
     },

@@ -1,28 +1,35 @@
 {{#>layout}}
-<a href="/blog/create">Add article</a>
-<ul>
-  {{#each articles}}
-  <li>
-    <h2>
-      <a href="/blog/{{this.id}}">
-        {{this.title}}
+  <ul class="articles-list mb-lg">
+    {{#each articles}}
+    <li class="articles-list__item mb-sm">
+      <h2 class="articles-list__title mb-md">
+        <a href="/blog/{{this.id}}" class="articles-list__title-link">
+          {{this.title}}
+        </a>
+      </h2>
+      <ul class="article-meta mb-lg">
+        <li class="article-meta__item mr-md">
+          <i class="fas fa-user article-meta__icon"></i>
+          {{this.author.username}}
+        </li>
+        <li class="article-meta__item">
+          <i class="fas fa-calendar-day article-meta__icon"></i>
+          {{this.createdAt}}
+        </li>
+      </ul>
+      <article>
+        {{{this.text}}}
+      </article>
+    </li>
+    {{/each}}
+  </ul>
+  {{#if addArticleAccess}}
+    <div class="text-center mb-lg">
+      <a href="/blog/create" class="button button-flat">
+        <i class="fas fa-plus-circle"></i>
+        Добавить статью
       </a>
-    </h2>
-    <div>
-      <small>
-        {{this.createdAtStr}}
-      </small>
     </div>
-    <div>
-      <em>
-        {{this.text}}
-      </em>
-    </div>
-    <div>
-      <strong>{{this.author.username}}</strong>
-    </div>
-  </li>
-  {{/each}}
-</ul>
-{{>pagination pagination=pagination}}
+  {{/if}}
+  {{>pagination pagination=pagination}}
 {{/layout}}

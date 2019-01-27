@@ -1,13 +1,13 @@
 {{#>layout}}
   <div class="article">
     <h1 class="article__title mb-md">{{article.title}}</h1>
-    <ul class="article__meta mb-lg">
-      <li class="article__meta-item mr-md">
-        <i class="fas fa-user article__meta-icon"></i>
+    <ul class="article-meta mb-lg">
+      <li class="article-meta__item mr-md">
+        <i class="fas fa-user article-meta__icon"></i>
         {{article.author.username}}
       </li>
-      <li class="article__meta-item">
-        <i class="fas fa-calendar-day article__meta-icon"></i>
+      <li class="article-meta__item">
+        <i class="fas fa-calendar-day article-meta__icon"></i>
         {{article.createdAt}}
       </li>
     </ul>
@@ -30,7 +30,7 @@
       </div>
     </div>
   </div>
-  <div class="article-controls mb-lg">
+  <div class="grey-block mb-lg">
     {{#if access.edit}}
       <a href="/blog/{{article.id}}/edit" class="button button-flat button-grey">
         <i class="fas fa-pencil-alt"></i>

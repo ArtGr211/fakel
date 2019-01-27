@@ -112,6 +112,32 @@ textarea::placeholder {
   color: #eee;
 }
 
+input[type="checkbox"] {
+  display: none;
+}
+
+input[type="checkbox"] + label:before {
+  content: '\f00c';
+  color: transparent;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  margin-right: 5px;
+  font-family: 'Font Awesome 5 Free';
+  line-height: 16px;
+  text-align: center;
+  font-size: 10px;
+  vertical-align: 1px;
+}
+
+input[type="checkbox"]:checked + label:before {
+  background: #ff4500;
+  border-color: #ff4500;
+  color: white;
+}
+
 label {
   font-weight: bold;
   display: block;
@@ -125,8 +151,7 @@ button,
   background: #ff4500;
   border: none;
   padding: 12px;
-  width: 100%;
-  max-width: 180px;
+  min-width: 180px;
   cursor: pointer;
   color: white;
   font-weight: bold;
@@ -134,6 +159,7 @@ button,
   font-size: 16px;
   text-align: center;
   transition: 250ms;
+  line-height: 1.2;
 }
 
 .button:hover,
@@ -187,12 +213,32 @@ button:hover,
   font-size: 14px;
 }
 
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
 .link-grey {
   color: #777;
 }
 
 .link-grey:hover {
   color: black;
+}
+
+.grey-block {
+  margin-left: -18px;
+  margin-right: -18px;
+  padding: 0 18px;
+  background: #f5f5f5;
+}
+
+.no-avatar {
+  font-size: 48px;
+  color: #ccc;
 }
 
 .author {
@@ -225,14 +271,7 @@ button:hover,
   color: #555;
 }
 
-.article-controls {
-  margin-left: -18px;
-  margin-right: -18px;
-  padding: 0 18px;
-  background: #f5f5f5;
-}
-
-.article__meta {
+.article-meta {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -240,11 +279,11 @@ button:hover,
   font-size: 16px;
 }
 
-.article__meta-item {
+.article-meta__item {
   display: inline-block;
 }
 
-.article__meta-icon {
+.article-meta__icon {
   color: #aaa;
 }
 
@@ -309,26 +348,178 @@ button:hover,
   color: #555;
 }
 
-*.mb-sm {
+.pagination {
+  margin: 0 -18px;
+  padding: 0 18px;
+  list-style: none;
+  background: #eee;
+  text-align: center;
+}
+
+.pagination__item {
+  display: inline-block;
+}
+
+.pagination__page {
+  padding: 10px 15px;
+  display: block;
+}
+
+.pagination__page_link:hover {
+  background: #ff4500;
+  text-decoration: none;
+  color: white;
+}
+
+.articles-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.forums-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.forums-list__title {
+  font-size: 20px;
+}
+
+.forums-list__description {
+  color: #555;
+}
+
+.forum-topics {
+  list-style: none;
+  margin: 0 -18px;
+  padding: 0;
+}
+
+.forum-topics__item:nth-child(odd) {
+  background: #f5f5f5;
+}
+
+.forum-topics__wrap-link {
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: normal;
+}
+
+.forum-topics__wrap-link:hover {
+  text-decoration: none;
+  background: #eee;
+}
+
+.forum-topics__topic-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.forum-topics__topic-description {
+  color: #777;
+  font-style: italic;
+}
+
+.forum-topics__topic-meta {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  color: #777;
+}
+
+.forum-messages {
+  list-style: none;
+  margin: 0 -18px;
+  padding: 0;
+}
+
+.forum-messages__message {
+  display: flex;
+  min-height: 150px;
+  align-items: stretch;
+}
+
+.forum-messages__message:nth-child(odd) {
+  background: #f7f7f7;
+}
+
+.forum-messages__author {
+  flex-basis: 180px;
+  flex-grow: 0;
+  flex-shrink: 0;
+  text-align: center;
+  padding: 10px 18px 10px 9px;
+}
+
+.forum-messages__avatar-img {
+  display: block;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.forum-messages__user-role {
+  font-size: 14px;
+  color: #555;
+}
+
+.forum-messages__username {
+  font-weight: bold;
+}
+
+.forum-messages__user-status {
+  color: #555;
+}
+
+.forum-messages__body {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  flex-grow: 1;
+  flex-shrink: 1;
+  padding: 10px 18px 15px 9px;
+}
+
+.forum-messages__date {
+  font-size: 14px;
+  color: #777;
+}
+
+.forum-messages__text {
+  flex-grow: 1;
+  padding: 5px 0;
+}
+
+.forum-messages__signature {
+  font-size: 14px;
+  color: #555;
+  border-top: 1px solid #ccc;
+}
+
+.mb-sm {
   margin-bottom: 5px;
 }
 
-*.mb-md {
+.mb-md {
   margin-bottom: 10px;
 }
 
-*.mb-lg {
+.mb-lg {
   margin-bottom: 20px;
 }
 
-*.mr-sm {
+.mr-sm {
   margin-right: 5px;
 }
 
-*.mr-md {
+.mr-md {
   margin-right: 10px;
 }
 
-*.mr-lg {
+.mr-lg {
   margin-right: 20px;
 }

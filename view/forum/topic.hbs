@@ -1,20 +1,27 @@
 {{#>layout}}
-<h1>{{topic.title}}</h1>
-<div>
-  <em>{{topic.description}}</em>
-</div>
-{{#if editTopicUrl}}
-<div>
-  <a href="/forum/{{editTopicUrl}}">Edit topic</a>
-  |
-  <a href="/forum/{{deleteTopicUrl}}">Delete topic</a>
-</div>
-{{/if}}
-<ul>
-  {{#each messages}}
-    {{>forumMessage message=this}}
-  {{/each}}
-</ul>
-{{>pagination pagination=pagination}}
-{{>forumMessageForm formConfig=forumMessageForm}}
+  <h1>{{topic.title}}</h1>
+  <div class="mb-lg">
+    {{topic.description}}
+  </div>
+  {{#if topicControls}}
+    <div class="grey-block mb-lg">
+      <a href="/forum/{{editTopicUrl}}" class="button button-flat button-grey">
+        <i class="fas fa-pencil-alt"></i>
+        Редактировать
+      </a>
+      <a href="/forum/{{deleteTopicUrl}}" class="button button-flat button-grey">
+        <i class="far fa-trash-alt"></i>
+        Удалить 
+      </a>
+    </div>
+  {{/if}}
+  <ul class="forum-messages">
+    {{#each messages}}
+      {{>forumMessage message=this}}
+    {{/each}}
+  </ul>
+  <div class="mb-md">
+    {{>pagination pagination=pagination}}
+  </div>
+  {{>forumMessageForm formConfig=forumMessageForm}}
 {{/layout}}

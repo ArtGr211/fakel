@@ -1,13 +1,14 @@
 {{#>layout}}
+  <h1 class="mb-lg">Вход</h1>
   <form action="{{loginForm.url}}" method="POST">
-    <div>
+    <div class="mb-md">
       <label for="email" class="mb-sm">Email:</label>
-      <input type="text" name="email" class="mb-md">
+      <input type="text" name="email">
     </div>
-    <div>
-      <label for="password" class="mb-sm">Password:</label>
-      <input type="password" name="password" class="mb-md">
+    <div class="mb-md">
+      <label for="password" class="mb-sm">Пароль:</label>
+      <input type="password" name="password">
     </div>
-    <button>Log in</button>
+    <button>Войти</button>
   </form>
 {{/layout}}

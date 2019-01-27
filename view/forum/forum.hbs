@@ -1,30 +1,38 @@
 {{#>layout}}
-<h1>{{forum.title}}</h1>
-<em>
-  {{forum.description}}
-</em>
-{{#if createTopicAccess}}
-<div>
-  <a href="/forum/{{forum.key}}/create">Create topic</a>
-</div>
-{{/if}}
-<ul>
-  {{#each forum.topics}}
-  <li>
-    <div>
-      <a href="/forum/{{../forum.key}}/{{this.id}}">
-        <strong>
-          {{this.title}}
-        </strong>
+  <h1>
+    {{forum.title}}
+  </h1>
+  <div class="forum-description mb-lg">
+    {{forum.description}}
+  </div>
+  {{#if createTopicAccess}}
+    <div class="mb-lg">
+      <a href="/forum/{{forum.key}}/create">
+        <i class="fas fa-plus-circle"></i>
+        Создать тему
       </a>
     </div>
-    <div>
-      <em>
-        {{this.description}}
-      </em>
-    </div>
-  </li>
-  {{/each}}
-</ul>
+  {{/if}}
+  <ul class="forum-topics">
+    {{#each forum.topics}}
+      <li class="forum-topics__item">
+        <a href="/forum/{{../forum.key}}/{{this.id}}" class="forum-topics__wrap-link">
+          <div class="forum-topics__about">
+            <div class="forum-topics__topic-title">
+              {{this.title}}
+            </div>
+            <div class="forum-topics__topic-description">
+              {{this.description}}
+            </div>
+          </div>
+          <ul class="forum-topics__topic-meta">
+            <li class="forum-topuc__topic-meta-item">
+              Сообщений: {{this.messages.length}}
+            </li>
+          </ul>
+        </a>
+      </li>
+    {{/each}}
+  </ul>
 {{>pagination pagination=pagination}}
 {{/layout}}

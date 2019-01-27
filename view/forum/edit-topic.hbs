@@ -1,32 +1,43 @@
 {{#>layout}}
-{{#if deleteTopicUrl}}
-<div>
-  <a href="/forum/{{deleteTopicUrl}}">Delete topic</a>
-</div>
-{{/if}}
+<h1 class="mb-lg">
+  {{#if editForm.value}}
+    Редактирование темы
+  {{else}}
+    Добавить тему
+  {{/if}}
+</h1>
 <form action="/forum/{{forum.key}}/{{editForm.url}}" method="post">
-  <div>
-    <label for="title">Title:</label>
+  <div class="mb-md">
+    <label for="title" class="mb-sm">Название темы:</label>
     <input type="text" id="title" name="title" value="{{editForm.value.title}}" required>
   </div>
-  <div>
-    <label for="description">Description</label>
+  <div class="mb-md">
+    <label for="description" class="mb-sm">Описание:</label>
     <input type="text" id="description" name="description" value="{{editForm.value.description}}">
   </div>
   {{#unless editForm.value}}
-  <div>
-    <label for="message">Message</label>
-    <textarea name="message" id="message" cols="30" rows="10" required></textarea>
-  </div>
+    <div class="mb-md">
+      <label for="message" class="mb-sm">Текст сообщения:</label>
+      <textarea name="message" id="message" cols="30" rows="10" required></textarea>
+    </div>
   {{/unless}}
-  <div>
+  <div class="mb-md">
     <input type="checkbox" name="pinned" id="pinned"  {{#if editForm.value.pinned}} checked{{/if}}>
-    <label for="pinned">Pinned</label>
+    <label for="pinned" class="mb-sm">Прикрепить тему</label>
   </div>
-  <div>
+  <div class="mb-md">
     <input type="checkbox" name="important" id="important" {{#if editForm.value.important}} checked{{/if}}>
-    <label for="important">Important</label>
+    <label for="important" class="mb-sm">Важная тема</label>
   </div>
-  <button>Submit</button>
+  <button>
+    <i class="fas fa-check"></i>
+    Сохранить
+  </button>
+  {{#if deleteTopicUrl}}
+    <a href="/forum/{{deleteTopicUrl}}" class="button">
+      <i class="far fa-trash-alt"></i>
+      Удалить  
+    </a>
+  {{/if}}
 </form>
 {{/layout}}

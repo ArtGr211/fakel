@@ -1,13 +1,16 @@
 <form action="/forum/{{formConfig.url}}" method="POST">
   {{#unless user}}
-  <div>
-    <label for="authorName">Your name:</label>
-    <input type="text" name="authorName" id="authorName">
-  </div>
+    <div class="mb-md">
+      <label for="authorName" class="mb-sm">Ваше имя:</label>
+      <input type="text" name="authorName" id="authorName">
+    </div>
   {{/unless}}
-  <div>
-    <label for="text">Message text</label>
+  <div class="mb-md">
+    <label for="text" class="mb-sm">Текст сообщения:</label>
     <textarea name="text" id="text" cols="30" rows="10" required>{{formConfig.text}}</textarea>
-    <button>Submit</button>
   </div>
+  <button>
+    <i class="far fa-comment-alt"></i>
+    Отправить
+  </button>
 </form>

@@ -1,17 +1,23 @@
 {{#>layout}}
+  <h1 class="mb-lg">Регистрация</h1>
   <form action="{{registrationForm.url}}" method="POST">
-    <div>
-      <label for="login">Login:</label>
-      <input type="text" name="login" id="email" placeholder="Login">
+    <div class="mb-md">
+      <label for="login" class="mb-sm">Username:</label>
+      <input type="text" name="login" id="login" placeholder="Login">
     </div>
-    <div>
-      <label for="email">Email</label>
+    <div class="mb-md">
+      <label for="email" class="mb-sm">Email:</label>
       <input type="email" name="email" id="email" placeholder="Email">
     </div>
-    <div>
-      <label for="password">Password</label>
+    <div class="mb-md">
+      <label for="password" class="mb-sm">Пароль:</label>
       <input type="password" name="password" id="password" placeholder="Password">
     </div>
-    <button>Sign up</button>
+    <div class="mb-md">
+      <button>Зарегистрироваться</button>
+    </div>
+    <div>
+      <a href="/auth/login">У меня уже есть аккаунт</a>
+    </div>
   </form>
 {{/layout}}

@@ -32,6 +32,7 @@ exports.articlesListPage = (req, res) => {
           'blog/list.hbs', {
             user: req.user,
             pageTitle: 'Blog',
+            addArticleAccess: helpers.checkAccessByRole(req.user, ['blog', 'articles', 'create']),
             articles: articles.map(
               article => {
                 if (article.text.length > 100) {
