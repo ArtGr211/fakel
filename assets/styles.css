@@ -264,10 +264,27 @@ button:hover,
 }
 
 .sidebar-profile__avatar,
+.sidebar-profile__no-avatar,
 .sidebar-profile__text {
   display: inline-block;
   vertical-align: middle;
 }
+
+.sidebar-profile__avatar {
+  height: 42px;
+  width: 42px;
+}
+
+.sidebar-profile__avatar-img {
+  max-height: 100%;
+  display: block;
+  margin: 0 auto;
+}
+
+.sidebar-profile__no-avatar {
+  font-size: 26px;
+}
+
 
 .sidebar-nav__list {
   list-style: none;

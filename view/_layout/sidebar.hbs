@@ -5,7 +5,11 @@
   {{#if user}}
     <a href="/profile" class="sidebar-profile">
       <div class="sidebar-profile__avatar">
-        <img src="{{user.avatarUrl}}" alt="{{user.username}}" class="sidebar-profile__avatar-img">
+        {{#if user.avatarUrl}}
+          <img src="{{user.avatarUrl}}" alt="{{user.username}}" class="sidebar-profile__avatar-img">
+        {{else}}
+        <i class="fas fa-user sidebar-profile__no-avatar"></i>
+        {{/if}}
       </div>
       <div class="sidebar-profile__text">
         {{user.username}}
@@ -14,7 +18,13 @@
   {{/if}}
   <nav class="sidebar-nav">
     <ul class="sidebar-nav__list">
-      {{#unless user}}
+      {{#if user}}
+        <li class="sidebar-nav__item">
+          <a href="/auth/logout" class="sidebar-nav__link">
+            Выход
+          </a>
+        </li>
+      {{else}}
         <li class="sidebar-nav__item">
           <a href="/auth/registration" class="sidebar-nav__link">
             Регистрация
@@ -25,7 +35,7 @@
             Вход
           </a>
         </li>
-      {{/unless}}
+      {{/if}}
       <li class="sidebar-nav__item">
         <a href="/blog" class="sidebar-nav__link">
           Блог
