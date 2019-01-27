@@ -1,19 +1,51 @@
 <aside class="sidebar">
+  <div class="logo">
+    Факел
+  </div>  
   {{#if user}}
-    Hello, {{ user.username }}!
-    <a href="/auth/logout">Logout</a>
-    <a href="/profile">Profile page</a>
-  {{else}}
-    <a href="/auth/registration">Registration</a>
-    <a href="/auth/login">Login</a>
+    <a href="/profile" class="sidebar-profile">
+      <div class="sidebar-profile__avatar">
+        <img src="{{user.avatarUrl}}" alt="{{user.username}}" class="sidebar-profile__avatar-img">
+      </div>
+      <div class="sidebar-profile__text">
+        {{user.username}}
+      </div>
+    </a>
   {{/if}}
-  <hr>
-  <ul>
-    <li>
-      <a href="/blog">Blog</a>
-    </li>
-    <li>
-      <a href="/forum">Forum</a>
-    </li>
-  </ul>
+  <nav class="sidebar-nav">
+    <ul class="sidebar-nav__list">
+      {{#unless user}}
+        <li class="sidebar-nav__item">
+          <a href="/auth/registration" class="sidebar-nav__link">
+            Регистрация
+          </a>
+        </li>
+        <li class="sidebar-nav__item">
+          <a href="/auth/login" class="sidebar-nav__link">
+            Вход
+          </a>
+        </li>
+      {{/unless}}
+      <li class="sidebar-nav__item">
+        <a href="/blog" class="sidebar-nav__link">
+          Блог
+        </a>
+      </li>
+      <li class="sidebar-nav__item">
+        <a href="/forum" class="sidebar-nav__link">
+          Форум
+        </a>
+      </li>
+      <li class="sidebar-nav__item">
+        <a href="/rules" class="sidebar-nav__link">
+          Правила
+        </a>
+      </li>
+      <li class="sidebar-nav__item">
+        <a href="/about" class="sidebar-nav__link">
+          О "Факеле"
+        </a>
+      </li>
+    </ul>
+  </nav>
 </aside>
