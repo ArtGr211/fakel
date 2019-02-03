@@ -1,0 +1,28 @@
+{{#>layout}}
+  {{>userHeader profile=userProfile}}
+  <div class="user-role mb-md">
+    <div class="user-role__badge">
+      {{userProfile.role}}
+    </div>
+  </div>
+  {{#if userProfile.bio}}
+    <div class="user-about mb-md">
+      {{{userProfile.bio}}}
+    </div>
+  {{/if}}
+  <h2 class="mb-md mt-lg">Статистика:</h2>
+  <ul class="user-statistics">
+    <li class="user-statistics__item">
+      <a href="/user/{{userProfile._id}}/blog" class="user-statistics__link button button-flat">
+        <i class="fas fa-pen-nib"></i>
+        Заметок в блоге: {{articlesCount}}
+      </a>
+    </li>
+    <li class="user-statistics__item">
+      <a href="/user/{{userProfile._id}}/forum" class="user-statistics__link button button-flat">
+        <i class="fas fa-sticky-note"></i>
+        Тем на форуме: {{topicsCount}}
+      </a>
+    </li>
+  </ul>
+{{/layout}}

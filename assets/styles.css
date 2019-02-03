@@ -43,9 +43,17 @@ h4,
 h5,
 h6 {
   font-family: 'Cuprum', sans-serif;
-  color: #ff4500;
   margin: 0;
   line-height: 1;
+}
+
+h1::first-letter,
+h2::first-letter,
+h3::first-letter,
+h4::first-letter,
+h5::first-letter,
+h6::first-letter {
+  color: #ff4500;
 }
 
 .wrapper {
@@ -77,6 +85,28 @@ h6 {
   flex-shrink: 1;
   padding: 18px;
   text-align: justify;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+td, th {
+  padding: 8px;
+}
+
+thead tr,
+tr:nth-child(even) {
+  background: #f5f5f5;
+}
+
+thead th::first-letter {
+  color: #ff4500;
+}
+
+tr:nth-child(odd) {
+  color: #333;
 }
 
 input,
@@ -232,10 +262,19 @@ button:hover,
   color: black;
 }
 
+.full-width,
+.full-width-p0,
 .grey-block {
   margin-left: -18px;
   margin-right: -18px;
+}
+
+.full-width,
+.grey-block {
   padding: 0 18px;
+}
+
+.grey-block {
   background: #f5f5f5;
 }
 
@@ -613,6 +652,44 @@ button:hover,
   background: #f5f5f5;
 }
 
+.user-header__text {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.user-header__username {
+  color: #333;
+}
+
+.user-header__status {
+  color: #777;
+}
+
+.user-role__badge {
+  background: #333;
+  color: white;
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.user-header__avatar {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.user-statistics {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.user-statistics__item {
+  display: inline-block;
+}
+
 .mb-sm {
   margin-bottom: 5px;
 }
@@ -635,4 +712,16 @@ button:hover,
 
 .mr-lg {
   margin-right: 20px;
+}
+
+.mt-sm {
+  margin-top: 5px;
+}
+
+.mt-md {
+  margin-top: 10px;
+}
+
+.mt-lg {
+  margin-top: 20px;
 }

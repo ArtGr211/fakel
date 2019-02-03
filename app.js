@@ -45,12 +45,14 @@ require('./view/_layout/layout')();
 require('./view/widgets/comments/comments')();
 require('./view/widgets/pagination/pagination')();
 require('./view/forum/forum')();
+require('./view/user/user')();
 app.use(require('./middlewares/user'));
 app.use('/', require('./routes/main'));
 app.use('/auth', require('./routes/auth'));
 app.use('/profile', require('./routes/profile'));
 app.use('/blog', require('./routes/blog'));
 app.use('/forum', require('./routes/forum'));
+app.use('/user', require('./routes/user'));
 app.use('', (req, res, next) => {
   next({ status: 404})
 })

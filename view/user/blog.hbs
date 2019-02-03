@@ -1,0 +1,37 @@
+{{#>layout}}
+  {{>userHeader profile=userProfile}}
+  <div class="full-width-p0">
+    <table>
+      <thead>
+        <tr>
+          <th>
+            Заголовок
+          </th>
+          <th>
+            Дата создания
+          </th>
+          <th>
+            Комментариев
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each articles}}
+          <tr>
+            <td>
+              <a href="/blog/{{this.id}}">
+                {{this.title}}
+              </a>
+            </td>
+            <td>
+              {{this.createdAt}}
+            </td>
+            <td>
+              {{this.comments.length}}
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+{{/layout}}

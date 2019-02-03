@@ -1,0 +1,37 @@
+{{#>layout}}
+  {{>userHeader profile=userProfile}}
+  <div class="full-width-p0">
+    <table>
+      <thead>
+        <tr>
+          <th>
+            Название
+          </th>
+          <th>
+            Дата создания
+          </th>
+          <th>
+            Сообщений
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each topics}}
+          <tr>
+            <td>
+              <a href="/forum/{{this.forum}}/{{this.id}}">
+                {{this.title}}
+              </a>
+            </td>
+            <td>
+              {{this.createdAt}}
+            </td>
+            <td>
+              {{this.messages.length}}
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+{{/layout}}
