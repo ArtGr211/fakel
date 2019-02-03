@@ -1,5 +1,4 @@
-const templateUtil = require('../utils/template'),
-  User = require('../model/user.model');
+const User = require('../model/user.model');
 
 exports.registrationPage = (req, res) => {
   res.render('auth/registration.hbs', {
@@ -32,20 +31,24 @@ exports.registration = (req, res) => {
       res.redirect('/sign-in')
     )
     .catch(e => res.render('errors/error.hbs', {
-      pageTitle: 'Error',
-      user: req.user
+      pageTitle: 'Ошибка авторизации',
+      user: req.user,
+      error: {
+        title: 'Ошибка авторизации',
+        description: 'Неверный email или пароль'
+      }
     }))
 }
 
-exports.login = (req, res) => {
+exports.login = (req, res, next) => {
   User.auth(
     req.body.email,
     req.body.password,
     (err, user) => {
       if (err) {
-        res.render('errors/error.hbs', {
-          pageTitle: 'Error',
-          user: req.user
+        next({
+          status: 401,
+          description: 'Неправильный email или пароль'
         })
       } else if (user) {
         req.session.userId = user._id;

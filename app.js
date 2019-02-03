@@ -51,6 +51,10 @@ app.use('/auth', require('./routes/auth'));
 app.use('/profile', require('./routes/profile'));
 app.use('/blog', require('./routes/blog'));
 app.use('/forum', require('./routes/forum'));
+app.use('', (req, res, next) => {
+  next({ status: 404})
+})
+app.use(require('./controller/errors').errorPage);
 
 app.listen(3000, function () {
   console.log('App is running and listening on port 3000')

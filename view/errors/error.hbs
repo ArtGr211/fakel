@@ -1,3 +1,11 @@
 {{#>layout}}
-  <h1>Error!</h1>
+  <h1 class="mb-lg">{{error.title}}</h1>
+  <div class="info-block info-block_error">
+    <div class="info-block__icon">
+      <i class="fas fa-exclamation-triangle"></i>
+    </div>
+    <div class="info-block__description">
+      {{error.description}}
+    </div>
+  </div>
 {{/layout}}
