@@ -3,8 +3,10 @@
     <h1 class="article__title mb-md">{{article.title}}</h1>
     <ul class="article-meta mb-lg">
       <li class="article-meta__item mr-md">
-        <i class="fas fa-user article-meta__icon"></i>
-        {{article.author.username}}
+        <a href="/user/{{article.author.id}}" class="article-meta__link link-grey">
+          <i class="fas fa-user article-meta__icon"></i>
+          {{article.author.username}}
+        </a>
       </li>
       <li class="article-meta__item">
         <i class="fas fa-calendar-day article-meta__icon"></i>
@@ -15,7 +17,7 @@
       {{{article.text}}}
     </div>
   </div>
-  <div class="author mb-lg">
+  <a href="/user/{{article.author.id}}" class="author mb-lg">
     {{#if article.author.avatarUrl}}
       <div class="author__avatar">
         <img src="{{article.author.avatarUrl}}" alt="{{article.author.username}}" class="author__avatar-img">
@@ -25,11 +27,13 @@
       <div class="author__name">
         Автор: {{article.author.username}}
       </div>
-      <div class="author__bio">
-        {{{article.author.bio}}}
-      </div>
+      {{#if article.author.status}}
+        <div class="author__status">
+          {{article.author.status}}
+        </div>
+      {{/if}}
     </div>
-  </div>
+  </a>
   <div class="grey-block mb-lg">
     {{#if access.edit}}
       <a href="/blog/{{article.id}}/edit" class="button button-flat button-grey">

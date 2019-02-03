@@ -35,8 +35,8 @@ exports.articlesListPage = (req, res) => {
             addArticleAccess: helpers.checkAccessByRole(req.user, ['blog', 'articles', 'create']),
             articles: articles.map(
               article => {
-                if (article.text.length > 100) {
-                  article.text = article.text.slice(0, 100) + '...';
+                if (article.text.length > 300) {
+                  article.text = article.text.slice(0, 300) + '...';
                 }
                 return article;
               }

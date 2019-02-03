@@ -2,28 +2,36 @@
   {{#each comments}}
   <li class="comments__item">
     <div class="comments__meta">
-      <div class="comments__author">
-        <div class="comments__avatar">
-          {{#if this.author.avatarUrl}}
-            <img
-              class="comments__avatar-img"
-              src="{{this.author.avatarUrl}}"
-              alt="{{this.author.username}}"
-            />
-          {{else}}
-            <i class="fas fa-user comments__no-avatar"></i>
-          {{/if}}
+      {{#if this.author}}
+        <a href="/user/{{this.author.id}}" class="comments__author comments__author_link">
+      {{else}}
+        <div class="comments__author">
+      {{/if}}
+          <div class="comments__avatar">
+            {{#if this.author.avatarUrl}}
+              <img
+                class="comments__avatar-img"
+                src="{{this.author.avatarUrl}}"
+                alt="{{this.author.username}}"
+              />
+            {{else}}
+              <i class="fas fa-user comments__no-avatar"></i>
+            {{/if}}
+          </div>
+          <div class="comments__username">
+            {{#if this.author}}
+              {{this.author.username}}
+            {{else if this.authorName}}
+              {{this.authorName}}
+            {{else}}
+              Гость
+            {{/if}}
+          </div>
+      {{#if this.author}}
+        </a>
+      {{else}}
         </div>
-        <div class="comments__username">
-          {{#if this.author}}
-            {{this.author.username}}
-          {{else if this.authorName}}
-            {{this.authorName}}
-          {{else}}
-            Гость
-          {{/if}}
-        </div>
-      </div>
+      {{/if}}
       <div class="comments__created-at">
         {{this.createdAt}}
       </div>
