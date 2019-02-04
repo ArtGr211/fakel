@@ -28,7 +28,7 @@ exports.registration = (req, res, next) => {
   });
   newUser.save()
     .then((user) =>
-      res.redirect('/sign-in')
+      res.redirect('/auth/login')
     )
     .catch(err => {
       switch (err.code) {

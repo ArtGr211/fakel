@@ -23,20 +23,16 @@ const mongoose = require('mongoose'),
       required: true,
       default: 'user'
     },
-    avatarUrl: {
-      type: String
+    details: {
+      avatarUrl: String,
+      birthdate: Date,
+      about: String,
+      forumSignature: String,
+      status: String,
     },
-    birthdate: {
-      type: Date
-    },
-    bio: {
-      type: String
-    },
-    forumSignature: {
-      type: String
-    },
-    status: {
-      type: String
+    privacySettings: {
+      showBirthdate: Boolean,
+      showEmail: Boolean
     }
   }, {
     timestamps: true
