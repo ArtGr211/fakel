@@ -375,6 +375,25 @@ button:hover,
   transition: 200ms;
 }
 
+.info-block {
+  margin: 0 -18px;
+  padding: 10px 18px;
+  background: #f7f7f7;
+  text-align: center;
+}
+
+.info-block_error {
+  color: #ff4500;
+}
+
+.info-block__icon {
+  font-size: 48px;
+}
+
+.info-block__description {
+  font-weight: bold;
+}
+
 .author {
   padding: 10px 18px;
   display: flex;
