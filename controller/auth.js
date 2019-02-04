@@ -20,7 +20,7 @@ exports.loginPage = (req, res) => {
   })
 }
 
-exports.registration = (req, res) => {
+exports.registration = (req, res, next) => {
   const newUser = new User({
     username: req.body.username,
     email: req.body.email,
@@ -30,32 +30,40 @@ exports.registration = (req, res) => {
     .then((user) =>
       res.redirect('/sign-in')
     )
-    .catch(e => res.render('errors/error.hbs', {
-      pageTitle: 'Ошибка авторизации',
-      user: req.user,
-      error: {
-        title: 'Ошибка авторизации',
-        description: 'Неверный email или пароль'
+    .catch(err => {
+      switch (err.code) {
+        case 11000:
+          next({
+            status: 422,
+            description: 'Пользователь с таким username или email уже зарегистрирован'
+          })
+          break;
+        default:
+          next({
+            status: 500,
+            description: 'Ошибка регистрации'
+          })
+          break;
       }
-    }))
+    })
 }
 
 exports.login = (req, res, next) => {
   User.auth(
-    req.body.email,
-    req.body.password,
-    (err, user) => {
-      if (err) {
+      req.body.email,
+      req.body.password
+    ).then(user => {
+      if (user) {
+        req.session.userId = user._id;
+        res.redirect('/')
+      } else {
         next({
           status: 401,
           description: 'Неправильный email или пароль'
         })
-      } else if (user) {
-        req.session.userId = user._id;
-        res.redirect('/')
       }
-    }
-  )
+    })
+    .catch(err => next())
 }
 
 exports.logout = (req, res) => {

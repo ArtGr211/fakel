@@ -49,24 +49,19 @@ UserSchema.pre('save', function (next) {
   })
 })
 
-UserSchema.static('auth', function (email, password, callback) {
-  this.findOne({
+UserSchema.static('auth', function (email, password) {
+  return this.findOne({
       email: email
     })
-    .exec((err, user) => {
-      if (err) {
-        return callback(err);
-      } else if (!user) {
-        const err = new Error('User not found');
-        err.status = 401;
-        return callback(err);
+    .exec()
+    .then(user => {
+      if (!user) {
+        return null;
       }
-      bcrypt.compare(password, user.password, (err, result) => {
-        if (result === true) {
-          return callback(null, user);
-        }
-        return callback();
-      })
+      return bcrypt.compare(password, user.password)
+        .then(result => {
+          if (result === true) return user;
+        })
     })
 })
 
