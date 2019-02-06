@@ -723,7 +723,17 @@ button:hover,
   color: #777;
 }
 
-.user-role__badge {
+.user-meta {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.user-meta__item {
+  display: inline-block;
+}
+
+.user-meta__badge {
   background: #333;
   color: white;
   display: inline-block;

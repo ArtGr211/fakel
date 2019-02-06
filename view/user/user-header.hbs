@@ -1,16 +1,16 @@
 <div class="user-header grey-block text-center mb-lg">
-  {{#if profile.avatarUrl}}
+  {{#if profile.details.avatarUrl}}
     <div class="user-header__avatar">
-      <img src="{{profile.avatarUrl}}" alt="{{profile.username}}" class="user-header__avatar-img">
+      <img src="{{profile.details.avatarUrl}}" alt="{{profile.username}}" class="user-header__avatar-img">
     </div>
   {{/if}}
   <div class="user-header__text">
     <h1 class="user-header__username">
       {{profile.username}}
     </h1>
-    {{#if profile.status}}
+    {{#if profile.details.status}}
       <div class="user-header__status">
-        {{profile.status}}
+        {{profile.details.status}}
       </div>
     {{/if}}
   </div>

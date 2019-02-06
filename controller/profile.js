@@ -25,6 +25,11 @@ exports.update = (req, res) => {
   if (req.body.privacySettings) {
     req.body.privacySettings.showBirthdate = helpers.checkBoxToBoolean(req.body.privacySettings.showBirthdate);
     req.body.privacySettings.showEmail = helpers.checkBoxToBoolean(req.body.privacySettings.showEmail);
+  } else {
+    req.body.privacySettings = {
+      showBirthdate: false,
+      showEmail: false
+    }
   }
   User.findByIdAndUpdate(
       req.user._id, {

@@ -1,13 +1,29 @@
 {{#>layout}}
   {{>userHeader profile=userProfile}}
-  <div class="user-role mb-md">
-    <div class="user-role__badge">
-      {{userProfile.role}}
-    </div>
-  </div>
-  {{#if userProfile.bio}}
+  <ul class="user-meta mb-md">
+    <li class="user-meta__item mr-lg">
+      <div class="user-meta__badge">
+        {{userProfile.role}}
+      </div>
+    </li>
+    {{#if userProfile.privacySettings.showEmail}}
+      <li class="user-meta__item mr-lg">
+        <i class="fas fa-envelope"></i>
+        Email: <a href="mailto:{{userProfile.email}}">{{userProfile.email}}</a>
+      </li>
+    {{/if}}
+    {{#if userProfile.privacySettings.showBirthdate}}
+      {{#if userProfile.details.birthdate}}
+        <li class="user-meta__item">
+          <i class="fas fa-birthday-cake"></i>
+          День рождения: {{userProfile.details.birthdate}}
+        </li>
+      {{/if}}
+    {{/if}}
+  </ul>
+  {{#if userProfile.details.about}}
     <div class="user-about mb-md">
-      {{{userProfile.bio}}}
+      {{{userProfile.details.about}}}
     </div>
   {{/if}}
   <h2 class="mb-md mt-lg">Статистика:</h2>
