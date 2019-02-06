@@ -11,6 +11,7 @@ exports.internalError = (req, res) => {
 }
 
 exports.errorPage = (err, req, res, next) => {
+  console.log(err);
   const title = `Ошибка${err.status ? ' ' + err.status : ''}`;
   let description;
   if (err.description) {

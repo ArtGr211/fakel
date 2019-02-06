@@ -22,6 +22,10 @@ exports.profileEditPage = (req, res) => {
 
 exports.update = (req, res) => {
   delete req.body.role;
+  if (req.body.privacySettings) {
+    req.body.privacySettings.showBirthdate = helpers.checkBoxToBoolean(req.body.privacySettings.showBirthdate);
+    req.body.privacySettings.showEmail = helpers.checkBoxToBoolean(req.body.privacySettings.showEmail);
+  }
   User.findByIdAndUpdate(
       req.user._id, {
         $set: helpers.removeEmpty(req.body)
