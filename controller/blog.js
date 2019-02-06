@@ -128,7 +128,7 @@ exports.editArticlePage = (req, res) => {
     })
 }
 
-exports.editCommentPage = (req, res) => {
+exports.editCommentPage = (req, res, next) => {
   Promise.all([
       Article
       .findById(req.params.articleId)
@@ -164,7 +164,7 @@ exports.editCommentPage = (req, res) => {
               editComment: true
             })
         } else {
-          res.sendStatus(403);
+          next({status: 403});
         }
       }
     )
@@ -180,7 +180,7 @@ exports.createArticle = (req, res) => {
     .then(() => res.redirect('/blog'));
 }
 
-exports.updateArticle = (req, res) => {
+exports.updateArticle = (req, res, next) => {
   Article
     .findById(req.params.articleId)
     .then(
@@ -192,13 +192,13 @@ exports.updateArticle = (req, res) => {
             .save()
             .then(() => res.redirect(`/blog/${req.params.articleId}/`))
         } else {
-          res.sendStatus(403);
+          next({status: 403});
         }
       }
     )
 }
 
-exports.deleteArticle = (req, res) => {
+exports.deleteArticle = (req, res, next) => {
   Article
     .findById(req.params.articleId)
     .then(
@@ -209,7 +209,7 @@ exports.deleteArticle = (req, res) => {
             .remove()
             .then(() => res.redirect('/blog/'))
         } else {
-          res.sendStatus(403);
+          next({status: 403});
         }
       }
     )
@@ -244,7 +244,7 @@ exports.addComment = (req, res) => {
     )
 }
 
-exports.deleteComment = (req, res) => {
+exports.deleteComment = (req, res, next) => {
   Comment
     .findById(req.params.commentId)
     .then(comment => {
@@ -260,12 +260,12 @@ exports.deleteComment = (req, res) => {
           .remove()
           .then(() => res.redirect(`/blog/${req.params.articleId}`))
       } else {
-        res.sendStatus(403);
+        next({status: 403});
       }
     })
 }
 
-exports.updateComment = (req, res) => {
+exports.updateComment = (req, res, next) => {
   Comment
     .findById(req.params.commentId)
     .then(comment => {
@@ -282,7 +282,7 @@ exports.updateComment = (req, res) => {
           .save()
           .then(res.redirect(`/blog/${req.params.articleId}`))
       } else {
-        res.sendStatus(403);
+        next({status: 403});
       }
     })
 }

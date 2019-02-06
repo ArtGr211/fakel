@@ -46,14 +46,14 @@ const authorAccess = function (data, user, query, accessType) {
 const pagination = function (options) {
   options.current = +options.current;
   const
-    totalPages = Math.ceil(options.total / options.perPage),
-    pagination = {
-      current: +options.current,
-      before: [],
-      after: [],
-      totalPages: totalPages,
-      show: totalPages > 1
-    }
+  totalPages = Math.ceil(options.total / options.perPage),
+  pagination = {
+    current: +options.current,
+    before: [],
+    after: [],
+    totalPages: totalPages,
+    show: totalPages > 1
+  }
 
   let
     from = options.current - options.show,

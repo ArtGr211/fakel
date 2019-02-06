@@ -137,7 +137,7 @@ exports.createTopicPage = (req, res) => {
     })
 }
 
-exports.editTopicPage = (req, res) => {
+exports.editTopicPage = (req, res, next) => {
   ForumTopic
     .findById(req.params.topicId)
     .then(topic => {
@@ -145,7 +145,7 @@ exports.editTopicPage = (req, res) => {
         editAccess = helpers.authorAccess(topic, req.user, ['forum', 'topics'], 'edit'),
         deleteAccess = helpers.authorAccess(topic, req.user, ['forum', 'topics'], 'delete');
       if (!editAccess) {
-        res.sendStatus(403);
+        next({status: 403});
       } else {
         res.render(
           'forum/edit-topic.hbs', {
@@ -161,7 +161,7 @@ exports.editTopicPage = (req, res) => {
     })
 }
 
-exports.editMessagePage = (req, res) => {
+exports.editMessagePage = (req, res, next) => {
   ForumMessage
     .findById(req.params.messageId)
     .then(message => {
@@ -176,7 +176,7 @@ exports.editMessagePage = (req, res) => {
           }
         })
       } else {
-        res.sendStatus(403);
+        next({status: 403});
       }
     })
 }
@@ -231,7 +231,7 @@ exports.createTopic = (req, res) => {
     )
 }
 
-exports.updateTopic = (req, res) => {
+exports.updateTopic = (req, res, next) => {
   ForumTopic.findById(req.params.topicId)
     .then(
       topic => {
@@ -242,13 +242,13 @@ exports.updateTopic = (req, res) => {
             .save()
             .then(() => res.redirect(`/forum/${req.params.forum}/${req.params.topicId}`))
         } else {
-          res.sendStatus(403);
+          next({status: 403});
         }
       }
     )
 }
 
-exports.deleteTopic = (req, res) => {
+exports.deleteTopic = (req, res, next) => {
   ForumTopic.findById(req.params.topicId)
     .then(
       topic => {
@@ -258,7 +258,7 @@ exports.deleteTopic = (req, res) => {
             .remove()
             .then(() => res.redirect(`/forum/${req.params.forum}`))
         } else {
-          res.sendStatus(403);
+          next({status: 403});
         }
       }
     )
@@ -292,7 +292,7 @@ exports.createMessage = (req, res) => {
     )
 }
 
-exports.updateMessage = (req, res) => {
+exports.updateMessage = (req, res, next) => {
   ForumMessage
     .findById(req.params.messageId)
     .then(message => {
@@ -303,12 +303,12 @@ exports.updateMessage = (req, res) => {
           () => res.redirect(`/forum/${req.params.forum}/${req.params.topicId}`)
         );
       } else {
-        res.sendStatus(403);
+        next({status: 403});
       }
     })
 }
 
-exports.deleteMessage = (req, res) => {
+exports.deleteMessage = (req, res, next) => {
   ForumMessage
     .findById(req.params.messageId)
     .then(
@@ -321,7 +321,7 @@ exports.deleteMessage = (req, res) => {
               () => res.redirect(`/forum/${req.params.forum}/${req.params.topicId}`)
             )
         } else {
-          res.sendStatus(403);
+          next({status: 403});
         }
       }
     )

@@ -8,7 +8,7 @@ module.exports = function (rolesAllowed, redirect) {
       if (redirect) {
         res.redirect(redirect)
       } else {
-        res.sendStatus(req.user ? 403 : 401);
+        next({status: req.user ? 403 : 401})
       }
     }
   }
