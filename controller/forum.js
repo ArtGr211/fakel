@@ -210,8 +210,8 @@ exports.createTopic = (req, res) => {
               const newTopic = new ForumTopic({
                 title: req.body.title,
                 description: req.body.description,
-                pinned: req.body.pinned ? true : false,
-                important: req.body.important ? true : false,
+                pinned: helpers.checkBoxToBoolean(req.body.pinned),
+                important: helpers.checkBoxToBoolean(req.body.important),
                 author: req.user.id,
                 messages: [message.id],
                 forum: forum.id
@@ -236,6 +236,8 @@ exports.updateTopic = (req, res, next) => {
     .then(
       topic => {
         const access = helpers.authorAccess(topic, req.user, ['forum', 'topics'], 'edit');
+        req.body.important = helpers.checkBoxToBoolean(req.body.important);
+        req.body.pinned = helpers.checkBoxToBoolean(req.body.pinned);
         if (access) {
           topic.set(req.body);
           topic
