@@ -38,11 +38,37 @@ const mongoose = require('mongoose'),
     timestamps: true
   });
 
+ForumTopicSchema.pre('save', function (next) {
+  if (this.isModified('pinned')) {
+    this.model('Forum')
+      .findOne({
+        _id: this.forum
+      })
+      .then(forum => {
+        if (this.pinned) {
+          forum.pinnedTopics.push(this._id);
+          forum.unpinnedTopics = forum.unpinnedTopics
+            .filter(id => id.toString() != this._id.toString());
+        } else {
+          forum.unpinnedTopics.push(this._id);
+          forum.pinnedTopics = forum.pinnedTopics
+            .filter(id => id.toString() != this._id.toString());
+        }
+        return forum.save();
+      })
+      .then(() => next());
+  } else {
+    next();
+  }
+})
+
 ForumTopicSchema.pre('remove', function () {
   this.model('Forum')
     .findById(this.forum)
     .then(forum => {
       forum.topics = forum.topics.filter(id => id != this.id);
+      forum.pinnedTopics = forum.pinnedTopics.filter(id => id != this.id);
+      forum.unpinnedTopics = forum.unpinnedTopics.filter(id => id != this.id);
       return forum.save();
     })
   this.messages.forEach(messageId => {

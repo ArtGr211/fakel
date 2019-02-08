@@ -37,13 +37,14 @@ exports.forumPage = (req, res) => {
           skip: (page - 1) * siteConfig.forum.topicsPerPage,
           limit: siteConfig.forum.topicsPerPage
         }
+      }),
+      Forum.findOne({
+        key: req.params.forum
       })
+      .populate('pinnedTopics')
     ])
     .then(
-      data => {
-        const
-          count = data[0],
-          forum = data[1];
+      ([count, forum]) => {
         res.render(
           'forum/forum.hbs', {
             user: req.user,

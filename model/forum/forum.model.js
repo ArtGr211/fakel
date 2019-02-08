@@ -18,6 +18,14 @@ const mongoose = require('mongoose'),
     topics: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'ForumTopic'
+    }],
+    unpinnedTopics: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'ForumTopic'
+    }],
+    pinnedTopics: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'ForumTopic'
     }]
   });
 
