@@ -5,8 +5,8 @@
   {{#if user}}
     <a href="/profile" class="sidebar-profile">
       <div class="sidebar-profile__avatar">
-        {{#if user.avatarUrl}}
-          <img src="{{user.avatarUrl}}" alt="{{user.username}}" class="sidebar-profile__avatar-img">
+        {{#if user.details.avatarUrl}}
+          <img src="{{user.details.avatarUrl}}" alt="{{user.username}}" class="sidebar-profile__avatar-img">
         {{else}}
         <i class="fas fa-user sidebar-profile__no-avatar"></i>
         {{/if}}

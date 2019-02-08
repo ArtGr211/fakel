@@ -8,10 +8,10 @@
         <div class="comments__author">
       {{/if}}
           <div class="comments__avatar">
-            {{#if this.author.avatarUrl}}
+            {{#if this.author.details.avatarUrl}}
               <img
                 class="comments__avatar-img"
-                src="{{this.author.avatarUrl}}"
+                src="{{this.author.details.avatarUrl}}"
                 alt="{{this.author.username}}"
               />
             {{else}}

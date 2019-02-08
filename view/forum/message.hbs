@@ -5,8 +5,8 @@
     <div class="forum-messages__author">
   {{/if}}
       <div class="forum-messages__avatar">
-        {{#if message.author.avatarUrl}}
-          <img class="forum-messages__avatar-img" src="{{message.author.avatarUrl}}" alt="{{message.author.username}}">
+        {{#if message.author.details.avatarUrl}}
+          <img class="forum-messages__avatar-img" src="{{message.author.details.avatarUrl}}" alt="{{message.author.username}}">
         {{else}}
           <i class="fas fa-user no-avatar"></i>
         {{/if}}

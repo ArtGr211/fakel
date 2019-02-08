@@ -3,54 +3,56 @@
     Редактирование профиля
   </h1>
   <form action="/profile/edit" method="POST">
-    <table class="profile-table mb-md">
-      <tbody>
-        <tr>
-          <td>
-            URL Аватара:
-          </td>
-          <td>
-            <input type="url" name="details[avatarUrl]" id="avatarUrl" value="{{user.avatarUrl}}">
-          </td>
-        </tr>
-        <tr>
-          <td>Username:</td>
-          <td>
-            <input type="text" name="username" value="{{user.username}}">
-          </td>
-        </tr>
-        <tr>
-          <td>Email:</td>
-          <td>
-            <input type="email" name="email" id="email" value="{{user.email}}">
-          </td>
-        </tr>
-        <tr>
-          <td>Статус:</td>
-          <td>
-            <input type="text" name="details[status]" value="{{user.status}}">
-          </td>
-        </tr>
-        <tr>
-          <td>Дата рождения:</td>
-          <td>
-            <input type="date" name="details[birthdate]" id="birthdate" value="{{user.birthdate}}">
-          </td>
-        </tr>
-        <tr>
-          <td>Подпись для форума:</td>
-          <td>
-            <textarea name="details[forumSignature]" id="forumSignature" cols="30" rows="10">{{user.forumSignature}}</textarea>
-          </td>
-        </tr>
-        <tr>
-          <td>О себе:</td>
-          <td>
-            <textarea name="details[about]" id="about" cols="30" rows="10">{{user.bio}}</textarea>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="full-width-p0 mb-md">
+      <table class="profile-table">
+        <tbody>
+          <tr>
+            <td>
+              URL Аватара:
+            </td>
+            <td>
+              <input type="url" name="details[avatarUrl]" id="avatarUrl" value="{{user.details.avatarUrl}}">
+            </td>
+          </tr>
+          <tr>
+            <td>Username:</td>
+            <td>
+              <input type="text" name="username" value="{{user.username}}">
+            </td>
+          </tr>
+          <tr>
+            <td>Email:</td>
+            <td>
+              <input type="email" name="email" id="email" value="{{user.email}}">
+            </td>
+          </tr>
+          <tr>
+            <td>Статус:</td>
+            <td>
+              <input type="text" name="details[status]" value="{{user.status}}">
+            </td>
+          </tr>
+          <tr>
+            <td>Дата рождения:</td>
+            <td>
+              <input type="date" name="details[birthdate]" id="birthdate" value="{{user.birthdate}}">
+            </td>
+          </tr>
+          <tr>
+            <td>Подпись для форума:</td>
+            <td>
+              <textarea name="details[forumSignature]" id="forumSignature" cols="30" rows="10">{{user.forumSignature}}</textarea>
+            </td>
+          </tr>
+          <tr>
+            <td>О себе:</td>
+            <td>
+              <textarea name="details[about]" id="about" cols="30" rows="10">{{user.bio}}</textarea>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <div class="mb-sm">
       <input type="checkbox" name="privacySettings[showBirthdate]" id="showBirthdate" {{#if user.privacySettings.showBirthdate}} checked{{/if}}>
       <label for="showBirthdate">Отображать день рождения</label>

@@ -278,6 +278,16 @@ button:hover,
   background: #f5f5f5;
 }
 
+.full-width-p0 > table td:first-child,
+.full-width-p0 > table th:first-child {
+  padding-left: 18px;
+}
+
+.full-width-p0 > table td:last-child,
+.full-width-p0 > table th:last-child {
+  padding-right: 18px;
+}
+
 .no-avatar {
   font-size: 48px;
   color: #ccc;
@@ -693,13 +703,10 @@ button:hover,
   padding: 5px 0;
 }
 
-.profile-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.profile-table td {
-  padding: 10px;
+.profile-avatar {
+  max-width: 200px;
+  max-height: 200px;
+  display: block;
 }
 
 .profile-table td:nth-child(2) {
@@ -714,6 +721,7 @@ button:hover,
   display: inline-block;
   vertical-align: middle;
 }
+
 
 .user-header__username {
   color: #333;
@@ -746,6 +754,15 @@ button:hover,
 .user-header__avatar {
   display: inline-block;
   vertical-align: middle;
+  width: 100px;
+  height: 100px;
+}
+
+.user-header__avatar-img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  margin: 0 auto;
 }
 
 .user-statistics {

@@ -18,9 +18,9 @@
     </div>
   </div>
   <a href="/user/{{article.author.id}}" class="author mb-lg">
-    {{#if article.author.avatarUrl}}
+    {{#if article.author.details.avatarUrl}}
       <div class="author__avatar">
-        <img src="{{article.author.avatarUrl}}" alt="{{article.author.username}}" class="author__avatar-img">
+        <img src="{{article.author.details.avatarUrl}}" alt="{{article.author.username}}" class="author__avatar-img">
       </div>
     {{/if}}
     <div class="author__description">

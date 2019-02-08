@@ -2,45 +2,47 @@
 <h1 class="mb-lg">
   Профиль
 </h1>
-<table class="profile-table mb-md">
-  <tbody>
-    <tr>
-      <td colspan="2">
-        <img src="{{user.avatarUrl}}" alt="">
-      </td>
-    </tr>
-    <tr>
-      <td>Username:</td>
-      <td>{{user.username}}</td>
-    </tr>
-    <tr>
-      <td>Email:</td>
-      <td>{{user.email}}</td>
-    </tr>
-    <tr>
-      <td>Роль:</td>
-      <td>{{user.role}}</td>
-    </tr>
-    <tr>
-      <td>Статус:</td>
-      <td>{{user.status}}</td>
-    </tr>
-    <tr>
-      <td>Дата рождения:</td>
-      <td>{{user.birthdate}}</td>
-    </tr>
-    <tr>
-      <td>Подпись для форума:</td>
-      <td>{{{user.forumSignature}}}</td>
-    </tr>
-    <tr>
-      <td>О себе:</td>
-      <td>
-        {{{user.bio}}}
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="full-width-p0 mb-md">
+  <table class="profile-table">
+    <tbody>
+      <tr>
+        <td colspan="2">
+          <img src="{{user.details.avatarUrl}}" class="profile-avatar" alt="">
+        </td>
+      </tr>
+      <tr>
+        <td>Username:</td>
+        <td>{{user.username}}</td>
+      </tr>
+      <tr>
+        <td>Email:</td>
+        <td>{{user.email}}</td>
+      </tr>
+      <tr>
+        <td>Роль:</td>
+        <td>{{user.role}}</td>
+      </tr>
+      <tr>
+        <td>Статус:</td>
+        <td>{{user.status}}</td>
+      </tr>
+      <tr>
+        <td>Дата рождения:</td>
+        <td>{{user.birthdate}}</td>
+      </tr>
+      <tr>
+        <td>Подпись для форума:</td>
+        <td>{{{user.forumSignature}}}</td>
+      </tr>
+      <tr>
+        <td>О себе:</td>
+        <td>
+          {{{user.bio}}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 <a class="button button-flat" href="/profile/edit">
   <i class="fas fa-pencil-alt"></i>
   Редактировать
