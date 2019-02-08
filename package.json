@@ -4,21 +4,25 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "nodemon app.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^3.0.2",
+    "bcrypt": "^3.0.4",
     "body-parser": "^1.18.3",
+    "connect-mongodb-session": "^2.1.1",
     "cookie-parser": "^1.4.3",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "fs": "0.0.1-security",
     "hbs": "^4.0.1",
     "jquery": "^3.3.1",
-    "moment": "^2.22.2",
-    "mongoose": "^5.3.9",
+    "moment": "^2.24.0",
+    "mongoose": "^5.4.10",
     "normalize.css": "^8.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.9"
   }
 }

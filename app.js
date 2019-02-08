@@ -5,6 +5,7 @@ const express = require('express'),
   mongoose = require('mongoose'),
   config = require('./config/dev.config'),
   path = require('path'),
+  MongoDBStore = require('connect-mongodb-session')(session),
   app = express();
 
 app.use(bodyParser.urlencoded({
@@ -12,6 +13,11 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 app.use(cookieParser());
+
+const store = new MongoDBStore({
+  uri: 'mongodb://localhost:27017/fdb',
+  collection: 'sessions'
+})
 app.use(session({
   key: 'user_sid',
   secret: 'Hello, world!',
@@ -19,7 +25,8 @@ app.use(session({
   saveUninitialized: false,
   cookie: {
     express: 60000
-  }
+  },
+  store: store
 }));
 
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
@@ -54,7 +61,9 @@ app.use('/blog', require('./routes/blog'));
 app.use('/forum', require('./routes/forum'));
 app.use('/user', require('./routes/user'));
 app.use('', (req, res, next) => {
-  next({ status: 404})
+  next({
+    status: 404
+  })
 })
 app.use(require('./controller/errors').errorPage);
 
