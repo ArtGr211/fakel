@@ -20,7 +20,7 @@ exports.profileEditPage = (req, res) => {
   )
 }
 
-exports.update = (req, res) => {
+exports.update = (req, res, next) => {
   delete req.body.role;
   if (req.body.privacySettings) {
     req.body.privacySettings.showBirthdate = helpers.checkBoxToBoolean(req.body.privacySettings.showBirthdate);
@@ -41,4 +41,5 @@ exports.update = (req, res) => {
         res.redirect('/profile')
       }
     )
+    .catch(e => next())
 }

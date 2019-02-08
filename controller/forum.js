@@ -5,7 +5,7 @@ const
   ForumMessage = require('../model/forum/forum-message.model'),
   helpers = require('../utils/helpers');
 
-exports.forumsListPage = (req, res) => {
+exports.forumsListPage = (req, res, next) => {
   Forum
     .find()
     .then(
@@ -18,9 +18,10 @@ exports.forumsListPage = (req, res) => {
           })
       }
     )
+    .catch(e => next())
 }
 
-exports.forumPage = (req, res) => {
+exports.forumPage = (req, res, next) => {
   const page = req.query.page ? +req.query.page : 1;
 
   Promise.all([
@@ -61,9 +62,10 @@ exports.forumPage = (req, res) => {
           })
       }
     )
+    .catch(e => next())
 }
 
-exports.topicPage = (req, res) => {
+exports.topicPage = (req, res, next) => {
   ForumTopic
     .findById(req.params.topicId)
     .then(topic => {
@@ -125,6 +127,7 @@ exports.topicPage = (req, res) => {
           }
         )
     })
+    .catch(e => next())
 }
 
 exports.createTopicPage = (req, res) => {
@@ -146,7 +149,9 @@ exports.editTopicPage = (req, res, next) => {
         editAccess = helpers.authorAccess(topic, req.user, ['forum', 'topics'], 'edit'),
         deleteAccess = helpers.authorAccess(topic, req.user, ['forum', 'topics'], 'delete');
       if (!editAccess) {
-        next({status: 403});
+        next({
+          status: 403
+        });
       } else {
         res.render(
           'forum/edit-topic.hbs', {
@@ -160,6 +165,7 @@ exports.editTopicPage = (req, res, next) => {
           })
       }
     })
+    .catch(e => next())
 }
 
 exports.editMessagePage = (req, res, next) => {
@@ -177,24 +183,15 @@ exports.editMessagePage = (req, res, next) => {
           }
         })
       } else {
-        next({status: 403});
+        next({
+          status: 403
+        });
       }
     })
+    .catch(e => next())
 }
 
-exports.createForum = (req, res) => {
-  const newForum = new Forum({
-    title: req.body.title,
-    key: req.body.key,
-    description: req.body.description
-  });
-  newForum.save()
-    .then(forum => {
-      res.redirect(`/forum/${forum.key}`);
-    })
-}
-
-exports.createTopic = (req, res) => {
+exports.createTopic = (req, res, next) => {
   Forum.findOne({
       key: req.params.forum
     })
@@ -230,6 +227,7 @@ exports.createTopic = (req, res) => {
     ).then(
       () => res.redirect(`/forum/${req.params.forum}`)
     )
+    .catch(e => next())
 }
 
 exports.updateTopic = (req, res, next) => {
@@ -245,10 +243,13 @@ exports.updateTopic = (req, res, next) => {
             .save()
             .then(() => res.redirect(`/forum/${req.params.forum}/${req.params.topicId}`))
         } else {
-          next({status: 403});
+          next({
+            status: 403
+          });
         }
       }
     )
+    .catch(e => next())
 }
 
 exports.deleteTopic = (req, res, next) => {
@@ -261,13 +262,16 @@ exports.deleteTopic = (req, res, next) => {
             .remove()
             .then(() => res.redirect(`/forum/${req.params.forum}`))
         } else {
-          next({status: 403});
+          next({
+            status: 403
+          });
         }
       }
     )
+    .catch(e => next())
 }
 
-exports.createMessage = (req, res) => {
+exports.createMessage = (req, res, next) => {
   ForumTopic.findById(req.params.topicId)
     .then(
       topic => {
@@ -293,6 +297,7 @@ exports.createMessage = (req, res) => {
           .then(() => res.redirect(`/forum/${req.params.forum}/${req.params.topicId}`));
       }
     )
+    .catch(e => next())
 }
 
 exports.updateMessage = (req, res, next) => {
@@ -306,9 +311,12 @@ exports.updateMessage = (req, res, next) => {
           () => res.redirect(`/forum/${req.params.forum}/${req.params.topicId}`)
         );
       } else {
-        next({status: 403});
+        next({
+          status: 403
+        });
       }
     })
+    .catch(e => next())
 }
 
 exports.deleteMessage = (req, res, next) => {
@@ -324,8 +332,11 @@ exports.deleteMessage = (req, res, next) => {
               () => res.redirect(`/forum/${req.params.forum}/${req.params.topicId}`)
             )
         } else {
-          next({status: 403});
+          next({
+            status: 403
+          });
         }
       }
     )
+    .catch(e => next())
 }

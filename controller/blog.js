@@ -4,7 +4,7 @@ const
   Comment = require('../model/comment.model'),
   siteConfig = require('../config/site');
 
-exports.articlesListPage = (req, res) => {
+exports.articlesListPage = (req, res, next) => {
   const page = req.query.page ? +req.query.page : 1;
 
   Promise.all([
@@ -45,9 +45,10 @@ exports.articlesListPage = (req, res) => {
           })
       })
     )
+    .catch(e => next())
 }
 
-exports.articlePage = (req, res) => {
+exports.articlePage = (req, res, next) => {
   Article
     .findById(req.params.articleId)
     .populate([{
@@ -94,20 +95,26 @@ exports.articlePage = (req, res) => {
           })
       }
     )
+    .catch(e => next({
+      status: 404,
+      description: 'Статья не найдена'
+    }))
 }
 
-exports.createArticlePage = (req, res) => {
-  res.render(
-    'blog/edit.hbs', {
-      user: req.user,
-      pageTitle: 'Create article',
-      editForm: {
-        url: '/blog/create'
-      }
-    })
+exports.createArticlePage = (req, res, next) => {
+  res
+    .render(
+      'blog/edit.hbs', {
+        user: req.user,
+        pageTitle: 'Create article',
+        editForm: {
+          url: '/blog/create'
+        }
+      })
+    .catch(e => next())
 }
 
-exports.editArticlePage = (req, res) => {
+exports.editArticlePage = (req, res, next) => {
   Article.findById(req.params.articleId)
     .populate('author')
     .then(article => {
@@ -123,7 +130,9 @@ exports.editArticlePage = (req, res) => {
             }
           })
       } else {
-        res.send(403);
+        next({
+          status: 403
+        })
       }
     })
 }
@@ -164,20 +173,24 @@ exports.editCommentPage = (req, res, next) => {
               editComment: true
             })
         } else {
-          next({status: 403});
+          next({
+            status: 403
+          });
         }
       }
     )
+    .catch(e => next({}))
 }
 
-exports.createArticle = (req, res) => {
+exports.createArticle = (req, res, next) => {
   const newArticle = new Article({
     title: req.body.title,
     text: req.body.text,
     author: req.user.id
   });
   newArticle.save()
-    .then(() => res.redirect('/blog'));
+    .then(() => res.redirect('/blog'))
+    .catch(e => next());
 }
 
 exports.updateArticle = (req, res, next) => {
@@ -192,10 +205,14 @@ exports.updateArticle = (req, res, next) => {
             .save()
             .then(() => res.redirect(`/blog/${req.params.articleId}/`))
         } else {
-          next({status: 403});
+          next({
+            status: 403
+          });
         }
       }
-    )
+    ).catch(e => next({
+      status: 404
+    }))
 }
 
 exports.deleteArticle = (req, res, next) => {
@@ -209,13 +226,17 @@ exports.deleteArticle = (req, res, next) => {
             .remove()
             .then(() => res.redirect('/blog/'))
         } else {
-          next({status: 403});
+          next({
+            status: 403
+          });
         }
       }
-    )
+    ).catch(e => next({
+      status: 403
+    }))
 }
 
-exports.addComment = (req, res) => {
+exports.addComment = (req, res, next) => {
   Article.findById(req.params.articleId)
     .then(
       article => {
@@ -242,6 +263,9 @@ exports.addComment = (req, res) => {
           .then(() => res.redirect(`/blog/${req.params.articleId}`))
       }
     )
+    .catch(e => next({
+      status: 404
+    }))
 }
 
 exports.deleteComment = (req, res, next) => {
@@ -260,9 +284,14 @@ exports.deleteComment = (req, res, next) => {
           .remove()
           .then(() => res.redirect(`/blog/${req.params.articleId}`))
       } else {
-        next({status: 403});
+        next({
+          status: 403
+        });
       }
     })
+    .catch(e => next({
+      status: 404
+    }))
 }
 
 exports.updateComment = (req, res, next) => {
@@ -282,7 +311,12 @@ exports.updateComment = (req, res, next) => {
           .save()
           .then(res.redirect(`/blog/${req.params.articleId}`))
       } else {
-        next({status: 403});
+        next({
+          status: 403
+        });
       }
     })
+    .catch(e => next({
+      status: 404
+    }))
 }

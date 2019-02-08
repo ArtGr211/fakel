@@ -29,38 +29,41 @@ exports.userProfilePage = (req, res, next) => {
         })
       }
     })
+    .catch(e => next())
 }
 
-exports.userBlogPostsPage = (req, res) => {
+exports.userBlogPostsPage = (req, res, next) => {
   Promise.all([
-    User.findById(req.params.userId),
-    Article.find({
-      author: req.params.userId
-    }),
-  ])
-  .then(([userProfile, articles]) => {
-    res.render('user/blog', {
-      user: req.user,
-      pageTitle: `Статьи ${userProfile.username}`,
-      userProfile: userProfile,
-      articles: articles
-    });
-  })
+      User.findById(req.params.userId),
+      Article.find({
+        author: req.params.userId
+      }),
+    ])
+    .then(([userProfile, articles]) => {
+      res.render('user/blog', {
+        user: req.user,
+        pageTitle: `Статьи ${userProfile.username}`,
+        userProfile: userProfile,
+        articles: articles
+      });
+    })
+    .catch(e => next())
 }
 
-exports.userForumTopicsPage = (req, res) => {
+exports.userForumTopicsPage = (req, res, next) => {
   Promise.all([
-    User.findById(req.params.userId),
-    ForumTopic.find({
-      author: req.params.userId
-    }),
-  ])
-  .then(([userProfile, topics]) => {
-    res.render('user/forum', {
-      user: req.user,
-      pageTitle: `Темы форума ${userProfile.username}`,
-      userProfile: userProfile,
-      topics: topics
-    });
-  })
+      User.findById(req.params.userId),
+      ForumTopic.find({
+        author: req.params.userId
+      }),
+    ])
+    .then(([userProfile, topics]) => {
+      res.render('user/forum', {
+        user: req.user,
+        pageTitle: `Темы форума ${userProfile.username}`,
+        userProfile: userProfile,
+        topics: topics
+      });
+    })
+    .catch(e => next())
 }
