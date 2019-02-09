@@ -603,6 +603,30 @@ button:hover,
   background: #eee;
 }
 
+.forum-topics__icon {
+  flex-basis: 32px;
+  text-align: center;
+  color: #aaa;
+  font-size: 16px;
+}
+
+.forum-topics__icon_pinned {
+  color: #ff4500;
+}
+
+.forum-topics__icon_pinned {
+  color: red;
+}
+
+.forum-topics__icon_important {
+  color: #ff4500;
+  font-size: 24px;
+}
+
+.forum-topics__about {
+  margin-right: auto;
+}
+
 .forum-topics__topic-title {
   font-size: 20px;
   font-weight: bold;

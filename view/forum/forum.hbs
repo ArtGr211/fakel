@@ -13,25 +13,14 @@
       </a>
     </div>
   {{/if}}
+  <ul class="forum-topics mb-lg">
+    {{#each forum.pinnedTopics}}
+      {{>topicItem topic=this forum=../forum}}
+    {{/each}}
+  </ul>
   <ul class="forum-topics">
-    {{#each forum.topics}}
-      <li class="forum-topics__item">
-        <a href="/forum/{{../forum.key}}/{{this.id}}" class="forum-topics__wrap-link">
-          <div class="forum-topics__about">
-            <div class="forum-topics__topic-title">
-              {{this.title}}
-            </div>
-            <div class="forum-topics__topic-description">
-              {{this.description}}
-            </div>
-          </div>
-          <ul class="forum-topics__topic-meta">
-            <li class="forum-topuc__topic-meta-item">
-              Сообщений: {{this.messages.length}}
-            </li>
-          </ul>
-        </a>
-      </li>
+    {{#each forum.unpinnedTopics}}
+      {{>topicItem topic=this forum=../forum}}
     {{/each}}
   </ul>
 {{>pagination pagination=pagination}}

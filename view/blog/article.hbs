@@ -3,10 +3,15 @@
     <h1 class="article__title mb-md">{{article.title}}</h1>
     <ul class="article-meta mb-lg">
       <li class="article-meta__item mr-md">
-        <a href="/user/{{article.author.id}}" class="article-meta__link link-grey">
+        {{#if article.author}}
+          <a href="/user/{{article.author.id}}" class="article-meta__link link-grey">
+            <i class="fas fa-user article-meta__icon"></i>
+            {{article.author.username}}
+          </a>
+        {{else}}
           <i class="fas fa-user article-meta__icon"></i>
-          {{article.author.username}}
-        </a>
+          (удаленный пользователь)
+        {{/if}}
       </li>
       <li class="article-meta__item">
         <i class="fas fa-calendar-day article-meta__icon"></i>

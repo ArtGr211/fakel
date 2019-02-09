@@ -1,0 +1,30 @@
+<li class="forum-topics__item">
+  <a href="/forum/{{forum.key}}/{{topic.id}}" class="forum-topics__wrap-link">
+    {{#if topic.important}}
+      <div class="forum-topics__icon forum-topics__icon_important">
+        <i class="fab fa-gripfire"></i>
+      </div>
+    {{else if topic.pinned}}
+      <div class="forum-topics__icon forum-topics__icon_pinned">
+        <i class="fas fa-thumbtack"></i>
+      </div>
+    {{else}}
+      <div class="forum-topics__icon">
+        <i class="far fa-comment"></i>
+      </div>
+    {{/if}}
+    <div class="forum-topics__about">
+      <div class="forum-topics__topic-title">
+        {{topic.title}}
+      </div>
+      <div class="forum-topics__topic-description">
+        {{topic.description}}
+      </div>
+    </div>
+    <ul class="forum-topics__topic-meta">
+      <li class="forum-topuc__topic-meta-item">
+        Сообщений: {{topic.messages.length}}
+      </li>
+    </ul>
+  </a>
+</li>
