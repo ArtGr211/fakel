@@ -21,7 +21,8 @@
     "jquery": "^3.3.1",
     "moment": "^2.24.0",
     "mongoose": "^5.4.10",
-    "normalize.css": "^8.0.1"
+    "normalize.css": "^8.0.1",
+    "sanitize-html": "^1.20.0"
   },
   "devDependencies": {
     "nodemon": "^1.18.9"

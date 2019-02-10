@@ -1,4 +1,5 @@
 const mongoose = require('mongoose'),
+  sanitizeHtml = require('sanitize-html'),
   ForumMessageSchema = new mongoose.Schema({
     text: {
       type: String,
@@ -20,7 +21,10 @@ const mongoose = require('mongoose'),
     timestamps: true
   });
 
-ForumMessageSchema.pre('save', function() {
+ForumMessageSchema.pre('save', function () {
+  if (this.isModified('text')) {
+    this.text = sanitizeHtml(this.text);
+  }
   this
     .model('ForumTopic')
     .findById(this.topic)

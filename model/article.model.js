@@ -1,4 +1,5 @@
 const mongoose = require('mongoose'),
+  sanitizeHtml = require('sanitize-html'),
   ArticleSchema = new mongoose.Schema({
     title: {
       type: String,
@@ -22,6 +23,12 @@ const mongoose = require('mongoose'),
   }, {
     timestamps: true
   })
+
+ArticleSchema.pre('save', function() {
+  if (this.isModified('text')) {
+    this.text = sanitizeHtml(this.text);
+  }
+})
 
 ArticleSchema.pre('remove', function () {
   this.comments.forEach(commentId => {

@@ -24,17 +24,17 @@
       </tr>
       <tr>
         <td>Статус:</td>
-        <td>{{user.status}}</td>
+        <td>{{user.details.status}}</td>
       </tr>
       <tr>
         <td>Дата рождения:</td>
         <td>
-          {{moment date=user.birthdate format="DD.MM.YYYY"}}
+          {{moment date=user.details.birthdate format="DD.MM.YYYY"}}
         </td>
       </tr>
       <tr>
         <td>Подпись для форума:</td>
-        <td>{{{user.forumSignature}}}</td>
+        <td>{{{user.details.forumSignature}}}</td>
       </tr>
       <tr>
         <td>О себе:</td>

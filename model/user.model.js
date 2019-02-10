@@ -43,6 +43,12 @@ UserSchema.pre('save', function (next) {
     this.password = hash;
     next();
   })
+  if (this.isModified('details.about')) {
+    this.details.about = sanitizeHtml(this.details.about);
+  }
+  if (this.isModified('details.about')) {
+    this.details.forumSignature = sanitizeHtml(this.details.forumSignature);
+  }
 })
 
 UserSchema.static('auth', function (email, password) {
