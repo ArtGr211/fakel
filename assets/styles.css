@@ -87,7 +87,8 @@ h6::first-letter {
   text-align: justify;
 }
 
-ol, ul {
+ol,
+ul {
   margin: 0;
   padding: 0;
 }
@@ -326,10 +327,39 @@ button:hover,
   font-weight: bold;
   text-align: center;
   padding: 5px;
+  display: block;
+  color: white;
 }
 
 .logo::first-letter {
   color: #ff4500;
+}
+
+.logo:hover {
+  color: white;
+  text-decoration: none;
+  text-shadow: 1px 1px 15px #ff4500;
+  animation-name: text-fire;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes text-fire {
+  0% {
+    text-shadow: 1px 1px 5px #ff4500;
+  }
+  25% {
+    text-shadow: 1px 1px 35px #ff4500;
+  }
+  40% {
+    text-shadow: 1px 1px 5px #ff4500;
+  }
+  50% {
+    text-shadow: 1px 1px 15px #ff4500;
+  }
+  100% {
+    text-shadow: 1px 1px 5px #ff4500;
+  }
 }
 
 .sidebar-profile {

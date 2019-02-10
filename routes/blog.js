@@ -27,32 +27,32 @@ router.use('/:articleId/comments/:commentId/delete', middlewareRoles([
   'administrator'
 ]))
 
-router.use('/:articleId/comments/:commentId/edit', middlewareRoles([
+router.use('/blog/:articleId/comments/:commentId/edit', middlewareRoles([
   'moderator',
   'user',
   'administrator'
 ]))
 
-router.get('/create', controller.createArticlePage);
+router.get('/blog/create', controller.createArticlePage);
 
-router.post('/create', controller.createArticle);
+router.post('/blog/create', controller.createArticle);
 
-router.get('/:articleId/delete', controller.deleteArticle);
+router.get('/blog/:articleId/delete', controller.deleteArticle);
 
-router.post('/:articleId/comments', controller.addComment);
+router.post('/blog/:articleId/comments', controller.addComment);
 
-router.get('/:articleId', controller.articlePage);
+router.get('/blog/:articleId', controller.articlePage);
 
-router.get('/:articleId/edit', controller.editArticlePage);
+router.get('/blog/:articleId/edit', controller.editArticlePage);
 
-router.post('/:articleId/edit', controller.updateArticle);
+router.post('/blog/:articleId/edit', controller.updateArticle);
 
 router.get('/', controller.articlesListPage);
 
-router.use('/:articleId/comments/:commentId/delete', controller.deleteComment);
+router.use('/blog/:articleId/comments/:commentId/delete', controller.deleteComment);
 
-router.get('/:articleId/comments/:commentId/edit', controller.editCommentPage);
+router.get('/blog/:articleId/comments/:commentId/edit', controller.editCommentPage);
 
-router.post('/:articleId/comments/:commentId/edit', controller.updateComment);
+router.post('/blog/:articleId/comments/:commentId/edit', controller.updateComment);
 
 module.exports = router;
