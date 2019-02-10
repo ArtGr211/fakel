@@ -47,7 +47,10 @@
           <tr>
             <td>О себе:</td>
             <td>
-              <textarea name="details[about]" id="about" cols="30" rows="10">{{user.bio}}</textarea>
+              <div data-form-field="text" class="quill-editor">
+                {{{user.details.about}}}
+              </div>
+              <textarea name="details[about]" id="about" cols="30" rows="10">{{user.details.about}}</textarea>
             </td>
           </tr>
         </tbody>

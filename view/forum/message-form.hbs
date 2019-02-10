@@ -7,6 +7,11 @@
   {{/unless}}
   <div class="mb-md">
     <label for="text" class="mb-sm">Текст сообщения:</label>
+    {{#if user}}
+      <div data-form-field="text" class="quill-editor">
+        {{{formConfig.text}}}
+      </div>
+    {{/if}}
     <textarea name="text" id="text" cols="30" rows="10" required>{{formConfig.text}}</textarea>
   </div>
   <button>

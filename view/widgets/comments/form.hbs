@@ -14,6 +14,11 @@
     >
   {{/if}}
   <label for="text" class="mb-sm">Комментарий:</label>
+  {{#if user}}
+    <div data-form-field="text" class="quill-editor">
+      {{{commentForm.value.text}}}
+    </div>
+  {{/if}}
   <textarea
     name="text"
     id="text"

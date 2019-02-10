@@ -16,7 +16,7 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   font-family: 'Arsenal', sans-serif;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1.4;
 }
 
@@ -835,6 +835,47 @@ button:hover,
 
 .user-statistics__item {
   display: inline-block;
+}
+
+.ql-toolbar {
+  border-bottom: 1px solid #ccc;
+}
+
+.ql-toolbar button {
+  background: none;
+  color: black;
+  min-width: auto;
+  font-family: 'Font Awesome 5 Free';
+  line-height: 1;
+}
+
+.ql-toolbar button:hover {
+  box-shadow: none;
+  color: #ff4500;
+}
+
+.ql-editor {
+  border-bottom: 1px solid #ccc;
+  min-height: 300px;
+  max-height: 500px;
+  overflow-y: auto;
+  padding: 8px 10px;
+}
+
+.ql-bold:before {
+  content: '\f032';
+}
+
+.ql-italic:before {
+  content: '\f033';
+}
+
+.ql-underline:before {
+  content: '\f0cd';
+}
+
+.ql-link:before {
+  content: '\f0c1';
 }
 
 .mb-sm {

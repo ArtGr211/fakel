@@ -13,9 +13,11 @@
     </div>
     <div class="mb-md">
       <label for="text" class="mb-sm">Текст:</label>
+      <div data-form-field="text" class="quill-editor">
+        {{{editForm.value.text}}}
+      </div>
       <textarea name="text" id="text" cols="30" rows="10">{{editForm.value.text}}</textarea>
     </div>
-    <div class="quill-editor"></div>
     <button>
       <i class="fas fa-check"></i>
       Опубликовать
