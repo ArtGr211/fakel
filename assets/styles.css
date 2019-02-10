@@ -12,9 +12,11 @@ body {
 body {
   margin: 0;
   padding: 0;
-  background-image: url(https://img00.deviantart.net/8047/i/2018/222/4/c/tree_sunset_background_stock_by_astoko-dcjrw2r.jpg);
+  background-image: url('/assets/background.jpg');
   background-repeat: no-repeat;
   background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
   font-family: 'Arsenal', sans-serif;
   font-size: 16px;
   line-height: 1.4;
@@ -222,7 +224,7 @@ blockquote:before {
   left: -8px;
   top: -12px;
   color: #aaa;
-  font-size:  20px;
+  font-size: 20px;
   font-family: 'Font Awesome 5 Free';
   font-weight: 900;
   content: '\f10e';
@@ -370,15 +372,19 @@ button:hover,
   0% {
     text-shadow: 1px 1px 5px #ff4500;
   }
+
   25% {
     text-shadow: 1px 1px 35px #ff4500;
   }
+
   40% {
     text-shadow: 1px 1px 5px #ff4500;
   }
+
   50% {
     text-shadow: 1px 1px 15px #ff4500;
   }
+
   100% {
     text-shadow: 1px 1px 5px #ff4500;
   }
@@ -473,6 +479,7 @@ button:hover,
   padding: 50px 20px 30px;
 }
 
+.footer__background-author,
 .footer__technologies-label {
   font-weight: bold;
 }
