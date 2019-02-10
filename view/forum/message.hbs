@@ -25,7 +25,7 @@
           {{message.author.role}}
         </div>
         <div class="forum-messages__user-status">
-          {{message.author.status}}
+          {{message.author.details.status}}
         </div>
       {{/if}}
   {{#if message.author}}
@@ -35,7 +35,7 @@
   {{/if}}
   <div class="forum-messages__body">
     <div class="forum-messages__date">
-      {{message.createdAt}}
+      {{moment date=message.createdAt format="DD.MM.YYYY HH:mm"}}
     </div>
     <div class="forum-messages__text">
       {{{message.text}}}

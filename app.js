@@ -6,9 +6,13 @@ const express = require('express'),
   config = require('./config/dev.config'),
   path = require('path'),
   MongoDBStore = require('connect-mongodb-session')(session),
+  hbs = require('hbs'),
+  HandlebarsMoment = require('handlebars.moment'),
   app = express();
 
 global.__basedir = __dirname;
+
+HandlebarsMoment.registerHelpers(hbs.handlebars);
 
 app.use(bodyParser.urlencoded({
   extended: true
@@ -55,6 +59,7 @@ require('./view/widgets/comments/comments')();
 require('./view/widgets/pagination/pagination')();
 require('./view/forum/forum')();
 require('./view/user/user')();
+
 app.use(require('./middlewares/user'));
 app.use('/', require('./routes/main'));
 app.use('/auth', require('./routes/auth'));

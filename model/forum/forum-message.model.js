@@ -20,6 +20,16 @@ const mongoose = require('mongoose'),
     timestamps: true
   });
 
+ForumMessageSchema.pre('save', function() {
+  this
+    .model('ForumTopic')
+    .findById(this.topic)
+    .then(topic => {
+      topic.lastMessage = this.id;
+      return topic.save();
+    })
+})
+
 ForumMessageSchema.pre('remove', function () {
   this
     .model('ForumTopic')

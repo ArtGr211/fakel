@@ -29,13 +29,13 @@
           <tr>
             <td>Статус:</td>
             <td>
-              <input type="text" name="details[status]" value="{{user.status}}">
+              <input type="text" name="details[status]" value="{{user.details.status}}">
             </td>
           </tr>
           <tr>
             <td>Дата рождения:</td>
             <td>
-              <input type="date" name="details[birthdate]" id="birthdate" value="{{user.birthdate}}">
+              <input type="date" name="details[birthdate]" id="birthdate" value="{{moment date=user.birthdate format="YYYY-MM-DD"}}">
             </td>
           </tr>
           <tr>

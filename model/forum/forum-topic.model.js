@@ -33,6 +33,10 @@ const mongoose = require('mongoose'),
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true
+    },
+    lastMessage: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'ForumMessage'
     }
   }, {
     timestamps: true

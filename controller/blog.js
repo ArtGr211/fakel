@@ -101,17 +101,16 @@ exports.articlePage = (req, res, next) => {
     }))
 }
 
-exports.createArticlePage = (req, res, next) => {
+exports.createArticlePage = (req, res) => {
   res
     .render(
       'blog/edit.hbs', {
         user: req.user,
-        pageTitle: 'Create article',
+        pageTitle: 'Добавить статью',
         editForm: {
           url: '/blog/create'
         }
       })
-    .catch(e => next())
 }
 
 exports.editArticlePage = (req, res, next) => {

@@ -28,7 +28,9 @@
       </tr>
       <tr>
         <td>Дата рождения:</td>
-        <td>{{user.birthdate}}</td>
+        <td>
+          {{moment date=user.birthdate format="DD.MM.YYYY"}}
+        </td>
       </tr>
       <tr>
         <td>Подпись для форума:</td>

@@ -23,8 +23,26 @@
     </div>
     <ul class="forum-topics__topic-meta">
       <li class="forum-topuc__topic-meta-item">
+        Создана:
+        {{moment date=message.createdAt format="DD.MM.YYYY HH:mm"}}
+      </li>
+      <li class="forum-topuc__topic-meta-item">
         Сообщений: {{topic.messages.length}}
       </li>
     </ul>
+    <div class="forum-topics__last-message">
+      <div class="forum-topics__last-message-date">
+        {{moment date=topic.lastMessage.createdAt format="DD.MM.YYYY HH:mm"}}
+      </div>
+      <div class="forum-topics__last-message-author">
+        {{#if topic.lastMessage.author}}
+          {{topic.lastMessage.author.username}}
+        {{else if topic.lastMessage.authorName}}
+          {{authorName}}
+        {{else}}
+          Гость
+        {{/if}}
+      </div>
+    </div>
   </a>
 </li>

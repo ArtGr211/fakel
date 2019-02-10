@@ -32,12 +32,23 @@ exports.forumPage = (req, res, next) => {
       .findOne({
         key: req.params.forum
       })
-      .populate('pinnedTopics')
+      .populate({
+        path: 'pinnedTopics',
+        populate: {
+          path: 'lastMessage'
+        }
+      })
       .populate({
         path: 'unpinnedTopics',
         options: {
           skip: (page - 1) * siteConfig.forum.topicsPerPage,
-          limit: siteConfig.forum.topicsPerPage
+          limit: siteConfig.forum.topicsPerPage,
+          populate: {
+            path: 'lastMessage',
+            populate: {
+              path: 'author'
+            }
+          }
         }
       }),
       Forum.findOne({

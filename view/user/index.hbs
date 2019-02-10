@@ -16,7 +16,8 @@
       {{#if userProfile.details.birthdate}}
         <li class="user-meta__item">
           <i class="fas fa-birthday-cake"></i>
-          День рождения: {{userProfile.details.birthdate}}
+          День рождения:
+          {{moment date=userProfile.details..createdAt format="DD.MM.YYYY HH:mm"}}
         </li>
       {{/if}}
     {{/if}}

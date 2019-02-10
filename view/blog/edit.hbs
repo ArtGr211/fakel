@@ -1,14 +1,24 @@
 {{#>layout}}
+  <h1 class="mb-lg">
+    {{#if editForm.value}}
+      Редактирование статьи
+    {{else}}
+      Добавить статью
+    {{/if}}
+  </h1>
   <form action="{{editForm.url}}" method="POST">
-    <div>
-      <label for="title">Title:</label>
+    <div class="mb-md">
+      <label for="title" class="mb-sm">Заголовок статьи:</label>
       <input type="text" name="title" id="title" value="{{editForm.value.title}}">
     </div>
-    <div>
-      <label for="text">Text:</label>
+    <div class="mb-md">
+      <label for="text" class="mb-sm">Текст:</label>
       <textarea name="text" id="text" cols="30" rows="10">{{editForm.value.text}}</textarea>
     </div>
     <div class="quill-editor"></div>
-    <button>Send</button>
+    <button>
+      <i class="fas fa-check"></i>
+      Опубликовать
+    </button>
   </form>
 {{/layout}}
