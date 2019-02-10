@@ -188,7 +188,7 @@ exports.createArticle = (req, res, next) => {
     author: req.user.id
   });
   newArticle.save()
-    .then(() => res.redirect('/blog'))
+    .then(article => res.redirect(`/blog/${article.id}`))
     .catch(e => next());
 }
 

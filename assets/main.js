@@ -8,7 +8,15 @@ $(document).ready(function () {
     const editor = new Quill(this, {
       modules: {
         toolbar: [
-          ['bold', 'italic', 'underline', 'link']
+          [
+            'bold',
+            'italic',
+            'underline',
+            'link',
+            'image',
+            'blockquote',
+            'code-block'
+          ]
         ]
       }
     });

@@ -87,6 +87,10 @@ h6::first-letter {
   text-align: justify;
 }
 
+img {
+  max-width: 100%;
+}
+
 ol,
 ul {
   margin: 0;
@@ -204,6 +208,24 @@ label {
   margin-bottom: 5px;
   color: #333;
   font-size: 16px;
+}
+
+blockquote {
+  margin: 0;
+  padding: 8px;
+  background: #eee;
+  position: relative;
+}
+
+blockquote:before {
+  position: absolute;
+  left: -8px;
+  top: -12px;
+  color: #aaa;
+  font-size:  20px;
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  content: '\f10e';
 }
 
 button,
@@ -875,13 +897,22 @@ button:hover,
   background: none;
   color: black;
   min-width: auto;
-  font-family: 'Font Awesome 5 Free';
   line-height: 1;
+}
+
+.ql-toolbar button:before {
+  font-family: 'Font Awesome 5 Free';
 }
 
 .ql-toolbar button:hover {
   box-shadow: none;
   color: #ff4500;
+}
+
+.ql-container {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  outline: none;
 }
 
 .ql-editor {
@@ -906,6 +937,25 @@ button:hover,
 
 .ql-link:before {
   content: '\f0c1';
+}
+
+.ql-image:before {
+  content: '\f03e';
+}
+
+.ql-blockquote:before {
+  content: '\f10e';
+}
+
+.ql-code-block:before {
+  content: '\f121';
+}
+
+.ql-syntax {
+  background-color: #333;
+  color: white;
+  overflow: visible;
+  padding: 8px;
 }
 
 .mb-sm {

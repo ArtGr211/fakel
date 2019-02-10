@@ -1,7 +1,7 @@
 <ul class="comments">
   {{#each comments}}
   <li class="comments__item">
-    <div class="comments__meta">
+    <div class="comments__meta mb-md">
       {{#if this.author}}
         <a href="/user/{{this.author.id}}" class="comments__author comments__author_link">
       {{else}}
@@ -37,8 +37,8 @@
       </div>
     </div>
     <div class="comments__main">
-      <div class="comments__text">
-        {{this.text}}
+      <div class="comments__text mb-md">
+        {{{this.text}}}
       </div>
       <div class="comments__controls">
         {{#if this.access.edit}}

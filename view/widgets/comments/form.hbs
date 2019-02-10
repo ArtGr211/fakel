@@ -3,29 +3,33 @@
     {{commentForm.title}}
   </div>
   {{#if commentForm.authorField}}
-    <label for="authorName" class="mb-sm">Ваше имя</label>
-    <input
-      type="text"
-      class="mb-lg"
-      name="authorName"
-      value="{{commentForm.value.authorName}}"
-      placeholder="Гость"
-      required
-    >
-  {{/if}}
-  <label for="text" class="mb-sm">Комментарий:</label>
-  {{#if user}}
-    <div data-form-field="text" class="quill-editor">
-      {{{commentForm.value.text}}}
+    <div class="mb-lg">
+      <label for="authorName" class="mb-sm">Ваше имя</label>
+      <input
+        type="text"
+        class="mb-lg"
+        name="authorName"
+        value="{{commentForm.value.authorName}}"
+        placeholder="Гость"
+        required
+      >
     </div>
   {{/if}}
-  <textarea
-    name="text"
-    id="text"
-    rows="10"
-    class="mb-lg"
-    required
-  >{{commentForm.value.text}}</textarea>
+  <div class="mb-lg">
+    <label for="text" class="mb-sm">Комментарий:</label>
+    {{#if user}}
+      <div data-form-field="text" class="quill-editor">
+        {{{commentForm.value.text}}}
+      </div>
+    {{/if}}
+    <textarea
+      name="text"
+      id="text"
+      rows="10"
+      class="mb-lg"
+      required
+    >{{commentForm.value.text}}</textarea>
+  </div>
   <button>
     <i class="far fa-comment-alt"></i>
     Отправить
