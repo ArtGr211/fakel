@@ -87,12 +87,40 @@ h6::first-letter {
   text-align: justify;
 }
 
+ol, ul {
+  margin: 0;
+  padding: 0;
+}
+
+ul ul,
+ol ol,
+ol ul,
+ul ol {
+  padding-left: 30px;
+}
+
+ol {
+  counter-reset: item;
+}
+
+ol>li {
+  display: block;
+}
+
+ol>li:before {
+  content: counters(item, ".") ".";
+  counter-increment: item;
+  font-weight: bold;
+  margin-right: .5em;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
 }
 
-td, th {
+td,
+th {
   padding: 8px;
 }
 
@@ -147,7 +175,7 @@ input[type="checkbox"] {
   display: none;
 }
 
-input[type="checkbox"] + label:before {
+input[type="checkbox"]+label:before {
   content: '\f00c';
   color: transparent;
   display: inline-block;
@@ -163,7 +191,7 @@ input[type="checkbox"] + label:before {
   vertical-align: 1px;
 }
 
-input[type="checkbox"]:checked + label:before {
+input[type="checkbox"]:checked+label:before {
   background: #ff4500;
   border-color: #ff4500;
   color: white;
@@ -278,13 +306,13 @@ button:hover,
   background: #f5f5f5;
 }
 
-.full-width-p0 > table td:first-child,
-.full-width-p0 > table th:first-child {
+.full-width-p0>table td:first-child,
+.full-width-p0>table th:first-child {
   padding-left: 18px;
 }
 
-.full-width-p0 > table td:last-child,
-.full-width-p0 > table th:last-child {
+.full-width-p0>table td:last-child,
+.full-width-p0>table th:last-child {
   padding-right: 18px;
 }
 

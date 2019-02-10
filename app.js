@@ -8,6 +8,8 @@ const express = require('express'),
   MongoDBStore = require('connect-mongodb-session')(session),
   app = express();
 
+global.__basedir = __dirname;
+
 app.use(bodyParser.urlencoded({
   extended: true
 }));
@@ -60,6 +62,7 @@ app.use('/profile', require('./routes/profile'));
 app.use('/blog', require('./routes/blog'));
 app.use('/forum', require('./routes/forum'));
 app.use('/user', require('./routes/user'));
+app.get('/*.html', require('./controller/static').staticPage);
 app.use('', (req, res, next) => {
   next({
     status: 404
