@@ -8,7 +8,8 @@ const express = require('express'),
   MongoDBStore = require('connect-mongodb-session')(session),
   hbs = require('hbs'),
   HandlebarsMoment = require('handlebars.moment'),
-  app = express();
+  app = express(),
+  port = process.env.PORT || 3000;
 
 global.__basedir = __dirname;
 
@@ -74,6 +75,6 @@ app.use('', (req, res, next) => {
 })
 app.use(require('./controller/errors').errorPage);
 
-app.listen(3000, function () {
-  console.log('App is running and listening on port 3000')
+app.listen(port, function () {
+  console.log(`App is running and listening on port ${port}`)
 });
