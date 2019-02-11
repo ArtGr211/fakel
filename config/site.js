@@ -1,9 +1,9 @@
 module.exports = {
   blog: {
-    articlesPerPage: 2,
+    articlesPerPage: 10,
   },
   forum: {
-    topicsPerPage: 3,
-    messagesPerPage: 3
+    topicsPerPage: 10,
+    messagesPerPage: 10
   }
 }
