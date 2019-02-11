@@ -3,7 +3,7 @@ const express = require('express'),
   cookieParser = require('cookie-parser'),
   session = require('express-session'),
   mongoose = require('mongoose'),
-  config = require('./config/dev.config'),
+  config = require('./config/config'),
   path = require('path'),
   MongoDBStore = require('connect-mongodb-session')(session),
   hbs = require('hbs'),
@@ -22,7 +22,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 const store = new MongoDBStore({
-  uri: 'mongodb://localhost:27017/fdb',
+  uri: config.db.url,
   collection: 'sessions'
 })
 app.use(session({
