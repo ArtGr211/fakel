@@ -1,0 +1,42 @@
+{{#>layout}}
+  <h1 class="mb-lg">
+    Новые сообещния на форуме
+  </h1>
+  <ul class="newest-messages full-width-p0">
+    {{#each messages}}
+      <li class="newest-messages__item">
+        <a href="/forum/{{this.topic.forum.key}}/{{this.topic._id}}" class="newest-messages__link">
+          <div class="newest-messages__author">
+            <div class="newest-messages__avatar">
+              {{#if this.author.details.avatarUrl}}
+                <img src="{{this.author.details.avatarUrl}}" class="newest-messages__avatar-img">
+              {{else}}
+                <i class="fas fa-user newest-messages__no-avatar"></i>
+              {{/if}}
+            </div>
+            <div class="newest-messages__author-name">
+              {{#if this.author}}
+                {{this.author.username}}
+              {{else if this.authorName}}
+                {{this.authorName}}
+              {{else}}
+                Гость
+              {{/if}}
+            </div>
+          </div>
+          <div class="newest-messages__text">
+            {{{this.text}}}
+          </div>
+          <div class="newest-messages__meta">
+            <div class="newest-messages__date mb-sm">
+              {{moment date=this.createdAt format="DD.MM.YYYY HH:mm"}}
+            </div>
+            <div class="newest-messages__topic">
+              {{this.topic.title}}
+            </div>
+          </div>
+        </a>
+      </li>
+    {{/each}}
+  </ul>
+{{/layout}}

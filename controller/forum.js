@@ -204,6 +204,7 @@ exports.editMessagePage = (req, res, next) => {
 }
 
 exports.createTopic = (req, res, next) => {
+  let msg;
   Forum.findOne({
       key: req.params.forum
     })
@@ -217,6 +218,7 @@ exports.createTopic = (req, res, next) => {
         return newMessage.save()
           .then(
             message => {
+              msg = message;
               const newTopic = new ForumTopic({
                 title: req.body.title,
                 description: req.body.description,
@@ -233,7 +235,11 @@ exports.createTopic = (req, res, next) => {
           .then(
             topic => {
               forum.topics.push(topic);
-              return forum.save();
+              msg.topic = topic._id;
+              return Promise.all([
+                forum.save(),
+                msg.save()
+              ])
             }
           )
       }
@@ -352,4 +358,25 @@ exports.deleteMessage = (req, res, next) => {
       }
     )
     .catch(e => next())
+}
+
+exports.newestMessagesPage = (req, res, next) => {
+  ForumMessage
+  .find()
+  .sort('-createdAt')
+  .limit(20)
+  .populate('author')
+  .populate({
+    path: 'topic',
+    populate: {
+      path: 'forum'
+    }
+  })
+  .then(messages => {
+    res.render('forum/newest-messages', {
+      user: req.user,
+      pageTitle: 'Новые сообщения на форуме',
+      messages
+    });
+  })
 }
