@@ -224,7 +224,8 @@ exports.createTopic = (req, res, next) => {
                 important: helpers.checkBoxToBoolean(req.body.important),
                 author: req.user.id,
                 messages: [message.id],
-                forum: forum.id
+                forum: forum.id,
+                lastMessage: message
               });
               return newTopic.save()
             }

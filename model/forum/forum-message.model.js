@@ -25,13 +25,6 @@ ForumMessageSchema.pre('save', function () {
   if (this.isModified('text')) {
     this.text = sanitizeHtml(this.text);
   }
-  this
-    .model('ForumTopic')
-    .findById(this.topic)
-    .then(topic => {
-      topic.lastMessage = this.id;
-      return topic.save();
-    })
 })
 
 ForumMessageSchema.pre('remove', function () {
