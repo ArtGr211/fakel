@@ -31,7 +31,7 @@ exports.articlesListPage = (req, res, next) => {
         res.render(
           'blog/list.hbs', {
             user: req.user,
-            pageTitle: 'Blog',
+            pageTitle: 'Блог',
             addArticleAccess: helpers.checkAccessByRole(req.user, ['blog', 'articles', 'create']),
             articles: articles.map(
               article => {
@@ -122,7 +122,7 @@ exports.editArticlePage = (req, res, next) => {
         res.render(
           'blog/edit.hbs', {
             user: req.user,
-            pageTitle: 'Create article',
+            pageTitle: `Редактирование статьи ${article.title}`,
             editForm: {
               url: `/blog/${article._id}/edit`,
               value: article

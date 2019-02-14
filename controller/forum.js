@@ -13,7 +13,7 @@ exports.forumsListPage = (req, res, next) => {
         res.render(
           'forum/forums.hbs', {
             user: req.user,
-            pageTitle: 'Forum',
+            pageTitle: 'Форум',
             forums: forums
           })
       }
@@ -146,7 +146,7 @@ exports.createTopicPage = (req, res) => {
   res.render(
     'forum/edit-topic.hbs', {
       user: req.user,
-      pageTitle: 'Create topic',
+      pageTitle: 'Создать тему',
       editForm: {
         url: req.params.forum + '/create'
       }
@@ -168,7 +168,7 @@ exports.editTopicPage = (req, res, next) => {
         res.render(
           'forum/edit-topic.hbs', {
             user: req.user,
-            pageTitle: `Edit topic ${topic.title}`,
+            pageTitle: `Редактирование темы ${topic.title}`,
             editForm: {
               url: `${req.params.forum}/${req.params.topicId}/edit`,
               value: topic
@@ -188,7 +188,7 @@ exports.editMessagePage = (req, res, next) => {
       if (editMessageAccess) {
         res.render('forum/edit-message.hbs', {
           user: req.user,
-          pageTitle: 'Edit message',
+          pageTitle: 'Редактирование сообщения',
           editForm: {
             url: `${req.params.forum}/${req.params.topicId}/${req.params.messageId}/edit`,
             text: message.text

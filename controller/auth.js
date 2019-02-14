@@ -2,7 +2,7 @@ const User = require('../model/user.model');
 
 exports.registrationPage = (req, res) => {
   res.render('auth/registration.hbs', {
-    pageTitle: 'Sign up',
+    pageTitle: 'Регистрация',
     user: req.user,
     loginForm: {
       url: '/auth/registration'
@@ -12,7 +12,7 @@ exports.registrationPage = (req, res) => {
 
 exports.loginPage = (req, res) => {
   res.render('auth/login.hbs', {
-    pageTitle: 'Sign in',
+    pageTitle: 'Логин',
     user: req.user,
     registrationForm: {
       url: '/auth/login'
