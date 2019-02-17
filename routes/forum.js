@@ -3,6 +3,8 @@ const express = require('express'),
   middlewareRoles = require('../middlewares/roles'),
   controller = require('../controller/forum');
 
+router.get('/newest', controller.newestMessagesPage);
+
 router.get('/:forum', controller.forumPage);
 
 router.use('/:forum/create', middlewareRoles([
@@ -43,7 +45,6 @@ router.use('/:forum/:topicId/:messageId/delete', controller.deleteMessage);
 
 router.use('/:forum/:topicId/delete', controller.deleteTopic);
 
-router.get('/newest', controller.newestMessagesPage);
 
 router.get('/', controller.forumsListPage);
 
