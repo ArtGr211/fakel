@@ -30,7 +30,12 @@ const mongoose = require('mongoose'),
 
 CommentSchema.pre('save', function () {
   if (this.isModified('text')) {
-    this.text = sanitizeHtml(this.text);
+    this.text = sanitizeHtml(
+      this.text,
+      {
+        allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img'])
+      }
+    );
   }
 })
 

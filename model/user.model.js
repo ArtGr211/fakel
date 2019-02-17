@@ -44,10 +44,20 @@ UserSchema.pre('save', function (next) {
     next();
   })
   if (this.isModified('details.about')) {
-    this.details.about = sanitizeHtml(this.details.about);
+    this.details.about = sanitizeHtml(
+      this.details.about,
+      {
+        allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img'])
+      }
+    );
   }
   if (this.isModified('details.about')) {
-    this.details.forumSignature = sanitizeHtml(this.details.forumSignature);
+    this.details.forumSignature = sanitizeHtml(
+      this.details.forumSignature,
+      {
+        allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img'])
+      }
+    );
   }
 })
 

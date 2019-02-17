@@ -23,7 +23,12 @@ const mongoose = require('mongoose'),
 
 ForumMessageSchema.pre('save', function () {
   if (this.isModified('text')) {
-    this.text = sanitizeHtml(this.text);
+    this.text = sanitizeHtml(
+      this.text,
+      {
+        allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img'])
+      }
+    );
   }
 })
 
