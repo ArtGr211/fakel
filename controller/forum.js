@@ -5,6 +5,14 @@ const
   ForumMessage = require('../model/forum/forum-message.model'),
   helpers = require('../utils/helpers');
 
+const FORUM_NOT_FOUND = 'Форум не найден';
+const TOPIC_NOT_FOUND = 'Тема не найдена';
+const TOPIC_NO_EDIT_ACCESS = 'Нет прав на редактирование темы';
+const TOPIC_NO_DELETE_ACCESS = 'Нет прав на удаление темы';
+const MESSAGE_NOT_FOUND = 'Сообщение не найдено';
+const MESSAGE_NO_EDIT_ACCESS = 'Нет прав на редактирование сообщения';
+const MESSAGE_NO_DELETE_ACCESS = 'Нет прав на удаление сообщения'
+
 exports.forumsListPage = (req, res, next) => {
   Forum
     .find()
@@ -18,7 +26,7 @@ exports.forumsListPage = (req, res, next) => {
           })
       }
     )
-    .catch(e => next())
+    .catch(err => next(err));
 }
 
 exports.forumPage = (req, res, next) => {
@@ -27,37 +35,44 @@ exports.forumPage = (req, res, next) => {
   Promise.all([
       Forum.findOne({
         key: req.params.forum
-      }).then(forum => forum.topics.length),
+      })
+        .then(forum => forum.topics.length),
       Forum
-      .findOne({
-        key: req.params.forum
-      })
-      .populate({
-        path: 'pinnedTopics',
-        populate: {
-          path: 'lastMessage'
-        }
-      })
-      .populate({
-        path: 'unpinnedTopics',
-        options: {
-          skip: (page - 1) * siteConfig.forum.topicsPerPage,
-          limit: siteConfig.forum.topicsPerPage,
+        .findOne({
+          key: req.params.forum
+        })
+        .populate({
+          path: 'pinnedTopics',
           populate: {
-            path: 'lastMessage',
+            path: 'lastMessage'
+          }
+        })
+        .populate({
+          path: 'unpinnedTopics',
+          options: {
+            skip: (page - 1) * siteConfig.forum.topicsPerPage,
+            limit: siteConfig.forum.topicsPerPage,
             populate: {
-              path: 'author'
+              path: 'lastMessage',
+              populate: {
+                path: 'author'
+              }
             }
           }
-        }
-      }),
+        }),
       Forum.findOne({
         key: req.params.forum
       })
-      .populate('pinnedTopics')
+        .populate('pinnedTopics')
     ])
     .then(
       ([count, forum]) => {
+        if (!forum) {
+          const error = new Error(FORUM_NOT_FOUND);
+          error.status = 404;
+          throw error;
+        }
+
         res.render(
           'forum/forum.hbs', {
             user: req.user,
@@ -74,13 +89,19 @@ exports.forumPage = (req, res, next) => {
           })
       }
     )
-    .catch(e => next())
+    .catch(err => next(err));
 }
 
 exports.topicPage = (req, res, next) => {
   ForumTopic
     .findById(req.params.topicId)
     .then(topic => {
+      if (!topic) {
+        const error = new Error(TOPIC_NOT_FOUND);
+        error.status = 404;
+        throw error;
+      }
+
       const totalPages = Math.ceil(topic.messages.length / siteConfig.forum.messagesPerPage);
       return {
         totalItems: topic.messages.length,
@@ -139,7 +160,7 @@ exports.topicPage = (req, res, next) => {
           }
         )
     })
-    .catch(e => next())
+    .catch(err => next(err));
 }
 
 exports.createTopicPage = (req, res) => {
@@ -150,57 +171,71 @@ exports.createTopicPage = (req, res) => {
       editForm: {
         url: req.params.forum + '/create'
       }
-    })
+    });
 }
 
 exports.editTopicPage = (req, res, next) => {
   ForumTopic
     .findById(req.params.topicId)
     .then(topic => {
+      if (!topic) {
+        const error = new Error(TOPIC_NOT_FOUND);
+        error.status = 404;
+        throw error;
+      }
+
       const
         editAccess = helpers.authorAccess(topic, req.user, ['forum', 'topics'], 'edit'),
         deleteAccess = helpers.authorAccess(topic, req.user, ['forum', 'topics'], 'delete');
+
       if (!editAccess) {
-        next({
-          status: 403
-        });
-      } else {
-        res.render(
-          'forum/edit-topic.hbs', {
-            user: req.user,
-            pageTitle: `Редактирование темы ${topic.title}`,
-            editForm: {
-              url: `${req.params.forum}/${req.params.topicId}/edit`,
-              value: topic
-            },
-            deleteTopicUrl: deleteAccess ? `${req.params.forum}/${req.params.topicId}/delete` : null
-          })
+        const error = new Error(TOPIC_NO_EDIT_ACCESS);
+        error.status = 403;
+        throw error;
       }
+
+      res.render(
+        'forum/edit-topic.hbs', {
+          user: req.user,
+          pageTitle: `Редактирование темы ${topic.title}`,
+          editForm: {
+            url: `${req.params.forum}/${req.params.topicId}/edit`,
+            value: topic
+          },
+          deleteTopicUrl: deleteAccess ? `${req.params.forum}/${req.params.topicId}/delete` : null
+        })
     })
-    .catch(e => next())
+    .catch(err => next(err));
 }
 
 exports.editMessagePage = (req, res, next) => {
   ForumMessage
     .findById(req.params.messageId)
     .then(message => {
-      const editMessageAccess = helpers.authorAccess(message, req.user, ['forum', 'messages'], 'edit');
-      if (editMessageAccess) {
-        res.render('forum/edit-message.hbs', {
-          user: req.user,
-          pageTitle: 'Редактирование сообщения',
-          editForm: {
-            url: `${req.params.forum}/${req.params.topicId}/${req.params.messageId}/edit`,
-            text: message.text
-          }
-        })
-      } else {
-        next({
-          status: 403
-        });
+      if (!message) {
+        const error = new Error(MESSAGE_NOT_FOUND);
+        error.status = 404;
+        throw error;
       }
+
+      const editMessageAccess = helpers.authorAccess(message, req.user, ['forum', 'messages'], 'edit');
+
+      if (!editMessageAccess) {
+        const error = new Error(MESSAGE_NO_EDIT_ACCESS);
+        error.status = 403;
+        throw error;
+      }
+
+      res.render('forum/edit-message.hbs', {
+        user: req.user,
+        pageTitle: 'Редактирование сообщения',
+        editForm: {
+          url: `${req.params.forum}/${req.params.topicId}/${req.params.messageId}/edit`,
+          text: message.text
+        }
+      })
     })
-    .catch(e => next())
+    .catch(err => next(err));
 }
 
 exports.createTopic = (req, res, next) => {
@@ -210,6 +245,12 @@ exports.createTopic = (req, res, next) => {
     })
     .then(
       forum => {
+        if (!forum) {
+          const error = new Error(FORUM_NOT_FOUND);
+          error.status = 404;
+          throw error;
+        }
+
         const newMessage = new ForumMessage({
           text: req.body.message,
           author: req.user.id
@@ -246,54 +287,75 @@ exports.createTopic = (req, res, next) => {
     ).then(
       () => res.redirect(`/forum/${req.params.forum}`)
     )
-    .catch(e => next())
+    .catch(err => next(err));
 }
 
 exports.updateTopic = (req, res, next) => {
   ForumTopic.findById(req.params.topicId)
     .then(
       topic => {
+        if (!topic) {
+          const error = new Error(TOPIC_NOT_FOUND);
+          error.status = 404;
+          throw error;
+        }
+
         const access = helpers.authorAccess(topic, req.user, ['forum', 'topics'], 'edit');
+
+        if (!access) {
+          const error = new Error(TOPIC_NO_EDIT_ACCESS);
+          error.status = 403;
+          throw error;
+        }
+
         req.body.important = helpers.checkBoxToBoolean(req.body.important);
         req.body.pinned = helpers.checkBoxToBoolean(req.body.pinned);
-        if (access) {
-          topic.set(req.body);
-          topic
-            .save()
-            .then(() => res.redirect(`/forum/${req.params.forum}/${req.params.topicId}`))
-        } else {
-          next({
-            status: 403
-          });
-        }
+
+        topic.set(req.body);
+        topic
+          .save()
+          .then(() => res.redirect(`/forum/${req.params.forum}/${req.params.topicId}`))
       }
     )
-    .catch(e => next())
+    .catch(err => next(err));
 }
 
 exports.deleteTopic = (req, res, next) => {
   ForumTopic.findById(req.params.topicId)
     .then(
       topic => {
-        const access = helpers.authorAccess(topic, req.user, ['forum', 'topics'], 'delete');
-        if (access) {
-          topic
-            .remove()
-            .then(() => res.redirect(`/forum/${req.params.forum}`))
-        } else {
-          next({
-            status: 403
-          });
+        if (!topic) {
+          const error = new Error(TOPIC_NOT_FOUND);
+          error.status = 404;
+          throw error;
         }
+
+        const access = helpers.authorAccess(topic, req.user, ['forum', 'topics'], 'delete');
+
+        if (!access) {
+          const error = new Error(TOPIC_NO_DELETE_ACCESS);
+          error.status = 403;
+          throw error;
+        }
+
+        topic
+          .remove()
+          .then(() => res.redirect(`/forum/${req.params.forum}`))
       }
     )
-    .catch(e => next())
+    .catch(err => next(err));
 }
 
 exports.createMessage = (req, res, next) => {
   ForumTopic.findById(req.params.topicId)
     .then(
       topic => {
+        if (!topic) {
+          const error = new Error(TOPIC_NOT_FOUND);
+          error.status = 404;
+          throw error;
+        }
+
         const newMessageBody = {
           text: req.body.text,
           topic: topic.id
@@ -307,7 +369,7 @@ exports.createMessage = (req, res, next) => {
 
         const newMessage = new ForumMessage(newMessageBody);
 
-        newMessage
+        return newMessage
           .save()
           .then(message => {
             topic.messages.push(message.id);
@@ -316,26 +378,33 @@ exports.createMessage = (req, res, next) => {
           .then(() => res.redirect(`/forum/${req.params.forum}/${req.params.topicId}`));
       }
     )
-    .catch(e => next())
+    .catch(err => next(err));
 }
 
 exports.updateMessage = (req, res, next) => {
   ForumMessage
     .findById(req.params.messageId)
     .then(message => {
-      const access = helpers.authorAccess(message, req.user, ['forum', 'messages'], 'edit');
-      if (access) {
-        message.set(req.body);
-        message.save().then(
-          () => res.redirect(`/forum/${req.params.forum}/${req.params.topicId}`)
-        );
-      } else {
-        next({
-          status: 403
-        });
+      if (!message) {
+        const error = new Error(MESSAGE_NOT_FOUND);
+        error.status = 404;
+        throw error;
       }
+
+      const access = helpers.authorAccess(message, req.user, ['forum', 'messages'], 'edit');
+
+      if (!access) {
+        const error = new Error(MESSAGE_NO_EDIT_ACCESS);
+        error.status = 404;
+        throw error;
+      }
+
+      message.set(req.body);
+      message.save().then(
+        () => res.redirect(`/forum/${req.params.forum}/${req.params.topicId}`)
+      );
     })
-    .catch(e => next())
+    .catch(err => next(err));
 }
 
 exports.deleteMessage = (req, res, next) => {
@@ -343,21 +412,28 @@ exports.deleteMessage = (req, res, next) => {
     .findById(req.params.messageId)
     .then(
       message => {
-        const access = helpers.authorAccess(message, req.user, ['forum', 'messages'], 'delete');
-        if (access) {
-          message
-            .remove()
-            .then(
-              () => res.redirect(`/forum/${req.params.forum}/${req.params.topicId}`)
-            )
-        } else {
-          next({
-            status: 403
-          });
+        if (!message) {
+          const error = new Error(MESSAGE_NOT_FOUND);
+          error.status = 404;
+          throw error;
         }
+
+        const access = helpers.authorAccess(message, req.user, ['forum', 'messages'], 'delete');
+
+        if (!access) {
+          const error = new Error(MESSAGE_NO_DELETE_ACCESS);
+          error.status = 403;
+          throw error;
+        }
+
+        return message
+          .remove()
+          .then(
+            () => res.redirect(`/forum/${req.params.forum}/${req.params.topicId}`)
+          )
       }
     )
-    .catch(e => next())
+    .catch(err => next(err));
 }
 
 exports.newestMessagesPage = (req, res, next) => {
@@ -379,4 +455,5 @@ exports.newestMessagesPage = (req, res, next) => {
       messages
     });
   })
+  .catch(err => next(err));
 }

@@ -1,0 +1,19 @@
+<ul class="breadcrumbs">
+  <li class="breadcrumbs__item">
+    <a href="/" class="breadcrumbs__link">
+      Факел
+    </a>
+  </li>
+  {{#each breadcrumbs}}
+    <li class="breadcrumbs__item">
+      <a href="{{this.link}}" class="breadcrumbs__link">
+        {{this.title}}
+      </a>
+    </li>
+  {{/each}}
+  <li class="breadcrumbs__item">
+    <span class="breadcrumbs__current">
+      {{pageTitle}}
+    </span>
+  </li>
+</ul>

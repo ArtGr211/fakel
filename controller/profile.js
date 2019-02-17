@@ -41,5 +41,5 @@ exports.update = (req, res, next) => {
         res.redirect('/profile')
       }
     )
-    .catch(e => next())
+    .catch(err => next(err))
 }

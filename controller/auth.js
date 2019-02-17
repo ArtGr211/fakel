@@ -32,18 +32,15 @@ exports.registration = (req, res, next) => {
     )
     .catch(err => {
       switch (err.code) {
-        case 11000:
-          next({
-            status: 422,
-            description: 'Пользователь с таким username или email уже зарегистрирован'
-          })
-          break;
-        default:
-          next({
-            status: 500,
-            description: 'Ошибка регистрации'
-          })
-          break;
+        case 11000: {
+          const error = new Error('Пользователь с таким username или email уже зарегистрирован')
+          error.status = 422;
+          return next(error);
+        }
+        default: {
+          const error = new Error(err);
+          return next(error);
+        }
       }
     })
 }
@@ -57,13 +54,12 @@ exports.login = (req, res, next) => {
         req.session.userId = user._id;
         res.redirect('/')
       } else {
-        next({
-          status: 401,
-          description: 'Неправильный email или пароль'
-        })
+        const error = new Error('Неправильный email или пароль');
+        error.status = 401;
+        throw error;
       }
     })
-    .catch(err => next())
+    .catch(err => next(err))
 }
 
 exports.logout = (req, res) => {

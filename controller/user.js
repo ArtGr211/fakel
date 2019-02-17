@@ -3,6 +3,8 @@ const
   Article = require('../model/article.model'),
   ForumTopic = require('../model/forum/forum-topic.model');
 
+const USER_NOT_FOUND = 'Пользователь не найден';
+
 exports.userProfilePage = (req, res, next) => {
   Promise.all([
       User.findById(req.params.userId),
@@ -14,22 +16,21 @@ exports.userProfilePage = (req, res, next) => {
       })
     ])
     .then(([userProfile, articles, topics]) => {
-      if (userProfile) {
-        res.render('user/index', {
-          userProfile: userProfile,
-          articlesCount: articles.length,
-          topicsCount: topics.length,
-          pageTitle: userProfile.username,
-          user: req.user
-        });
-      } else {
-        next({
-          status: 404,
-          description: 'Пользователь не найден'
-        })
+      if (!userProfile) {
+        const error = new Error(USER_NOT_FOUND);
+        error.status = 404;
+        throw error;
       }
+
+      res.render('user/index', {
+        userProfile: userProfile,
+        articlesCount: articles.length,
+        topicsCount: topics.length,
+        pageTitle: userProfile.username,
+        user: req.user
+      });
     })
-    .catch(e => next())
+    .catch(err => next(err));
 }
 
 exports.userBlogPostsPage = (req, res, next) => {
@@ -40,6 +41,12 @@ exports.userBlogPostsPage = (req, res, next) => {
       }),
     ])
     .then(([userProfile, articles]) => {
+      if (!userProfile) {
+        const error = new Error(USER_NOT_FOUND);
+        error.status = 404;
+        throw error;
+      }
+
       res.render('user/blog', {
         user: req.user,
         pageTitle: `Статьи ${userProfile.username}`,
@@ -47,7 +54,7 @@ exports.userBlogPostsPage = (req, res, next) => {
         articles: articles
       });
     })
-    .catch(e => next())
+    .catch(err => next(err));
 }
 
 exports.userForumTopicsPage = (req, res, next) => {
@@ -58,6 +65,12 @@ exports.userForumTopicsPage = (req, res, next) => {
       }),
     ])
     .then(([userProfile, topics]) => {
+      if (!userProfile) {
+        const error = new Error(USER_NOT_FOUND);
+        error.status = 404;
+        throw error;
+      }
+
       res.render('user/forum', {
         user: req.user,
         pageTitle: `Темы форума ${userProfile.username}`,
@@ -65,5 +78,5 @@ exports.userForumTopicsPage = (req, res, next) => {
         topics: topics
       });
     })
-    .catch(e => next())
+    .catch(err => next(err))
 }

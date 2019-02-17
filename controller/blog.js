@@ -4,6 +4,13 @@ const
   Comment = require('../model/comment.model'),
   siteConfig = require('../config/site');
 
+const ARTICLE_NOT_FOUND = 'Статья не найдена';
+const ARTICLE_NO_EDIT_ACCESS = 'Нет прав на редактирование статьи';
+const ARTICLE_NO_DELETE_ACCESS = 'Нет прав на удаление статьи';
+const COMMENT_NOT_FOUND = 'Комментарий не найден';
+const COMMENT_NO_EDIT_ACCESS = 'Нет прав на редактирование комментария';
+const COMMENT_NO_DELETE_ACCESS = 'Нет прав на удаление комментария';
+
 exports.articlesListPage = (req, res, next) => {
   const page = req.query.page ? +req.query.page : 1;
 
@@ -17,10 +24,8 @@ exports.articlesListPage = (req, res, next) => {
       Article.countDocuments()
     ])
     .then(
-      (data => {
+      (([articles, count]) => {
         const
-          articles = data[0],
-          count = data[1],
           pagination = helpers.pagination({
             current: page,
             show: 2,
@@ -45,7 +50,7 @@ exports.articlesListPage = (req, res, next) => {
           })
       })
     )
-    .catch(e => next())
+    .catch(err => next(err));
 }
 
 exports.articlePage = (req, res, next) => {
@@ -63,6 +68,11 @@ exports.articlePage = (req, res, next) => {
     ])
     .then(
       article => {
+        if (!article) {
+          const error = new Error(ARTICLE_NOT_FOUND);
+          error.status = 404;
+          throw error;
+        }
         article.comments.forEach(
           comment => {
             comment.access = {
@@ -95,10 +105,7 @@ exports.articlePage = (req, res, next) => {
           })
       }
     )
-    .catch(e => next({
-      status: 404,
-      description: 'Статья не найдена'
-    }))
+    .catch(err => next(err));
 }
 
 exports.createArticlePage = (req, res) => {
@@ -117,6 +124,11 @@ exports.editArticlePage = (req, res, next) => {
   Article.findById(req.params.articleId)
     .populate('author')
     .then(article => {
+      if (!article) {
+        const error = new Error(ARTICLE_NOT_FOUND);
+        error.status = 404;
+        throw error;
+      }
       const access = helpers.authorAccess(article, req.user, ['blog', 'articles'], 'edit');
       if (access) {
         res.render(
@@ -129,11 +141,12 @@ exports.editArticlePage = (req, res, next) => {
             }
           })
       } else {
-        next({
-          status: 403
-        })
+        const error = new Error(ARTICLE_NO_EDIT_ACCESS);
+        error.status = 403;
+        throw error;
       }
     })
+    .catch(err => next(err));
 }
 
 exports.editCommentPage = (req, res, next) => {
@@ -146,11 +159,17 @@ exports.editCommentPage = (req, res, next) => {
       Comment.findById(req.params.commentId)
     ])
     .then(
-      data => {
-        const
-          article = data[0],
-          comment = data[1];
-
+      ([article, comment]) => {
+        if (!article) {
+          const error = new Error(ARTICLE_NOT_FOUND);
+          error.status = 404;
+          throw error;
+        }
+        if(!comment) {
+          const error = new Error(COMMENT_NOT_FOUND);
+          error.status = 404;
+          throw error;
+        }
         const access = helpers.authorAccess(
           comment,
           req.user,
@@ -172,13 +191,13 @@ exports.editCommentPage = (req, res, next) => {
               editComment: true
             })
         } else {
-          next({
-            status: 403
-          });
+          const error = new Error('Нет доступа к редактированию комментария');
+          error.status = 403;
+          throw error;
         }
       }
     )
-    .catch(e => next({}))
+    .catch(err => next(err));
 }
 
 exports.createArticle = (req, res, next) => {
@@ -189,7 +208,7 @@ exports.createArticle = (req, res, next) => {
   });
   newArticle.save()
     .then(article => res.redirect(`/blog/${article.id}`))
-    .catch(e => next());
+    .catch(err => next(err));
 }
 
 exports.updateArticle = (req, res, next) => {
@@ -197,6 +216,12 @@ exports.updateArticle = (req, res, next) => {
     .findById(req.params.articleId)
     .then(
       article => {
+        if (!article) {
+          const error = new Error(ARTICLE_NOT_FOUND);
+          error.status = 404;
+          throw error;
+        }
+
         const access = helpers.authorAccess(article, req.user, ['blog', 'articles'], 'edit');
         if (access) {
           article.set(req.body);
@@ -204,14 +229,12 @@ exports.updateArticle = (req, res, next) => {
             .save()
             .then(() => res.redirect(`/blog/${req.params.articleId}/`))
         } else {
-          next({
-            status: 403
-          });
+          const error = new Error(ARTICLE_NO_EDIT_ACCESS);
+          error.status = 403;
+          throw error;
         }
       }
-    ).catch(e => next({
-      status: 404
-    }))
+    ).catch(err => next(err))
 }
 
 exports.deleteArticle = (req, res, next) => {
@@ -219,26 +242,36 @@ exports.deleteArticle = (req, res, next) => {
     .findById(req.params.articleId)
     .then(
       article => {
+        if (!article) {
+          const error = new Error(ARTICLE_NOT_FOUND);
+          error.status = 404;
+          throw error;
+        }
+
         const access = helpers.authorAccess(article, req.user, ['blog', 'articles'], 'delete');
         if (access) {
           article
             .remove()
             .then(() => res.redirect('/blog/'))
         } else {
-          next({
-            status: 403
-          });
+          const error = new Error(ARTICLE_NO_EDIT_ACCESS);
+          error.status = 403;
+          throw error;
         }
       }
-    ).catch(e => next({
-      status: 403
-    }))
+    ).catch(err => next(err));
 }
 
 exports.addComment = (req, res, next) => {
   Article.findById(req.params.articleId)
     .then(
       article => {
+        if (!article) {
+          const error = new Error(ARTICLE_NOT_FOUND);
+          error.status = 404;
+          throw error;
+        }
+
         const comment = {
           text: req.body.text,
           subject: article.id,
@@ -253,7 +286,7 @@ exports.addComment = (req, res, next) => {
 
         const newComment = new Comment(comment);
 
-        newComment
+        return newComment
           .save()
           .then(comment => {
             article.comments.push(comment.id);
@@ -262,15 +295,19 @@ exports.addComment = (req, res, next) => {
           .then(() => res.redirect(`/blog/${req.params.articleId}`))
       }
     )
-    .catch(e => next({
-      status: 404
-    }))
+    .catch(err => next(err))
 }
 
 exports.deleteComment = (req, res, next) => {
   Comment
     .findById(req.params.commentId)
     .then(comment => {
+      if (!comment) {
+        const error = new Error(COMMENT_NOT_FOUND);
+        error.status = 404;
+        throw error;
+      }
+
       const access = helpers.authorAccess(
         comment,
         req.user,
@@ -283,20 +320,24 @@ exports.deleteComment = (req, res, next) => {
           .remove()
           .then(() => res.redirect(`/blog/${req.params.articleId}`))
       } else {
-        next({
-          status: 403
-        });
+        const error = new Error(COMMENT_NO_DELETE_ACCESS);
+        error.status = 403;
+        throw error;
       }
     })
-    .catch(e => next({
-      status: 404
-    }))
+    .catch(err => next(err));
 }
 
 exports.updateComment = (req, res, next) => {
   Comment
     .findById(req.params.commentId)
     .then(comment => {
+      if (!comment) {
+        const error = new Error(error);
+        error.status = 404;
+        throw error;
+      }
+
       const access = helpers.authorAccess(
         comment,
         req.user,
@@ -306,16 +347,14 @@ exports.updateComment = (req, res, next) => {
 
       if (access) {
         comment.set(req.body);
-        comment
+        return comment
           .save()
           .then(res.redirect(`/blog/${req.params.articleId}`))
       } else {
-        next({
-          status: 403
-        });
+        const error = new Error(COMMENT_NO_EDIT_ACCESS);
+        error.status = 403;
+        throw error;
       }
     })
-    .catch(e => next({
-      status: 404
-    }))
+    .catch(err => next(err));
 }

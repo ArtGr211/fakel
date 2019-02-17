@@ -20,5 +20,5 @@ exports.staticPage = (req, res, next) => {
       staticHtml,
       user: req.user
     }, staticOptions[req.path])))
-    .catch()
+    .catch(err => next(err));
 }
