@@ -1,3 +1,4 @@
+const sanitizeHtml = require('sanitize-html');
 const roles = require('../config/roles');
 
 const removeEmpty = function (obj) {
@@ -92,8 +93,18 @@ const pagination = function (options) {
   return pagination;
 }
 
+const htmlToPlainText = function (html) {
+  return sanitizeHtml(
+    html,
+    {
+      allowedTags: []
+    }
+  ).trim()
+}
+
 exports.removeEmpty = removeEmpty;
 exports.checkAccessByRole = checkAccessByRole;
 exports.checkBoxToBoolean = checkBoxToBoolean;
 exports.authorAccess = authorAccess;
 exports.pagination = pagination;
+exports.htmlToPlainText = htmlToPlainText;

@@ -9,9 +9,12 @@ const FORUM_NOT_FOUND = 'Форум не найден';
 const TOPIC_NOT_FOUND = 'Тема не найдена';
 const TOPIC_NO_EDIT_ACCESS = 'Нет прав на редактирование темы';
 const TOPIC_NO_DELETE_ACCESS = 'Нет прав на удаление темы';
+const TOPIC_TITLE_CANNOT_BE_EMPTY = 'Заголовок темы не может быть пустым';
+const TOPIC_DESCRIPTION_CANNOT_BE_EMPTY = 'Описание темы не может быть пустым';
 const MESSAGE_NOT_FOUND = 'Сообщение не найдено';
 const MESSAGE_NO_EDIT_ACCESS = 'Нет прав на редактирование сообщения';
-const MESSAGE_NO_DELETE_ACCESS = 'Нет прав на удаление сообщения'
+const MESSAGE_NO_DELETE_ACCESS = 'Нет прав на удаление сообщения';
+const MESSAGE_CANNOT_BE_EMPTY = 'Сообщение не может быть пустым';
 
 exports.forumsListPage = (req, res, next) => {
   Forum
@@ -251,6 +254,29 @@ exports.createTopic = (req, res, next) => {
           throw error;
         }
 
+        const text = req.body.message,
+          title = req.body.title,
+          description = req.body.description;
+
+        let error;
+
+        if (!text || !helpers.htmlToPlainText(text).length) {
+          error = new Error(MESSAGE_CANNOT_BE_EMPTY);
+        }
+
+        if (!title || !title.length) {
+          error = new Error(TOPIC_TITLE_CANNOT_BE_EMPTY);
+        }
+
+        if (!description || !description.length) {
+          error = new Error(TOPIC_DESCRIPTION_CANNOT_BE_EMPTY);
+        }
+
+        if (error) {
+          error.status = 422;
+          throw error;
+        }
+
         const newMessage = new ForumMessage({
           text: req.body.message,
           author: req.user.id
@@ -261,8 +287,8 @@ exports.createTopic = (req, res, next) => {
             message => {
               msg = message;
               const newTopic = new ForumTopic({
-                title: req.body.title,
-                description: req.body.description,
+                title,
+                description: description,
                 pinned: helpers.checkBoxToBoolean(req.body.pinned),
                 important: helpers.checkBoxToBoolean(req.body.important),
                 author: req.user.id,
@@ -305,6 +331,24 @@ exports.updateTopic = (req, res, next) => {
         if (!access) {
           const error = new Error(TOPIC_NO_EDIT_ACCESS);
           error.status = 403;
+          throw error;
+        }
+
+        const title = req.body.title,
+          description = req.body.description;
+
+        let error;
+
+        if (!title || !title.length) {
+          error = new Error(TOPIC_TITLE_CANNOT_BE_EMPTY);
+        }
+
+        if (!description || !description.length) {
+          error = new Error(TOPIC_DESCRIPTION_CANNOT_BE_EMPTY);
+        }
+
+        if (error) {
+          error.status = 422;
           throw error;
         }
 
@@ -396,6 +440,12 @@ exports.updateMessage = (req, res, next) => {
       if (!access) {
         const error = new Error(MESSAGE_NO_EDIT_ACCESS);
         error.status = 404;
+        throw error;
+      }
+
+      if (!req.body.text || !helpers.htmlToPlainText(req.body.text).length) {
+        const error = new Error(MESSAGE_CANNOT_BE_EMPTY);
+        error.status = 422;
         throw error;
       }
 
