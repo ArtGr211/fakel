@@ -25,7 +25,8 @@ exports.forumsListPage = (req, res, next) => {
           'forum/forums.hbs', {
             user: req.user,
             pageTitle: 'Форум',
-            forums: forums
+            forums: forums,
+            breadcrumbs: true
           })
       }
     )
@@ -88,7 +89,10 @@ exports.forumPage = (req, res, next) => {
               perPage: siteConfig.forum.topicsPerPage,
               link: `/forum/${req.params.forum}?page=`,
               total: count
-            })
+            }),
+            breadcrumbs: [
+              { link: '/forum', title: 'Форум' }
+            ]
           })
       }
     )
@@ -112,18 +116,20 @@ exports.topicPage = (req, res, next) => {
       }
     })
     .then(pagesData => {
-      return ForumTopic.findById(req.params.topicId)
+      return ForumTopic
+        .findById(req.params.topicId)
         .populate({
           path: 'messages',
           options: {
-            skip: ((pagesData.current > 0 ? pagesData.current : 1) - 1) * siteConfig.forum.topicsPerPage,
-            limit: siteConfig.forum.topicsPerPage,
+            skip: ((pagesData.current > 0 ? pagesData.current : 1) - 1) * siteConfig.forum.messagesPerPage,
+            limit: siteConfig.forum.messagesPerPage,
             sort: 'createdAt'
           },
           populate: {
             path: 'author'
           }
         })
+        .populate('forum')
         .then(
           topic => {
             const
@@ -158,7 +164,11 @@ exports.topicPage = (req, res, next) => {
                   perPage: siteConfig.forum.messagesPerPage,
                   link: `/forum/${req.params.forum}/${req.params.topicId}?page=`,
                   total: pagesData.totalItems
-                })
+                }),
+                breadcrumbs: [
+                  { title: 'Форум', link: '/forum' },
+                  { title: topic.forum.title, link: `/forum/${topic.forum.key}` }
+                ]
               })
           }
         )
@@ -166,20 +176,38 @@ exports.topicPage = (req, res, next) => {
     .catch(err => next(err));
 }
 
-exports.createTopicPage = (req, res) => {
-  res.render(
-    'forum/edit-topic.hbs', {
-      user: req.user,
-      pageTitle: 'Создать тему',
-      editForm: {
-        url: req.params.forum + '/create'
+exports.createTopicPage = (req, res, next) => {
+  Forum
+    .findOne({
+      key: req.params.forum
+    })
+    .then(forum => {
+      if (!forum) {
+        const error = new Error(FORUM_NOT_FOUND);
+        error.status = 404;
+        throw error;
       }
-    });
+
+      res.render(
+        'forum/edit-topic.hbs', {
+          user: req.user,
+          pageTitle: 'Создать тему',
+          editForm: {
+            url: req.params.forum + '/create'
+          },
+          breadcrumbs: [
+            { title: 'Форум', link: '/forum' },
+            { title: forum.title, link: `/forum/${forum.key}`}
+          ]
+        });
+    })
+    .catch(err => next(err));
 }
 
 exports.editTopicPage = (req, res, next) => {
   ForumTopic
     .findById(req.params.topicId)
+    .populate('forum')
     .then(topic => {
       if (!topic) {
         const error = new Error(TOPIC_NOT_FOUND);
@@ -205,7 +233,11 @@ exports.editTopicPage = (req, res, next) => {
             url: `${req.params.forum}/${req.params.topicId}/edit`,
             value: topic
           },
-          deleteTopicUrl: deleteAccess ? `${req.params.forum}/${req.params.topicId}/delete` : null
+          deleteTopicUrl: deleteAccess ? `${req.params.forum}/${req.params.topicId}/delete` : null,
+          breadcrumbs: [
+            { title: 'Форум', link: '/forum' },
+            { title: topic.forum.title, link: `/forum/${topic.forum.key}`}
+          ]
         })
     })
     .catch(err => next(err));
@@ -214,6 +246,12 @@ exports.editTopicPage = (req, res, next) => {
 exports.editMessagePage = (req, res, next) => {
   ForumMessage
     .findById(req.params.messageId)
+    .populate({
+      path: 'topic',
+      populate: {
+        path: 'forum'
+      }
+    })
     .then(message => {
       if (!message) {
         const error = new Error(MESSAGE_NOT_FOUND);
@@ -235,7 +273,12 @@ exports.editMessagePage = (req, res, next) => {
         editForm: {
           url: `${req.params.forum}/${req.params.topicId}/${req.params.messageId}/edit`,
           text: message.text
-        }
+        },
+        breadcrumbs: [
+          { title: 'Форум', link: '/forum' },
+          { title: message.topic.forum.title, link: `/forum/${message.topic.forum.key}` },
+          { title: message.topic.title, link: `/forum/${message.topic.forum.key}/${message.topic._id}` }
+        ]
       })
     })
     .catch(err => next(err));

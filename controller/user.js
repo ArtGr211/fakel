@@ -27,7 +27,8 @@ exports.userProfilePage = (req, res, next) => {
         articlesCount: articles.length,
         topicsCount: topics.length,
         pageTitle: userProfile.username,
-        user: req.user
+        user: req.user,
+        breadcrumbs: true
       });
     })
     .catch(err => next(err));
@@ -51,7 +52,8 @@ exports.userBlogPostsPage = (req, res, next) => {
         user: req.user,
         pageTitle: `Статьи ${userProfile.username}`,
         userProfile: userProfile,
-        articles: articles
+        articles: articles,
+        breadcrumbs: true
       });
     })
     .catch(err => next(err));
@@ -75,7 +77,8 @@ exports.userForumTopicsPage = (req, res, next) => {
         user: req.user,
         pageTitle: `Темы форума ${userProfile.username}`,
         userProfile: userProfile,
-        topics: topics
+        topics: topics,
+        breadcrumbs: true
       });
     })
     .catch(err => next(err))

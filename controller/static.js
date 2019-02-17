@@ -18,7 +18,8 @@ exports.staticPage = (req, res, next) => {
     })
     .then(staticHtml => res.render('static/static', Object.assign({
       staticHtml,
-      user: req.user
+      user: req.user,
+      breadcrumbs: true
     }, staticOptions[req.path])))
     .catch(err => next(err));
 }

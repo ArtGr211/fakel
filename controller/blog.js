@@ -11,6 +11,10 @@ const COMMENT_NOT_FOUND = 'Комментарий не найден';
 const COMMENT_NO_EDIT_ACCESS = 'Нет прав на редактирование комментария';
 const COMMENT_NO_DELETE_ACCESS = 'Нет прав на удаление комментария';
 
+const breadcrumbs = [
+  { title: 'Блог', link: '/blog' }
+];
+
 exports.articlesListPage = (req, res, next) => {
   const page = req.query.page ? +req.query.page : 1;
 
@@ -46,7 +50,8 @@ exports.articlesListPage = (req, res, next) => {
                 return article;
               }
             ),
-            pagination: pagination
+            pagination,
+            breadcrumbs: true
           })
       })
     )
@@ -101,7 +106,8 @@ exports.articlePage = (req, res, next) => {
               delete: helpers.authorAccess(article, req.user, ['blog', 'articles'], 'delete'),
             },
             commentsEditUrl: `/blog/${article.id}/comments`,
-            commentsDeleteUrl: `/blog/${article.id}/comments`
+            commentsDeleteUrl: `/blog/${article.id}/comments`,
+            breadcrumbs
           })
       }
     )
@@ -116,7 +122,8 @@ exports.createArticlePage = (req, res) => {
         pageTitle: 'Добавить статью',
         editForm: {
           url: '/blog/create'
-        }
+        },
+        breadcrumbs
       })
 }
 
@@ -138,7 +145,8 @@ exports.editArticlePage = (req, res, next) => {
             editForm: {
               url: `/blog/${article._id}/edit`,
               value: article
-            }
+            },
+            breadcrumbs
           })
       } else {
         const error = new Error(ARTICLE_NO_EDIT_ACCESS);
@@ -254,7 +262,7 @@ exports.deleteArticle = (req, res, next) => {
             .remove()
             .then(() => res.redirect('/blog/'))
         } else {
-          const error = new Error(ARTICLE_NO_EDIT_ACCESS);
+          const error = new Error(ARTICLE_NO_DELETE_ACCESS);
           error.status = 403;
           throw error;
         }

@@ -6,7 +6,8 @@ exports.registrationPage = (req, res) => {
     user: req.user,
     loginForm: {
       url: '/auth/registration'
-    }
+    },
+    breadcrumbs: true
   })
 }
 
@@ -16,7 +17,8 @@ exports.loginPage = (req, res) => {
     user: req.user,
     registrationForm: {
       url: '/auth/login'
-    }
+    },
+    breadcrumbs: true
   })
 }
 

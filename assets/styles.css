@@ -1035,6 +1035,26 @@ button:hover,
   padding: 8px;
 }
 
+.breadcrumbs {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.breadcrumbs__item {
+  display: inline-block;
+}
+
+.breadcrumbs__item:after {
+  margin: 0 5px;
+  content: '/';
+  color: #aaa;
+}
+
+.breadcrumbs__item:last-child:after {
+  content: none;
+}
+
 .full-width,
 .full-width-p0,
 .grey-block {

@@ -17,6 +17,9 @@
     <main class="maincontent">
       {{> sidebar}}
       <div class="content">
+        {{#if breadcrumbs}}
+          {{>breadcrumbs breadcrumbs=breadcrumbs}}
+        {{/if}}
         {{> @partial-block}}
       </div>
     </main>

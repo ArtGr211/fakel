@@ -6,7 +6,8 @@ exports.profilePage = (req, res) => {
   res.render(
     'profile/profile.hbs', {
       user: req.user,
-      pageTitle: 'Профиль'
+      pageTitle: 'Профиль',
+      breadcrumbs: true
     }
   )
 }
@@ -15,7 +16,8 @@ exports.profileEditPage = (req, res) => {
   res.render(
     'profile/edit.hbs', {
       user: req.user,
-      pageTitle: 'Редактирование профиля'
+      pageTitle: 'Редактирование профиля',
+      breadcrumbs: true
     }
   )
 }
