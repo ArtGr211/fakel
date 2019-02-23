@@ -15,7 +15,7 @@ $(document).ready(function () {
             'link',
             'list',
             'image',
-            'video',
+            // 'video',
             'blockquote',
             'code-block'
           ]
