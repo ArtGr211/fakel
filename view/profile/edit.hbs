@@ -35,7 +35,7 @@
           <tr>
             <td>Дата рождения:</td>
             <td>
-              <input type="date" name="details[birthdate]" id="birthdate" value="{{moment date=user.birthdate format="YYYY-MM-DD"}}">
+              <input type="date" name="details[birthdate]" id="birthdate" value="{{#if user.birthdate}}{{moment date=user.birthdate format="YYYY-MM-DD"}}{{/if}}">
             </td>
           </tr>
           <tr>

@@ -29,7 +29,9 @@
       <tr>
         <td>Дата рождения:</td>
         <td>
-          {{moment date=user.details.birthdate format="DD.MM.YYYY"}}
+          {{#if user.details.birthdate}}
+            {{moment date=user.details.birthdate format="DD.MM.YYYY"}}
+          {{/if}}
         </td>
       </tr>
       <tr>

@@ -85,7 +85,7 @@ h6::first-letter {
   background: white;
   flex-grow: 1;
   flex-shrink: 1;
-  padding: 18px;
+  padding: 18px 18px 50px;
   text-align: justify;
 }
 
@@ -1033,6 +1033,10 @@ button:hover,
   color: white;
   overflow: visible;
   padding: 8px;
+}
+
+.ql-toolbar button.ql-active {
+  color: #ff4500;
 }
 
 .breadcrumbs {
