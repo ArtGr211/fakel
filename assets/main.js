@@ -13,7 +13,9 @@ $(document).ready(function () {
             'italic',
             'underline',
             'link',
+            'list',
             'image',
+            'video',
             'blockquote',
             'code-block'
           ]

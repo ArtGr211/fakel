@@ -93,8 +93,7 @@ img {
   max-width: 100%;
 }
 
-ol,
-ul {
+ol {
   margin: 0;
   padding: 0;
 }
@@ -228,6 +227,10 @@ blockquote:before {
   font-family: 'Font Awesome 5 Free';
   font-weight: 900;
   content: '\f10e';
+}
+
+blockquote+blockquote:before {
+  content: none;
 }
 
 button,
@@ -1027,6 +1030,24 @@ button:hover,
 
 .ql-code-block:before {
   content: '\f121';
+}
+
+.ql-list:before {
+  content: '\f0ca';
+}
+
+.ql-video:before {
+  content: '\f04b';
+}
+
+.ql-align:before {
+  content: '\f037';
+}
+
+.ql-editor .ql-video {
+  display: block;
+  max-width: 100%;
+  width: 100%;
 }
 
 .ql-syntax {
