@@ -53,7 +53,9 @@ exports.userBlogPostsPage = (req, res, next) => {
         pageTitle: `Статьи ${userProfile.username}`,
         userProfile: userProfile,
         articles: articles,
-        breadcrumbs: true
+        breadcrumbs: [
+          { title: req.user.username, link: `/user/${req.user._id}` }
+        ]
       });
     })
     .catch(err => next(err));
@@ -78,7 +80,9 @@ exports.userForumTopicsPage = (req, res, next) => {
         pageTitle: `Темы форума ${userProfile.username}`,
         userProfile: userProfile,
         topics: topics,
-        breadcrumbs: true
+        breadcrumbs: [
+          { title: req.user.username, link: `/user/${req.user._id}` }
+        ]
       });
     })
     .catch(err => next(err))

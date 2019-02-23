@@ -4,7 +4,7 @@
   </h1>
   <form action="/profile/edit" method="POST">
     <div class="full-width-p0 mb-md">
-      <table class="profile-table">
+      <table class="profile-table table-700">
         <tbody>
           <tr>
             <td>
@@ -46,7 +46,7 @@
           </tr>
           <tr>
             <td>О себе:</td>
-            <td>
+            <td class="profile-table__about">
               <div data-form-field="text" class="quill-editor">
                 {{{user.details.about}}}
               </div>

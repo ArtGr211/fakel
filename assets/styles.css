@@ -448,6 +448,14 @@ button:hover,
   transition: 200ms;
 }
 
+.sidebar__mobile-toggle {
+  display: none;
+}
+
+.sidebar__mobile-icon {
+  transition: 800ms;
+}
+
 .footer {
   display: flex;
   justify-content: space-between;
@@ -462,7 +470,7 @@ button:hover,
 }
 
 .footer__left {
-  flex-basis: 30%;
+  flex-basis: 45%;
 }
 
 .footer__right {
@@ -853,11 +861,14 @@ button:hover,
   background: #f5f5f5;
 }
 
+.profile-table td.profile-table__about { 
+  text-align: left;
+}
+
 .user-header__text {
   display: inline-block;
   vertical-align: middle;
 }
-
 
 .user-header__username {
   color: #333;
@@ -924,6 +935,7 @@ button:hover,
 .newest-messages__link {
   padding: 8px 18px;
   display: flex;
+  align-items: flex-start;
   text-decoration: none;
   color: black;
   font-weight: normal;
@@ -936,8 +948,9 @@ button:hover,
 }
 
 .newest-messages__author {
-  text-align: center;
   flex: 0 0 auto;
+  display: flex;
+  align-items: center;
 }
 
 .newest-messages__avatar {
@@ -1141,4 +1154,127 @@ button:hover,
 
 .mt-lg {
   margin-top: 20px;
+}
+
+@media (max-width: 1000px) {
+  .maincontent {
+    display: block;
+  }
+  .content {
+    margin-top: 120px;
+  }
+  .sidebar {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 8px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, .85);
+  }
+  .logo {
+    font-size: 24px;
+  }
+  .sidebar-nav {
+    width: 100%;
+    float: 0 0 100%;
+  }
+  .sidebar-nav__list {
+    display: flex;
+  }
+  .sidebar-nav__link {
+    border-left-width: 0;
+    border-bottom: 4px solid transparent;
+  }
+  .sidebar-nav__link:hover {
+    border-bottom-color: #ff4500;
+  }
+  .sidebar-nav__link:after {
+    height: 0;
+    width: 100%;
+  }
+  .sidebar-nav__link:hover:after {
+    height: 100%;
+  }
+}
+
+@media (max-width: 780px) {
+  .sidebar-nav__list {
+    display: none;
+  }
+  .sidebar-nav__list.active {
+    display: block;
+    text-align: center;
+  }
+  .sidebar__mobile-toggle {
+    display: block;
+    background: none;
+    padding: 10px;
+    min-width: auto;
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .sidebar__mobile-toggle:hover {
+    box-shadow: none;
+  }
+  .sidebar__mobile-toggle.active .sidebar__mobile-icon {
+    transform: rotate(450deg);
+  }
+}
+
+@media (max-width: 740px) {
+  .newest-messages__link {
+    flex-wrap: wrap;
+  }
+  .newest-messages__author,
+  .newest-messages__meta {
+    flex: 0 0 50%;
+    order: 0;
+    margin-bottom: 20px;
+  }
+  .newest-messages__text {
+    float: 0 0 100%;
+    order: 1;
+  }
+  .footer {
+    display: block;
+    text-align: center;
+  }
+  .footer__left {
+    margin-bottom: 50px;
+  }
+  .footer__right {
+    text-align: center;
+  }
+  .table-700,
+  .table-700 tbody,
+  .table-700 thead,
+  .table-700 tr,
+  .table-700 th,
+  .table-700 td {
+    display: block;
+    width: 100%;
+  }
+}
+
+@media (max-width: 440px) {
+  .newest-messages__author,
+  .newest-messages__meta {
+    flex: 0 0 100%;
+    text-align: center;
+  }
+  .newest-messages__author {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 400px) {
+  .sidebar-profile__text {
+    display: none;
+  }
 }

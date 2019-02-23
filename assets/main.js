@@ -3,7 +3,6 @@ $(document).ready(function () {
   $('.quill-editor').each(function () {
     const editorEl = $(this);
     const textarea = editorEl.next('textarea');
-    const form = editorEl.closest('form');
 
     const editor = new Quill(this, {
       modules: {
@@ -32,5 +31,10 @@ $(document).ready(function () {
         editorEl.find('.ql-editor').html()
       );
     })
+  })
+
+  $('#mobileToggle').on('click', function() {
+    $('.sidebar-nav__list').toggleClass('active');
+    $(this).toggleClass('active');
   })
 })

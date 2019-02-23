@@ -1,7 +1,10 @@
 <aside class="sidebar">
   <a href="/" class="logo">
     Факел
-  </a>  
+  </a>
+  <button id="mobileToggle" class="sidebar__mobile-toggle">
+    <i class="fas fa-ellipsis-h sidebar__mobile-icon"></i>
+  </button>
   {{#if user}}
     <a href="/profile" class="sidebar-profile">
       <div class="sidebar-profile__avatar">

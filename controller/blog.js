@@ -12,7 +12,7 @@ const COMMENT_NO_EDIT_ACCESS = 'Нет прав на редактировани�
 const COMMENT_NO_DELETE_ACCESS = 'Нет прав на удаление комментария';
 
 const breadcrumbs = [
-  { title: 'Блог', link: '/blog' }
+  { title: 'Блог', link: '/' }
 ];
 
 exports.articlesListPage = (req, res, next) => {

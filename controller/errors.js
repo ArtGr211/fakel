@@ -23,6 +23,7 @@ exports.errorPage = (err, req, res, next) => {
     .status(err.status ? err.status : 500)
     .render('errors/error', {
       pageTitle: title,
+      user: req.user,
       error: {
         title: title,
         description: err.message
