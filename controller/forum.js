@@ -547,12 +547,10 @@ exports.newestMessagesPage = (req, res, next) => {
       user: req.user,
       pageTitle: 'Новые сообщения на форуме',
       messages: messages.map(message => {
-        return {
-          ...message,
-          text: sanitizeHtml(message.text, {
-            allowedTags: ['p', 'br']
-          })
-        };
+        message.text = sanitizeHtml(message.text, {
+          allowedTags: ['p', 'br']
+        });
+        return message;
       })
     });
   })
