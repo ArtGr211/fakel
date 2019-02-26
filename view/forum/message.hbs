@@ -40,9 +40,9 @@
     <div class="forum-messages__text">
       {{{message.text}}}
     </div>
-    {{#if message.author.forumSignature}}
+    {{#if message.author.details.forumSignature}}
       <div class="forum-messages__signature">
-        {{{message.author.forumSignature}}}
+        {{{message.author.details.forumSignature}}}
       </div>
     {{/if}}
     {{#if this.showControls}}

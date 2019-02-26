@@ -1,4 +1,5 @@
 const
+  sanitizeHtml = require('sanitize-html'),
   siteConfig = require('../config/site'),
   Forum = require('../model/forum/forum.model'),
   ForumTopic = require('../model/forum/forum-topic.model'),
@@ -545,7 +546,14 @@ exports.newestMessagesPage = (req, res, next) => {
     res.render('forum/newest-messages', {
       user: req.user,
       pageTitle: 'Новые сообщения на форуме',
-      messages
+      messages: messages.map(message => {
+        return {
+          ...message,
+          text: sanitizeHtml(message.text, {
+            allowedTags: ['p', 'br']
+          })
+        };
+      })
     });
   })
   .catch(err => next(err));
