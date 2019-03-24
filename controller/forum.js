@@ -50,6 +50,9 @@ exports.forumPage = (req, res, next) => {
           path: 'pinnedTopics',
           populate: {
             path: 'lastMessage'
+          },
+          sort: {
+            createdAt: -1
           }
         })
         .populate({
@@ -62,13 +65,23 @@ exports.forumPage = (req, res, next) => {
               populate: {
                 path: 'author'
               }
+            },
+            sort: {
+              createdAt: -1
             }
           }
         }),
       Forum.findOne({
         key: req.params.forum
       })
-        .populate('pinnedTopics')
+        .populate({
+          path: 'pinnedTopics',
+          options: {
+            sort: {
+              createdAt: -1
+            }
+          }
+        })
     ])
     .then(
       ([count, forum]) => {
