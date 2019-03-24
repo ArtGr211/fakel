@@ -1,7 +1,7 @@
 {{#>layout}}
   <ul class="articles-list mb-lg">
     {{#each articles}}
-    <li class="articles-list__item mb-sm">
+    <li class="articles-list__item mb-lg">
       <h2 class="articles-list__title mb-md">
         <a href="/blog/{{this.id}}" class="articles-list__title-link">
           {{this.title}}
@@ -24,9 +24,13 @@
           {{moment date=this.createdAt format="DD.MM.YYYY HH:mm"}}
         </li>
       </ul>
-      <article>
+      <article class="mb-md">
         {{{this.text}}}
       </article>
+      <a href="/blog/{{this.id}}#comments" class="link-grey grey-block article-comments mb-md">
+        <i class="fas fa-comment-alt mr-md"></i>
+        Комментариев: {{this.comments.length}}
+      </a>
     </li>
     {{/each}}
   </ul>

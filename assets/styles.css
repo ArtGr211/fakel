@@ -564,6 +564,10 @@ button:hover,
   color: #aaa;
 }
 
+.article-comments {
+  display: block;
+}
+
 .comments {
   padding: 0;
   margin: 0 -18px;
