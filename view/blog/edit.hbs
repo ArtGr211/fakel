@@ -11,9 +11,12 @@
       <label for="title" class="mb-sm">Заголовок статьи:</label>
       <input type="text" name="title" id="title" value="{{editForm.value.title}}" required>
     </div>
-    <div class="mb-lg">
+    <div class="mb-md">
       <label for="text" class="mb-sm">Текст:</label>
       <textarea name="text" id="text" cols="30" rows="10">{{editForm.value.text}}</textarea>
+    </div>
+    <div class="text-small mb-lg">
+      Текст можно поместиить под кат, добавив <strong>$CUT$</strong>.
     </div>
     <div class="mb-lg">
       <div class="inline-block mr-lg">

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose'),
   sanitizeHtml = require('sanitize-html'),
+  sanitizeConfig = require('../../config/sanitize'),
   ForumMessageSchema = new mongoose.Schema({
     text: {
       type: String,
@@ -25,9 +26,7 @@ ForumMessageSchema.pre('save', function () {
   if (this.isModified('text')) {
     this.text = sanitizeHtml(
       this.text,
-      {
-        allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img'])
-      }
+      sanitizeConfig.options
     );
   }
 })

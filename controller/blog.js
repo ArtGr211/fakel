@@ -57,6 +57,13 @@ exports.articlesListPage = (req, res, next) => {
             addArticleAccess: helpers.checkAccessByRole(req.user, ['blog', 'articles', 'create']),
             articles: articles.map(
               article => {
+                const cutIndex = article.text.indexOf(siteConfig.blog.cut);
+
+                if (cutIndex !== -1) {
+                  article.text = article.text.slice(0, cutIndex);
+                  return article;
+                }
+
                 if (article.text.length > 300) {
                   article.text = article.text.slice(0, 300) + '...';
                 }
@@ -119,6 +126,8 @@ exports.articlePage = (req, res, next) => {
         if (article.publishAt > new Date()) {
           willBePublished = moment(article.publishAt).format('DD.MM.YYYY HH:mm');
         }
+
+        article.text = article.text.replace(siteConfig.blog.cut, '');
 
         res.render(
           'blog/article.hbs', {
