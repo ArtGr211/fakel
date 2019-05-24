@@ -233,7 +233,7 @@ exports.updateArticle = (req, res, next) => {
         const access = helpers.authorAccess(article, req.user, ['blog', 'articles'], 'edit');
         if (access) {
           article.set(req.body);
-          article
+          return article
             .save()
             .then(() => res.redirect(`/blog/${req.params.articleId}/`))
         } else {
