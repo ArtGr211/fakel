@@ -8,7 +8,7 @@
             Заголовок
           </th>
           <th>
-            Дата создания
+            Дата публикации
           </th>
           <th>
             Комментариев
@@ -24,7 +24,7 @@
               </a>
             </td>
             <td>
-              {{moment date=this.createdAt format="DD.MM.YYYY HH:mm"}}
+              {{moment date=this.publishAt format="DD.MM.YYYY HH:mm"}}
             </td>
             <td>
               {{this.comments.length}}

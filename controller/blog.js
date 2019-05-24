@@ -1,4 +1,5 @@
 const
+  moment = require('moment'),
   helpers = require('../utils/helpers'),
   Article = require('../model/article.model'),
   Comment = require('../model/comment.model'),
@@ -17,15 +18,27 @@ const breadcrumbs = [
 
 exports.articlesListPage = (req, res, next) => {
   const page = req.query.page ? +req.query.page : 1;
+  const query = {
+      $or: [
+        { $and: [
+          { published: { $ne: false } },
+          { $or: [
+            { publishAt: { $lte: new Date() } },
+            { publishAt: { $exists: false } },
+          ]}
+        ]},
+        { author: req.user }
+      ]
+    };
 
   Promise.all([
       Article
-      .find()
+      .find(query)
       .skip((page - 1) * siteConfig.blog.articlesPerPage)
       .limit(siteConfig.blog.articlesPerPage)
-      .sort('-createdAt')
+      .sort('-publishAt')
       .populate('author'),
-      Article.countDocuments()
+      Article.countDocuments(query)
     ])
     .then(
       (([articles, count]) => {
@@ -60,7 +73,21 @@ exports.articlesListPage = (req, res, next) => {
 
 exports.articlePage = (req, res, next) => {
   Article
-    .findById(req.params.articleId)
+    .findOne({
+      $and: [
+        { _id: req.params.articleId },
+        { $or: [
+          { $and: [
+            { published: { $ne: false } },
+            { $or: [
+              { publishAt: { $lte: new Date() } },
+              { publishAt: { $exists: false } },
+            ]}
+          ]},
+          { author: req.user }
+        ]}
+      ]
+    })
     .populate([{
         path: 'author'
       },
@@ -86,6 +113,13 @@ exports.articlePage = (req, res, next) => {
             }
           }
         )
+
+        let willBePublished;
+
+        if (article.publishAt > new Date()) {
+          willBePublished = moment(article.publishAt).format('DD.MM.YYYY HH:mm');
+        }
+
         res.render(
           'blog/article.hbs', {
             user: req.user,
@@ -107,7 +141,8 @@ exports.articlePage = (req, res, next) => {
             },
             commentsEditUrl: `/blog/${article.id}/comments`,
             commentsDeleteUrl: `/blog/${article.id}/comments`,
-            breadcrumbs
+            breadcrumbs,
+            willBePublished
           })
       }
     )
@@ -138,13 +173,22 @@ exports.editArticlePage = (req, res, next) => {
       }
       const access = helpers.authorAccess(article, req.user, ['blog', 'articles'], 'edit');
       if (access) {
+        const value = article;
+        const publishDate = new Date(value.publishAt);
+
+        if (publishDate > new Date()) {
+          const mDate = moment(publishDate);
+          value.publishAtDate = mDate.format('YYYY-MM-DD');
+          value.publishAtTime = mDate.format('HH:mm');
+        }
+
         res.render(
           'blog/edit.hbs', {
             user: req.user,
             pageTitle: `Редактирование статьи ${article.title}`,
             editForm: {
               url: `/blog/${article._id}/edit`,
-              value: article
+              value
             },
             breadcrumbs
           })
@@ -209,10 +253,14 @@ exports.editCommentPage = (req, res, next) => {
 }
 
 exports.createArticle = (req, res, next) => {
+  let published = helpers.checkBoxToBoolean(req.body.published);
+
   const newArticle = new Article({
     title: req.body.title,
     text: req.body.text,
-    author: req.user.id
+    author: req.user.id,
+    published,
+    publishAt: req.body.publishAt
   });
   newArticle.save()
     .then(article => res.redirect(`/blog/${article.id}`))
@@ -232,6 +280,11 @@ exports.updateArticle = (req, res, next) => {
 
         const access = helpers.authorAccess(article, req.user, ['blog', 'articles'], 'edit');
         if (access) {
+          req.body.published = helpers.checkBoxToBoolean(req.body.published);
+          if (req.body.publishAtDate) {
+            req.body.publishAt = `${req.body.publishAtDate} ${req.body.publishAtTime}`;
+          }
+
           article.set(req.body);
           return article
             .save()

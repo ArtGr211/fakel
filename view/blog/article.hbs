@@ -1,5 +1,27 @@
 {{#>layout}}
   <div class="article">
+    {{#unless article.published}}
+      <div class="text-center article-hidden mb-lg">
+        <div class="text-large mb-sm">
+          <i class="fas fa-eye-slash"></i>
+          <strong>Статья не опубликована</strong>
+        </div>
+        <div>
+          Другие пользователи ее не видят
+        </div>
+      </div>
+    {{/unless}}
+    {{#if willBePublished}}
+      <div class="text-center article-hidden mb-lg">
+        <div class="text-large mb-sm">
+          <i class="fas fa-eye-slash"></i>
+          <strong>Статья не опубликована</strong>
+        </div>
+        <div>
+          Статья скрыта до: {{willBePublished}}.
+        </div>
+      </div>
+    {{/if}}
     <h1 class="article__title mb-md">{{article.title}}</h1>
     <ul class="article-meta mb-lg">
       <li class="article-meta__item mr-md">
@@ -15,7 +37,7 @@
       </li>
       <li class="article-meta__item">
         <i class="fas fa-calendar-day article-meta__icon"></i>
-        {{moment date=article.createdAt format="DD.MM.YYYY HH:mm"}}
+        {{moment date=article.publishAt format="DD.MM.YYYY HH:mm"}}
       </li>
     </ul>
     <div class="article__text mb-lg">

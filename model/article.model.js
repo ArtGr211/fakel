@@ -19,7 +19,17 @@ const mongoose = require('mongoose'),
     comments: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Comment'
-    }]
+    }],
+    published: {
+      type: Boolean,
+      default: true
+    },
+    publishAt: {
+      type: Date,
+      default: function() {
+        return this.createdAt;
+      }
+    }
   }, {
     timestamps: true
   })

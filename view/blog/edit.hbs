@@ -7,17 +7,31 @@
     {{/if}}
   </h1>
   <form action="{{editForm.url}}" method="POST">
-    <div class="mb-md">
+    <div class="mb-lg">
       <label for="title" class="mb-sm">Заголовок статьи:</label>
       <input type="text" name="title" id="title" value="{{editForm.value.title}}" required>
     </div>
-    <div class="mb-md">
+    <div class="mb-lg">
       <label for="text" class="mb-sm">Текст:</label>
       <textarea name="text" id="text" cols="30" rows="10">{{editForm.value.text}}</textarea>
     </div>
+    <div class="mb-lg">
+      <div class="inline-block mr-lg">
+        <label for="publishAtDate">Дата публикации</label>
+        <input type="date" name="publishAtDate" id="publishAtDate" value="{{editForm.value.publishAtDate}}">
+      </div>
+      <div class="inline-block">
+        <label for="publishAtTime">Время публикации</label>
+        <input type="time" name="publishAtTime" id="publishAtTime" value="{{editForm.value.publishAtTime}}">
+      </div>
+    </div>
+    <div class="mb-xl">
+      <input type="checkbox" name="published" id="published"{{#if editForm.value.published}} checked{{/if}}>
+      <label for="published">Опубликовать</label>
+    </div>
     <button>
       <i class="fas fa-check"></i>
-      Опубликовать
+      Сохранить
     </button>
   </form>
 {{/layout}}
