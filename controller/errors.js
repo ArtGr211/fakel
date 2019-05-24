@@ -13,6 +13,11 @@ exports.internalError = (req, res) => {
 exports.errorPage = (err, req, res, next) => {
   console.log(err);
 
+  if (err.name === 'ValidationError') {
+    err.status = 422;
+    err.message = 'Ошибка валидации';
+  }
+
   if (!err.status) {
     err.status = 500;
     err.message = 'Ошибка сервера';

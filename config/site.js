@@ -1,6 +1,7 @@
 module.exports = {
   blog: {
     articlesPerPage: 10,
+    cut: '$CUT$'
   },
   forum: {
     topicsPerPage: 10,

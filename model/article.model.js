@@ -1,5 +1,6 @@
 const mongoose = require('mongoose'),
   sanitizeHtml = require('sanitize-html'),
+  sanitizeConfig = require('../config/sanitize'),
   ArticleSchema = new mongoose.Schema({
     title: {
       type: String,
@@ -19,7 +20,17 @@ const mongoose = require('mongoose'),
     comments: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Comment'
-    }]
+    }],
+    published: {
+      type: Boolean,
+      default: true
+    },
+    publishAt: {
+      type: Date,
+      default: function() {
+        return this.createdAt;
+      }
+    }
   }, {
     timestamps: true
   })
@@ -28,9 +39,7 @@ ArticleSchema.pre('save', function() {
   if (this.isModified('text')) {
     this.text = sanitizeHtml(
       this.text,
-      {
-        allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img'])
-      }
+      sanitizeConfig.options
     );
   }
 })

@@ -73,7 +73,7 @@ app.use('', (req, res, next) => {
   next({
     status: 404
   })
-})
+});
 app.use(require('./controller/errors').errorPage);
 
 app.listen(port, function () {

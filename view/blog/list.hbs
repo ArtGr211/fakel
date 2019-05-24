@@ -4,6 +4,9 @@
     <li class="articles-list__item mb-lg">
       <h2 class="articles-list__title mb-md">
         <a href="/blog/{{this.id}}" class="articles-list__title-link">
+          {{#unless this.published}}
+            <i class="fas fa-eye-slash" title="Статья не опубликована"></i>
+          {{/unless}}
           {{this.title}}
         </a>
       </h2>
@@ -21,7 +24,7 @@
         </li>
         <li class="article-meta__item">
           <i class="fas fa-calendar-day article-meta__icon"></i>
-          {{moment date=this.createdAt format="DD.MM.YYYY HH:mm"}}
+          {{moment date=this.publishAt format="DD.MM.YYYY HH:mm"}}
         </li>
       </ul>
       <article class="mb-md">

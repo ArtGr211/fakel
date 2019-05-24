@@ -1,4 +1,6 @@
 const mongoose = require('mongoose'),
+  sanitizeHtml = require('sanitize-html'),
+  sanitizeConfig = require('../config/sanitize'),
   bcrypt = require('bcrypt'),
   UserSchema = new mongoose.Schema({
     email: {
@@ -46,12 +48,10 @@ UserSchema.pre('save', function (next) {
   if (this.isModified('details.about')) {
     this.details.about = sanitizeHtml(
       this.details.about,
-      {
-        allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img'])
-      }
+      sanitizeConfig.options
     );
   }
-  if (this.isModified('details.about')) {
+  if (this.isModified('details.forumSignature')) {
     this.details.forumSignature = sanitizeHtml(
       this.details.forumSignature,
       {
