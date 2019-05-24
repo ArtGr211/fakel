@@ -203,6 +203,10 @@ input[type="checkbox"]:checked+label:before {
   color: white;
 }
 
+textarea {
+  white-space: pre-line;
+}
+
 label {
   font-weight: bold;
   display: block;

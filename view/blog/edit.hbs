@@ -9,14 +9,11 @@
   <form action="{{editForm.url}}" method="POST">
     <div class="mb-md">
       <label for="title" class="mb-sm">Заголовок статьи:</label>
-      <input type="text" name="title" id="title" value="{{editForm.value.title}}">
+      <input type="text" name="title" id="title" value="{{editForm.value.title}}" required>
     </div>
     <div class="mb-md">
       <label for="text" class="mb-sm">Текст:</label>
-      <div data-form-field="text" class="quill-editor">
-        {{{editForm.value.text}}}
-      </div>
-      <textarea name="text" id="text" cols="30" rows="10">{{editForm.value.text}}</textarea>
+      <textarea name="text" id="text" cols="30" rows="10" required>{{editForm.value.text}}</textarea>
     </div>
     <button>
       <i class="fas fa-check"></i>
