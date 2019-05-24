@@ -36,7 +36,7 @@ exports.articlesListPage = (req, res, next) => {
       .find(query)
       .skip((page - 1) * siteConfig.blog.articlesPerPage)
       .limit(siteConfig.blog.articlesPerPage)
-      .sort('-publishAt')
+      .sort('-createdAt')
       .populate('author'),
       Article.countDocuments(query)
     ])
