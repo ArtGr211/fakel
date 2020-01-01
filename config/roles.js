@@ -138,7 +138,7 @@ module.exports = {
   guest: {
     blog: {
       comments: {
-        create: true,
+        create: false,
         editOwn: false,
         deleteOwn: false,
         editAll: false,
@@ -161,7 +161,7 @@ module.exports = {
         deleteAll: false
       },
       messages: {
-        create: true,
+        create: false,
         editOwn: false,
         deleteOwn: false,
         editAll: false,
