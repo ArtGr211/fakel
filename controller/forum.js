@@ -172,6 +172,7 @@ exports.topicPage = (req, res, next) => {
                 topicControls: editTopicAccess || deleteTopicAccess,
                 editTopicUrl: editTopicAccess ? `${req.params.forum}/${req.params.topicId}/edit` : null,
                 deleteTopicUrl: deleteTopicAccess ? `${req.params.forum}/${req.params.topicId}/delete` : null,
+                createMessageAccess: helpers.checkAccessByRole(req.user, ['forum', 'messages', 'create']),
                 pagination: helpers.pagination({
                   current: pagesData.current,
                   show: 2,

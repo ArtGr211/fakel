@@ -25,26 +25,64 @@ router.use('/:forum/:topicId/delete', middlewareRoles([
   'user'
 ]))
 
-router.get('/:forum/create', controller.createTopicPage);
+router.get('/:forum/create', middlewareRoles([
+  'administrator',
+  'moderator',
+  'user'
+]), controller.createTopicPage);
 
-router.post('/:forum/create', controller.createTopic);
+router.post('/:forum/create', middlewareRoles([
+  'administrator',
+  'moderator',
+  'user'
+]), controller.createTopic);
 
-router.get('/:forum/:topicId/edit', controller.editTopicPage);
+router.get('/:forum/:topicId/edit', middlewareRoles([
+  'administrator',
+  'moderator',
+  'user'
+]), controller.editTopicPage);
 
-router.post('/:forum/:topicId/edit', controller.updateTopic);
+router.post('/:forum/:topicId/edit', middlewareRoles([
+  'administrator',
+  'moderator',
+  'user'
+]), controller.updateTopic);
 
 router.get('/:forum/:topicId', controller.topicPage);
 
-router.post('/:forum/:topicId', controller.createMessage);
+router.post(
+  '/:forum/:topicId', middlewareRoles([
+    'administrator',
+    'moderator',
+    'user'
+  ]),
+  controller.createMessage,
+);
 
-router.get('/:forum/:topicId/:messageId/edit', controller.editMessagePage);
+router.get('/:forum/:topicId/:messageId/edit', middlewareRoles([
+  'administrator',
+  'moderator',
+  'user'
+]), controller.editMessagePage);
 
-router.post('/:forum/:topicId/:messageId/edit', controller.updateMessage);
+router.post('/:forum/:topicId/:messageId/edit', middlewareRoles([
+  'administrator',
+  'moderator',
+  'user'
+]), controller.updateMessage);
 
-router.use('/:forum/:topicId/:messageId/delete', controller.deleteMessage);
+router.use('/:forum/:topicId/:messageId/delete', middlewareRoles([
+  'administrator',
+  'moderator',
+  'user'
+]), controller.deleteMessage);
 
-router.use('/:forum/:topicId/delete', controller.deleteTopic);
-
+router.use('/:forum/:topicId/delete', middlewareRoles([
+  'administrator',
+  'moderator',
+  'user'
+]), controller.deleteTopic);
 
 router.get('/', controller.forumsListPage);
 

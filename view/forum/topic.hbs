@@ -23,5 +23,7 @@
   <div class="mb-md">
     {{>pagination pagination=pagination}}
   </div>
-  {{>forumMessageForm formConfig=forumMessageForm}}
+  {{#if createMessageAccess}}
+    {{>forumMessageForm formConfig=forumMessageForm}}
+  {{/if}}
 {{/layout}}
