@@ -9,7 +9,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./app:/home/app
+      - ./:/home/app
       - /home/app/node_modules
     links:
       - database

@@ -3,11 +3,9 @@ RUN apk add g++ make python
 
 WORKDIR /home/app
 
-COPY ./app /home/app
+COPY ./ /home/app
 
 RUN npm install -g nodemon
 RUN npm install
 
-EXPOSE 8080
-
-CMD npm dev
+CMD npm run dev
