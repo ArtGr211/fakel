@@ -41,13 +41,19 @@
           <tr>
             <td>Подпись для форума:</td>
             <td>
-<textarea name="details[forumSignature]" id="forumSignature" cols="30" rows="10">{{user.details.forumSignature}}</textarea>
+              <div class="text-editor">
+<input class="text-editor__input" type="hidden" name="details[forumSignature]" id="forumSignature" />
+<div class="text-editor__wysiwyg">{{{user.details.forumSignature}}}</div>
+              </div>
             </td>
           </tr>
           <tr>
             <td>О себе:</td>
             <td class="profile-table__about">
-<textarea name="details[about]" id="about" cols="30" rows="10">{{user.details.about}}</textarea>
+              <div class="text-editor">
+<input class="text-editor__input" type="hidden" name="details[about]" id="about" />
+<div class="text-editor__wysiwyg">{{{user.details.about}}}</div>
+              </div>
             </td>
           </tr>
         </tbody>

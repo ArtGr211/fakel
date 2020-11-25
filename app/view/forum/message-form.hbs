@@ -7,7 +7,10 @@
   {{/unless}}
 <div class="mb-md">
 <label for="text" class="mb-sm">Текст сообщения:</label>
-<textarea name="text" id="text" cols="30" rows="10" required>{{formConfig.text}}</textarea>
+<div class="text-editor">
+<input class="text-editor__input" type="hidden" name="text" id="text" />
+<div class="text-editor__wysiwyg">{{{formConfig.text}}}</div>
+</div>
 </div>
   <button class="button">
     <i class="far fa-comment-alt"></i>

@@ -17,13 +17,10 @@
   {{/if}}
   <div class="mb-lg">
     <label for="text" class="mb-sm">Комментарий:</label>
-<textarea
-name="text"
-id="text"
-rows="10"
-class="mb-lg"
-required
->{{commentForm.value.text}}</textarea>
+    <div class="text-editor">
+<input class="text-editor__input" type="hidden" name="text" id="text" />
+<div class="text-editor__wysiwyg">{{{commentForm.value.text}}}</div>
+    </div>
   </div>
   <button class="button">
     <i class="far fa-comment-alt"></i>
