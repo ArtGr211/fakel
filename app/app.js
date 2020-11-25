@@ -40,6 +40,7 @@ app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
 app.use('/libs/normalize.css', express.static(path.join(__dirname, 'node_modules', 'normalize.css')));
 app.use('/libs/jquery', express.static(path.join(__dirname, 'node_modules', 'jquery', 'dist')));
+app.use('/libs/trumbowyg', express.static(path.join(__dirname, 'node_modules', 'trumbowyg', 'dist')));
 
 app.set('view engine', 'hbs');
 app.set('views', __dirname + '/view/');
