@@ -10,7 +10,24 @@ $('.text-editor').each(function() {
   var $wysiwyg = $(this).find('.text-editor__wysiwyg');
   var initialContent = $wysiwyg.html();
 
-  $wysiwyg.trumbowyg();
+  $wysiwyg.trumbowyg({
+    btns: [
+      ['emoji'],
+      ['viewHTML'],
+      ['undo', 'redo'], // Only supported in Blink browsers
+      ['formatting'],
+      ['strong', 'em', 'del'],
+      ['superscript', 'subscript'],
+      ['link'],
+      ['insertImage'],
+      ['noembed'],
+      ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
+      ['unorderedList', 'orderedList'],
+      ['horizontalRule'],
+      ['removeformat'],
+      ['fullscreen']
+    ]
+  });
   $wysiwyg.trumbowyg('html', initialContent);
 
   $wysiwyg.on('tbwchange', function() {
