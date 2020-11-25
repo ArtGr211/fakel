@@ -1,0 +1,26 @@
+version: "3"
+services:
+  server:
+    container_name: server
+    build: .
+    environment:
+        - PORT=3000
+        - DB=mongodb://db_user:qwerty@database:27017/db
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./app:/home/app
+      - /home/app/node_modules
+    links:
+      - database
+
+  database:
+    container_name: db
+    image: mongo
+    volumes:
+      - ./db:/data/db
+      - ./db-init.js:/docker-entrypoint-initdb.d/db.js:ro
+    ports:
+      - "27017:27017"
+    environment: 
+      - MONGO_INITDB_DATABASE=db
