@@ -13,7 +13,10 @@
 </div>
 <div class="mb-md">
 <label for="text" class="mb-sm">Текст:</label>
-<textarea name="text" id="text" cols="30" rows="10">{{editForm.value.text}}</textarea>
+<div class="text-editor">
+<input class="text-editor__input" type="hidden" name="text" id="text" />
+<div class="text-editor__wysiwyg">{{{editForm.value.text}}}</div>
+</div>
 </div>
 <div class="text-small mb-lg">
 Текст можно поместиить под кат, добавив <strong>$CUT$</strong>.
@@ -32,7 +35,7 @@
 <input type="checkbox" name="published" id="published"{{#if editForm.value.published}} checked{{/if}}>
 <label for="published">Опубликовать</label>
 </div>
-<button>
+<button class="button">
 <i class="fas fa-check"></i>
 Сохранить
 </button>

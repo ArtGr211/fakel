@@ -18,7 +18,10 @@
   {{#unless editForm.value}}
     <div class="mb-md">
     <label for="message" class="mb-sm">Текст сообщения:</label>
-    <textarea name="message" id="message" cols="30" rows="10" required></textarea>
+<div class="text-editor">
+<input class="text-editor__input" type="hidden" name="message" id="message" />
+<div class="text-editor__wysiwyg">{{{formConfig.text}}}</div>
+</div>
     </div>
   {{/unless}}
   <div class="mb-md">
@@ -29,7 +32,7 @@
     <input type="checkbox" name="important" id="important" {{#if editForm.value.important}} checked{{/if}}>
     <label for="important" class="mb-sm">Важная тема</label>
   </div>
-  <button>
+  <button class="button">
     <i class="fas fa-check"></i>
     Сохранить
   </button>

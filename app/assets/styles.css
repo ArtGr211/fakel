@@ -233,7 +233,6 @@ blockquote+blockquote:before {
   content: none;
 }
 
-button,
 .button {
   background: #ff4500;
   border: none;
@@ -256,7 +255,6 @@ button,
   color: white;
 }
 
-button:hover,
 .button:hover {
   box-shadow: 0 4px 4px 0 rgba(255, 0, 0, .35);
 }
